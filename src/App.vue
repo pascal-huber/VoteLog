@@ -1,26 +1,29 @@
 <template>
     <NavBar/>
-    <VotesTable/>
+    <div class="container">
+        <br>&nbsp; <!-- TODO: fix spacing hack-->
+        <Login v-if="!loggedIn"/>
+        <VotesTable v-else/>
+    </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue'
-import VotesTable from './components/VotesTable.vue'
+ import Login from './components/Login.vue'
+ import NavBar from './components/NavBar.vue'
+ import VotesTable from './components/VotesTable.vue'
 
-export default {
-  name: 'App',
-  components: {
-    NavBar,
-    VotesTable,
-  }
-}
+ export default {
+     name: 'App',
+     computed: {
+         loggedIn(){
+             return this.$store.state.user.id &&
+                    this.$store.state.user.aesKey
+         },
+     },
+     components: {
+         NavBar,
+         VotesTable,
+         Login,
+     },
+ }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-</style>

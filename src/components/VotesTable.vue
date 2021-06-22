@@ -1,6 +1,17 @@
 <template>
+
+    <h1>Abstimmungen</h1>
+
+    <EditVoteModal
+        v-if='editSubject != undefined'
+        v-bind:subject="editSubject"
+        v-bind:userVote="editUserVote"
+        @changeVote="changeVote"
+        @close="finishEdit"/>
+
     <table>
         <tr>
+            <th></th>
             <th></th>
             <th>
                 <font-awesome-icon :icon="['fas', 'users']"/>
@@ -14,62 +25,22 @@
                 {{ party.name }}
             </th>
         </tr>
+
         <tr v-for="subject in $store.state.subjects"
-            v-bind:key="subject">
+            v-bind:key="subject.id">
 
-
-            <!-- subject -->
-            <td>{{ subject.name }}</td>
-
-            <!-- result -->
+            <!-- edit button -->
             <td>
                 <font-awesome-icon
-                    v-if="subject.outcome"
-                    :icon="['fas', 'check']"/>
-                <font-awesome-icon
-                    v-else
-                    :icon="['fas', 'times']"/>
+                    v-on:click="edit(subject)"
+                    class="button"
+                    :icon="['fas', 'edit']"/>
             </td>
 
-            <!-- agreement -->
-            <td>
-                <font-awesome-icon
-                    v-if="win(subject) == true"
-                    :icon="['fas', 'equals']"/>
-                <font-awesome-icon
-                    v-if="win(subject) == false"
-                    :icon="['fas', 'not-equal']"/>
-            </td>
-
-            <!-- me -->
-            <td>
-                <font-awesome-icon
-                    v-if="vote($store.state, subject.id) == true"
-                    class="me"
-                    :icon="['fas', 'check']"/>
-                <font-awesome-icon
-                    v-else-if="vote($store.state, subject.id) == false"
-                    class="me"
-                    :icon="['fas', 'times']"/>
-                <font-awesome-icon
-                    v-else
-                    :icon="['fas', 'question']"/>
-            </td>
-
-            <!-- parties -->
-            <td v-for="party in $store.state.parties"
-                v-bind:key="party"
-                v-bind:class="classParty(party.votes, subject.id)">
-                <font-awesome-icon
-                    v-if="partyVote(subject.id, party) == true"
-                    :icon="['fas', 'check']"/>
-                <font-awesome-icon
-                    v-else-if="partyVote(subject.id, party) == false"
-                    :icon="['fas', 'times']"/>
-                <font-awesome-icon
-                    v-else
-                    :icon="['fas', 'question']"/>
-            </td>
+            <!-- row content -->
+            <VotesTableSubject
+                v-bind:userVote="userVote(subject.id)"
+                v-bind:subject="subject" />
         </tr>
     </table>
 </template>
@@ -77,120 +48,87 @@
 <script>
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import VotesTableSubject from './VotesTableSubject.vue'
+import EditVoteModal from './EditVoteModal.vue'
 
  export default {
      name: 'VotesTable',
-     methods: {
-         win(subject){
-             var vote = this.$store.state.votes.find(e => e.id == subject.id)
-             if(vote == undefined){
-                 return vote
-             } else {
-                 return vote.vote == subject.outcome
-             }
-         },
-         vote(state, subject_id) {
-             var vote = state.votes.find(e => e.id == subject_id)
-             if(vote == undefined){
-                 return vote
-             } else {
-                 return vote.vote
-             }
-         },
-         partyVote(subject_id, party) {
-             var votes = party.votes
-             if(votes == undefined){
-                 return undefined
-             } else {
-                 var vote = votes.find(e => e.id == subject_id)
-                 if(vote == undefined){
-                     return vote
-                 } else {
-                     return vote.vote
-                 }
-             }
-         },
-         // classObject: function(subject) {
-         //     var vote = this.$store.state.votes.find(e => e.id == subject.id)
-         //     var agree = undefined
-         //     if(vote != undefined){
-         //         agree = vote.vote == subject.outcome
-         //     }
-         //     return {
-         //         novote : agree == undefined,
-         //         agree : agree,
-         //         disagree : agree == false
-         //     }
-         // },
-         classParty(party_votes, subject_id) {
-
-             var party_vote = undefined
-             if(party_votes != undefined) {
-                 var tmp = party_votes.find(e => e.id == subject_id)
-                 if(tmp != undefined){
-                     party_vote = tmp.vote
-                 }
-             }
-
-             var user_vote = this.$store.state.votes.find(e => e.id == subject_id)
-             if(user_vote != undefined){
-                 user_vote = user_vote.vote
-             }
-
-             return {
-                 agree : party_vote == user_vote && party_vote != undefined,
-                 disagree : party_vote != user_vote && user_vote != undefined && party_vote != undefined,
-                 neutral : user_vote == undefined || party_vote == undefined
-             }
-         },
+     components: {
+         FontAwesomeIcon,
+         VotesTableSubject,
+         EditVoteModal,
      },
      computed: {
+         votesChanged(){
+             return this.$store.state.votesChanged
+         },
      },
-     components: {
-         FontAwesomeIcon
-     }
+     data: function(){
+         return {
+             editSubject: undefined,
+             editUserVote: undefined,
+         }
+     },
+     methods: {
+         userVote(subject_id) {
+             if(this.$store.state.votes == undefined){
+                 return undefined
+             }
+             return this.$store.state.votes.find(e => e.id == subject_id)
+         },
+         edit(subject){
+             this.editSubject = subject
+             this.editUserVote = this.userVote(subject.id)
+         },
+         finishEdit(){
+             this.editSubject = undefined
+             this.editUserVote = undefined
+         },
+         changeVote(){
+             alert("changin vote...")
+         }
+
+     },
  }
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
-$color1: #34626C;
+$color1: #5EAAA8;
 $color2: #CC7351;
-$colorGood: green;
-$colorBad: red;
-$colorNeutral: gray;
+$colorGood: #678A74;
+$colorBad: #D45079;
+$colorNeutral: #eee;
 
- .agree, .me {
+ .agree {
      color: $color1;
  }
-
  .disagree {
      color: $color2;
  }
-
  .neutral {
      color: $colorNeutral;
  }
 
- .fa-question {
-     color: $colorNeutral;
+
+ .success {
+     color: $colorGood
+ }
+ .unsuccessful {
+     color: $colorBad
  }
 
- .fa-not-equal {
-     color: $colorBad;
- }
-
- .fa-equals {
-     color: $colorGood;
- }
-
- th {
+ td:nth-child(2) {
      text-align: left;
  }
 
- td:nth-child(4), th:nth-child(4) {
+ td:nth-child(5), th:nth-child(5) {
      border-right: 2px solid $colorNeutral;
+ }
+
+ .button:hover {
+     color: $colorGood
  }
 
 
