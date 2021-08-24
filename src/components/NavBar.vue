@@ -5,11 +5,11 @@
             <span class="navbar-text small" v-if="userId">
                 ID: {{ userId }}
             </span>
-            <button v-if="$store.state.unsavedChanges"
-                    class="btn btn-outline-success"
-                    @click="saveChanges"
+            <button v-if="$store.state.user.id"
+                    class="btn btn-success"
+                    @click="logout"
                     type="submit">
-                Save
+                Logout
             </button>
             <span v-else class="navbar-text small"></span>
         </div>
@@ -17,8 +17,6 @@
 </template>
 
 <script>
-
- import { encryptData }  from '../crypto.js'
 
 
  export default {
@@ -29,18 +27,9 @@
          },
      },
      methods: {
-         saveChanges(){
-             const data = this.$store.state.votes;
-             const aesKey = this.$store.state.user.aesKey;
-             encryptData(aesKey, data)
-                 .then((encryptedData) => {
-                     const payload = {
-                         uuid: this.$store.state.user.id,
-                         data: encryptedData,
-                     }
-                     this.$store.dispatch("sendData", payload);
-                 });
-         }
-     }
+         logout(){
+             this.$store.dispatch("logout");
+         },
+     },
  }
 </script>

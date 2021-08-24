@@ -1,8 +1,8 @@
 
-// https://github.com/xbrowsersync/app/blob/master/src/modules/shared/crypto/crypto.service.ts
-// https://blog.engelke.com/2015/02/14/deriving-keys-from-passwords-with-webcrypto/
-// https://crypto.stackexchange.com/questions/5630/deriving-keys-for-symmetric-encryption-and-authentication
-// https://gist.github.com/don/871170d88cf6b9007f7663fdbc23fe09
+export function generateSalt() {
+    var array = new Uint32Array(16);
+    return window.crypto.getRandomValues(array);
+}
 
 export function encryptData(key, data){
     const iv = window.crypto.getRandomValues(new Uint8Array(16));
@@ -38,7 +38,9 @@ export function decryptData(key, ivString, encryptedDataString){
 
 export function generateKey(password){
 
+    // TODO: use random salt and send it to server
     var salt = "aOfj8wio!!WXXq;lio3jnfd@WfRDq29aA38dfPfpq9";
+
     var extractable = true
 
     return window.crypto.subtle.importKey(
@@ -52,7 +54,7 @@ export function generateKey(password){
             {
                 "name": "PBKDF2",
                 "salt": stringToArrayBuffer(salt),
-                "iterations": 1000, // TODO: is a 1000 iterations enough?
+                "iterations": 1000, // TODO: is  1000 iterations enough?
                 "hash": "SHA-256"
             },
             baseKey,

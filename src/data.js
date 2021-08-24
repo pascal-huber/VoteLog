@@ -1,56 +1,76 @@
-const subjects = [
-    {id: 0, date: "2021-06-13", name: "Anti-Terror-Gesetz", outcome: true},
-    {id: 1, date: "2021-06-13", name: "Trinkwasser-Initiative", outcome: false},
-    {id: 2, date: "2021-06-13", name: "Pestizid-Initiative", outcome: false},
-    {id: 3, date: "2021-06-13", name: "Covid-Gesetz", outcome: true},
-    {id: 4, date: "2021-06-13", name: "CO2-Gesetz", outcome: false},
 
-    {id: 5, date: "2021-03-07", name: "Ja zum Verhüllungsverbot", outcome: true},
-    {id: 6, date: "2021-03-07", name: "E-ID Gesetz", outcome: false},
-    {id: 7, date: "2021-03-07", name: "Wirtschaftspartnerschaftsabkommen Indonesien", outcome: true},
+import {Answer} from './Answer.js'
 
-    {id: 8, date: "2020-09-27", name: "Kinderzulagen", outcome: false},
-    {id: 9, date: "2020-09-27", name: "Vaterschaftsurlaub", outcome: true},
-    {id: 10, date: "2020-09-27", name: "Jagdgesetz (Wolf)", outcome: false},
-    {id: 11, date: "2020-09-27", name: "Kampfjetbeschaffung", outcome: true},
-    {id: 12, date: "2020-09-27", name: "Begrenzungsinitiative", outcome: false},
-]
+export const subjects = [
 
-const parties = [
-    {
-        id: 0,
-        name: "SP",
-        votes: [
-            {id: 0, vote: false},
-            {id: 1, vote: true},
-            {id: 2, vote: true},
-            {id: 3, vote: true},
-            {id: 4, vote: true},
-        ]
-    },{
-        id: 1,
-        name: "GP"
-    },{
-        id: 2,
-        name: "GLP"
-    },{
-        id: 3,
-        name: "CVP"
-    },{
-        id: 4,
-        name: "FDP"
-    },{
-        id: 9,
-        name: "SVP",
-        votes: [
-            {id: 0, vote: true},
-            {id: 1, vote: false},
-            {id: 2, vote: false},
-            // {id: 3, vote: }, stimmfreigabe
-            {id: 4, vote: false},
-        ]
-    },
-]
+  {id: 16, date: "2021-09-26", name: "Löhne entlasten, Kapital gerecht besteuern"},
+  {id: 15, date: "2021-09-26", name: "Ehe für Alle"},
 
-exports.parties = parties
-exports.subjects = subjects
+  {id: 14, date: "2021-06-13", name: "Anti-Terror-Gesetz", outcome: Answer.Yes},
+  {id: 13, date: "2021-06-13", name: "Trinkwasser-Initiative", outcome: Answer.No},
+  {id: 12, date: "2021-06-13", name: "Pestizid-Initiative", outcome: Answer.No},
+  {id: 11, date: "2021-06-13", name: "Covid-Gesetz", outcome: Answer.Yes},
+  {id: 10, date: "2021-06-13", name: "CO2-Gesetz", outcome: Answer.No},
+
+  {id: 9, date: "2021-03-07", name: "Ja zum Verhüllungsverbot", outcome: Answer.Yes},
+  {id: 8, date: "2021-03-07", name: "E-ID Gesetz", outcome: Answer.No},
+  {id: 7, date: "2021-03-07", name: "Wirtschaftspartnerschaftsabkommen Indonesien", outcome: Answer.Yes},
+
+  {id: 6, date: "2020-11-29", name: "Für ein Verbot der Finanzierung vo Kriegsmaterialproduzenten", outcome: Answer.No},
+  {id: 5, date: "2020-11-29", name: "Für verantwortungsolle Unternemen - zum Schutz von Mensch und Umwelt", outcome: Answer.No},
+
+  {id: 4, date: "2020-09-27", name: "Kinderzulagen", outcome: Answer.No},
+  {id: 3, date: "2020-09-27", name: "Vaterschaftsurlaub", outcome: Answer.Yes},
+  {id: 2, date: "2020-09-27", name: "Jagdgesetz (Wolf)", outcome: Answer.No},
+  {id: 1, date: "2020-09-27", name: "Kampfjetbeschaffung", outcome: Answer.Yes},
+  {id: 0, date: "2020-09-27", name: "Begrenzungsinitiative", outcome: Answer.No},
+];
+
+export const parties = [
+  {
+    id: 0,
+    name: "SP",
+    votes: [
+      {id: 0, answer: Answer.No},
+      {id: 1, answer: Answer.No},
+      {id: 2, answer: Answer.No},
+      {id: 3, answer: Answer.Yes},
+      {id: 4, answer: Answer.No},
+
+      {id: 5, answer: Answer.Novote},
+      {id: 6, answer: Answer.Novote},
+
+      {id: 7, answer: Answer.No},
+      {id: 8, answer: Answer.No},
+      {id: 9, answer: Answer.No},
+
+      {id: 10, answer: Answer.Yes},
+      {id: 11, answer: Answer.Yes},
+      {id: 12, answer: Answer.Yes},
+      {id: 13, answer: Answer.Yes},
+      {id: 14, answer: Answer.Yes},
+    ]
+  },{
+    id: 1,
+    name: "GP"
+  },{
+    id: 2,
+    name: "GLP"
+  },{
+    id: 3,
+    name: "CVP"
+  },{
+    id: 4,
+    name: "FDP"
+  },{
+    id: 9,
+    name: "SVP",
+    votes: [
+      {id: 0, answer: Answer.Yes},
+      {id: 1, answer: Answer.Yes},
+      {id: 2, answer: Answer.Yes},
+      {id: 3, answer: Answer.No},
+      {id: 4, answer: Answer.Yes},
+    ]
+  },
+];

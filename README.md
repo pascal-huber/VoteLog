@@ -1,4 +1,5 @@
-# votey-vue
+
+# Votey
 
 ## Project setup
 ```
@@ -22,3 +23,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Dev Links
+
+https://dev.to/tefoh/use-bootstrap-6-in-vue-correctly-2k2g
+

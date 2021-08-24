@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createStore  } from 'vuex'
 import { parties, subjects } from './data.js'
+import { Answer } from './Answer.js'
 import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -50,13 +51,34 @@ const store = createStore({
                      commit('SET_DATA', {
                          votes: []
                      });
+                     // storeKey(response.data.userId, payload.aesKey, payload.iv)
                  });
         },
         sendData({ commit }, payload) {
             axios.post('http://127.0.0.1:3000/data/' + payload.uuid, payload.data )
                  .then(() => {
-                     commit('SET_UNSAVEDCHANGES')
+                     commit('UNSET_UNSAVEDCHANGES')
                  });
+        },
+        setVote({ commit }, vote) {
+            const index = this.state.votes.findIndex(e => e.id == vote.id)
+
+            if(vote.answer == Answer.Novote && vote.reasoning == undefined){
+                if(index !== -1){
+                    commit('DELETE_VOTE', index);
+                } else {
+                    commit('SET_UNSAVEDCHANGES')
+                }
+                return;
+            } else if(index !== -1) {
+                commit('UPDATE_VOTE', {index: index, vote: vote});
+            } else {
+                commit('ADD_VOTE', vote);
+            }
+
+        },
+        logout({ commit }) {
+            commit('LOGOUT');
         },
     },
     mutations: {
@@ -70,15 +92,35 @@ const store = createStore({
         SET_USER_NOTICE(state){
             state.user.notice = true
         },
+        SET_UNSAVEDCHANGES(state){
+            state.unsavedChanges = true
+        },
         UNSET_UNSAVEDCHANGES(state){
             state.unsavedChanges = false
         },
+        UPDATE_VOTE(state, payload){
+            state.votes.splice(payload.index, 1, payload.vote)
+            state.unsavedChanges = true
+        },
+        ADD_VOTE(state, vote){
+            state.votes.push(vote)
+            state.unsavedChanges = true
+        },
+        DELETE_VOTE(state, index){
+            state.votes.splice(index, 1);
+            state.unsavedChanges = true
+        },
+        LOGOUT(state){
+            state.votes = undefined
+            state.user = {}
+        }
     },
 })
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
     faCheck,
+    faCircle,
     faTimes,
     faQuestion,
     faHandshake,
@@ -92,6 +134,7 @@ import {
     faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faCheck)
+library.add(faCircle)
 library.add(faTimes)
 library.add(faQuestion)
 library.add(faHandshake)

@@ -1,7 +1,5 @@
 <template>
 
-    <h1>Abstimmungen</h1>
-
     <EditVoteModal
         v-if='editSubject != undefined'
         v-bind:subject="editSubject"
@@ -9,40 +7,59 @@
         @changeVote="changeVote"
         @close="finishEdit"/>
 
-    <table>
-        <tr>
-            <th></th>
-            <th></th>
-            <th>
-                <font-awesome-icon :icon="['fas', 'users']"/>
-            </th>
-            <th></th>
-            <th>
-                <font-awesome-icon :icon="['fas', 'user']"/>
-            </th>
-            <th v-for="party in $store.state.parties"
-                v-bind:key="party.name">
-                {{ party.name }}
-            </th>
-        </tr>
 
-        <tr v-for="subject in $store.state.subjects"
-            v-bind:key="subject.id">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Abstimmungen</h1>
+        </div>
+        <div class="col-sm text-end">
+            <button v-if="$store.state.unsavedChanges"
+                    class="btn btn-danger"
+                    @click="saveChanges"
+                    type="submit">
+                Save Changes
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <table>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <font-awesome-icon :icon="['fas', 'users']"/>
+                    </th>
+                    <th></th>
+                    <th>
+                        <font-awesome-icon :icon="['fas', 'user']"/>
+                    </th>
+                    <th v-for="party in $store.state.parties"
+                        v-bind:key="party.name"
+                        style="width: 2.5rem">
+                        {{ party.name }}
+                    </th>
+                </tr>
 
-            <!-- edit button -->
-            <td>
-                <font-awesome-icon
-                    v-on:click="edit(subject)"
-                    class="button"
-                    :icon="['fas', 'edit']"/>
-            </td>
+                <tr v-for="subject in $store.state.subjects"
+                    v-bind:key="subject.id">
 
-            <!-- row content -->
-            <VotesTableSubject
-                v-bind:userVote="userVote(subject.id)"
-                v-bind:subject="subject" />
-        </tr>
-    </table>
+                    <!-- edit button -->
+                    <td>
+                        <font-awesome-icon
+                            v-on:click="edit(subject)"
+                            class="button"
+                            :icon="['fas', 'edit']"/>
+                    </td>
+
+                    <!-- row content -->
+                    <VotesTableSubject
+                        v-bind:userVote="userVote(subject.id)"
+                        v-bind:subject="subject" />
+                </tr>
+            </table>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -50,6 +67,8 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import VotesTableSubject from './VotesTableSubject.vue'
 import EditVoteModal from './EditVoteModal.vue'
+ import { encryptData }  from '../crypto.js'
+
 
  export default {
      name: 'VotesTable',
@@ -85,9 +104,21 @@ import EditVoteModal from './EditVoteModal.vue'
              this.editUserVote = undefined
          },
          changeVote(){
+             // TODO: remove?
              alert("changin vote...")
-         }
-
+         },
+         saveChanges(){
+             const data = this.$store.state.votes;
+             const aesKey = this.$store.state.user.aesKey;
+             encryptData(aesKey, data)
+                 .then((encryptedData) => {
+                     const payload = {
+                         uuid: this.$store.state.user.id,
+                         data: encryptedData,
+                     }
+                     this.$store.dispatch("sendData", payload);
+                 });
+         },
      },
  }
 

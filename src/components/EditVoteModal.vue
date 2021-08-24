@@ -5,25 +5,29 @@
         </template>
         <template v-slot:body>
 
-            <input type="checkbox" id="checkbox" v-model="answer" />
-            <label for="checkbox">Ja</label>
+            <div class="form-group">
+                <input type="radio" id="yes" name="answer" v-model="answer" :value=Answer.Yes>
+                <label for="yes">Ja</label><br>
 
-            <!-- <input type="radio" id="yes" name="answer" value="male">
-                 <label for="yes">Ja</label><br>
+                <input type="radio" id="no" name="answer" v-model="answer" :value=Answer.No>
+                <label for="no">Nein</label><br>
 
-                 <input type="radio" id="no" name="answer" value="female">
-                 <label for="no">Nein</label><br>
+                <input type="radio" id="maybe" name="answer" :value=Answer.Abstention>
+                <label for="maybe">Enthaltung</label><br>
 
-                 <input type="radio" id="maybe" name="answer" value="other">
-                 <label for="maybe">Enthaltung</label><br>
+                <input type="radio" id="nothing" name="answer" v-model="answer" :value=Answer.Novote>
+                <label for="nothing">Nicht abgestimmt</label>
+            </div>
 
-                 <input type="radio" id="nothing" name="answer" value="other">
-                 <label for="nothing">Nicht abgestimmt</label>
-            -->
+            <div class="form-group">
+                <textarea class="form-control" id="reasoning" placeholder="Begründung..."
+                          v-model="reasoning" rows="4"></textarea>
+            </div>
+
         </template>
         <template v-slot:footer>
-            <button @click='abort()'>Abbrechen</button>
-            <button @click='changeVote'>Speichern</button>
+            <button type="button" class="btn btn-secondary" @click='abort()'>Abbrechen</button>
+            <button type="button" class="btn btn-primary" @click='changeVote'>Speichern</button>
         </template>
     </modal>
 </template>
@@ -31,13 +35,16 @@
 <script>
 
  import Modal from './Modal.vue'
+ import {Answer} from '../Answer.js'
 
  export default {
      name: 'Meine Stimme',
      props: ['subject', 'userVote'],
      data: function(){
          return {
-             answer: this.userVote == undefined ? false : this.userVote.vote
+             answer: this.userVote == undefined ? Answer.Novote : this.userVote.answer,
+             reasoning: this.userVote == undefined ? undefined : this.userVote.reasoning,
+             Answer: Answer // TODO: this can't be the way, right?
          }
      },
      components: {
@@ -47,19 +54,12 @@
      },
      methods: {
          changeVote(){
-             // TODO: don't change state in component method
-             const index = this.$store.state.votes.findIndex(e => e.id == this.subject.id)
-             const vote = {
+             var vote = {
                  id: this.subject.id,
-                 vote: this.answer,
+                 answer: this.answer,
+                 reasoning: this.reasoning,
              }
-             if(index !== -1) {
-                 this.$store.state.votes.splice(index, 1, vote)
-                 this.$store.state.unsavedChanges = true
-             } else {
-                 this.$store.state.votes.push(vote)
-                 this.$store.state.unsavedChanges = true
-             }
+             this.$store.dispatch("setVote", vote);
              this.$emit('close')
          },
          abort(){
