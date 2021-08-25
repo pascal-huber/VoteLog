@@ -64,6 +64,7 @@
                  });
          },
          register(){
+             alert("API: " + process.env.VUE_APP_API_URI);
              generateKey(this.regPassword)
                  .then((aesKey) => {
                      this.$store.state.user.aesKey = aesKey

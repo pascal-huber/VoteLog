@@ -25,7 +25,7 @@ const store = createStore({
     },
     actions: {
         getData({ commit }, payload) {
-            axios.get('http://127.0.0.1:3000/data/' + payload.userId)
+          axios.get(process.env.API + '/data/' + payload.userId)
                  .then(response => {
                      if(response.data.encryptedData != undefined){
                          decryptData(payload.aesKey, response.data.iv, response.data.encryptedData)
@@ -44,7 +44,7 @@ const store = createStore({
                  });
         },
         register({ commit }) {
-            axios.post('http://127.0.0.1:3000/register')
+            axios.post(process.env.VUE_APP_API_URI + '/register')
                  .then(response => {
                      commit('SET_USER_ID', response.data.userId)
                      commit('SET_USER_NOTICE')
@@ -55,7 +55,7 @@ const store = createStore({
                  });
         },
         sendData({ commit }, payload) {
-            axios.post('http://127.0.0.1:3000/data/' + payload.uuid, payload.data )
+          axios.post(process.env.VUE_APP_API_URI + '/data/' + payload.uuid, payload.data )
                  .then(() => {
                      commit('UNSET_UNSAVEDCHANGES')
                  });
