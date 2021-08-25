@@ -21,6 +21,7 @@
             </button>
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm">
             <table>
@@ -41,22 +42,12 @@
                     </th>
                 </tr>
 
-                <tr v-for="subject in $store.state.subjects"
-                    v-bind:key="subject.id">
+                <VotesTableSubject
+                    v-for="subject in $store.state.subjects"
+                    v-bind:key="subject.id"
+                    v-bind:userVote="userVote(subject.id)"
+                    v-bind:subject="subject" />
 
-                    <!-- edit button -->
-                    <td>
-                        <font-awesome-icon
-                            v-on:click="edit(subject)"
-                            class="button"
-                            :icon="['fas', 'edit']"/>
-                    </td>
-
-                    <!-- row content -->
-                    <VotesTableSubject
-                        v-bind:userVote="userVote(subject.id)"
-                        v-bind:subject="subject" />
-                </tr>
             </table>
         </div>
     </div>
@@ -64,9 +55,9 @@
 
 <script>
 
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import VotesTableSubject from './VotesTableSubject.vue'
-import EditVoteModal from './EditVoteModal.vue'
+ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+ import VotesTableSubject from './VotesTableSubject.vue'
+ import EditVoteModal from './EditVoteModal.vue'
  import { encryptData }  from '../crypto.js'
 
 
@@ -126,17 +117,15 @@ import EditVoteModal from './EditVoteModal.vue'
 
 <style lang="scss">
 
-$color1: #5EAAA8;
-$color2: #CC7351;
 $colorGood: #678A74;
 $colorBad: #D45079;
 $colorNeutral: #eee;
 
  .agree {
-     color: $color1;
+     color: $colorGood;
  }
  .disagree {
-     color: $color2;
+     color: $colorBad;
  }
  .neutral {
      color: $colorNeutral;
@@ -164,7 +153,11 @@ $colorNeutral: #eee;
 
 
 
- tr { border: none; }
+ tr {
+     border: none;
+     border-bottom: 1px solid #aaa
+ }
+
  table { border-collapse: collapse; }
 
  th, td {
@@ -173,6 +166,10 @@ $colorNeutral: #eee;
  }
  td + td,  th + th {
      text-align: center;
+ }
+
+ .logotest {
+     width: 2rem;
  }
 
 </style>
