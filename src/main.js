@@ -44,7 +44,7 @@ const store = createStore({
                  });
         },
         register({ commit }) {
-            axios.post(process.env.VUE_APP_API_URI + '/register')
+            axios.post(process.env.VUE_APP_API_URI + '/api/register')
                  .then(response => {
                      commit('SET_USER_ID', response.data.userId)
                      commit('SET_USER_NOTICE')
@@ -55,7 +55,7 @@ const store = createStore({
                  });
         },
         sendData({ commit }, payload) {
-          axios.post(process.env.VUE_APP_API_URI + '/data/' + payload.uuid, payload.data )
+          axios.post(process.env.VUE_APP_API_URI + '/api/data/' + payload.uuid, payload.data )
                  .then(() => {
                      commit('UNSET_UNSAVEDCHANGES')
                  });
