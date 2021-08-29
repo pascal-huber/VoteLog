@@ -155,10 +155,8 @@ $colorNeutral: #eee;
  }
 
 
-
  tr {
      border: none;
-     border-bottom: 1px solid #aaa
  }
 
  table { border-collapse: collapse; }
