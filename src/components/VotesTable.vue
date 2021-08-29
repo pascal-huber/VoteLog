@@ -1,5 +1,6 @@
 <template>
 
+
     <EditVoteModal
         v-if='editSubject != undefined'
         v-bind:subject="editSubject"
@@ -29,7 +30,7 @@
                     <th></th>
                     <th></th>
                     <th>
-                        <font-awesome-icon :icon="['fas', 'users']"/>
+                        <Switzerland class="svg-logo"/>
                     </th>
                     <th></th>
                     <th>
@@ -59,6 +60,7 @@
  import VotesTableSubject from './VotesTableSubject.vue'
  import EditVoteModal from './EditVoteModal.vue'
  import { encryptData }  from '../crypto.js'
+ import Switzerland from '../assets/switzerland_coat-of-arms.svg'
 
 
  export default {
@@ -67,6 +69,7 @@
          FontAwesomeIcon,
          VotesTableSubject,
          EditVoteModal,
+         Switzerland,
      },
      computed: {
          votesChanged(){
@@ -168,8 +171,12 @@ $colorNeutral: #eee;
      text-align: center;
  }
 
- .logotest {
-     width: 2rem;
+ .svg-logo {
+     width: 22px;
+     height: 22px;
+     padding: 0;
+     margin: 0;
+     margin-bottom: 5px;
  }
 
 </style>
