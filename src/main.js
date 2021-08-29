@@ -25,7 +25,7 @@ const store = createStore({
     },
     actions: {
         getData({ commit }, payload) {
-          axios.get(process.env.API + '/data/' + payload.userId)
+          axios.get(process.env.VUE_APP_API_URI + '/data/' + payload.userId)
                  .then(response => {
                      if(response.data.encryptedData != undefined){
                          decryptData(payload.aesKey, response.data.iv, response.data.encryptedData)
