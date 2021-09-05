@@ -12,7 +12,7 @@
                 <input type="radio" id="no" name="answer" v-model="answer" :value=Answer.No>
                 <label for="no">Nein</label><br>
 
-                <input type="radio" id="maybe" name="answer" :value=Answer.Abstention>
+                <input type="radio" id="maybe" name="answer" v-model="answer" :value=Answer.Abstention>
                 <label for="maybe">Enthaltung</label><br>
 
                 <input type="radio" id="nothing" name="answer" v-model="answer" :value=Answer.Novote>

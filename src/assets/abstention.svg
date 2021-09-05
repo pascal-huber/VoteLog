@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="85.195831mm"
+   height="58.994766mm"
+   viewBox="0 0 85.195831 58.994766"
+   version="1.1"
+   id="svg32163"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="abstention.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview32165"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.28"
+     inkscape:cx="218.75"
+     inkscape:cy="234.76563"
+     inkscape:window-width="959"
+     inkscape:window-height="1215"
+     inkscape:window-x="1595"
+     inkscape:window-y="192"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs32160">
+    <rect
+       x="52.387977"
+       y="67.712045"
+       width="299.36639"
+       height="186.74981"
+       id="rect3461" />
+    <rect
+       x="113.92185"
+       y="162.33429"
+       width="492.5661"
+       height="234.32812"
+       id="rect35482" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-53.799151,-73.073405)">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text35480"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect35482);fill:#000000;fill-opacity:1;stroke:none" />
+    <path
+       id="path67818"
+       style="fill:#000000;stroke-width:0.999999"
+       d="M 161.36328 0 C 54.710811 0 3.2434419 0.33414838 1.9335938 1.0351562 C 0.039320994 2.0489276 0 4.33425 0 111.48633 C 0 214.63625 0.10020598 220.95901 1.75 221.91992 C 2.918029 222.60035 55.936102 222.94985 161.17773 222.96875 C 303.21463 222.99615 319.01219 222.84328 320.42773 221.42773 C 321.83701 220.0185 322 208.67313 322 111.5 C 322 14.326827 321.83697 2.9815041 320.42773 1.5722656 C 319.01245 0.15701019 303.20658 0 161.36328 0 z M 11 11 L 161 11 L 311 11 L 311 111.5 L 311 212 L 161 212 L 11 212 L 11 111.5 L 11 11 z M 15.5 15.5 L 15.4375 111.64062 L 15.376953 207.7832 L 160.89844 207.64062 L 306.41992 207.5 L 306.42188 111.5 L 306.42578 15.5 L 160.96289 15.5 L 15.5 15.5 z M 303.5 18.341797 L 303.35547 110.41992 C 303.27648 161.0634 303.16367 203.05892 303.10547 203.74219 C 303.02156 204.72596 273.37031 204.97542 160.69922 204.94141 L 18.400391 204.89844 L 18.449219 111.69922 L 18.5 18.5 L 161 18.419922 L 303.5 18.341797 z "
+       transform="matrix(0.26458333,0,0,0.26458333,53.799151,73.073405)" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.29075869,0,0,0.2632412,66.29827,72.693531)"
+       id="text3459"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3461);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="52.388672"
+         y="204.83001"
+         id="tspan33998"><tspan
+           style="font-size:160px;font-family:'Beth Ellen';-inkscape-font-specification:'Beth Ellen, Normal'"
+           id="tspan33996">~</tspan></tspan></text>
+  </g>
+</svg>

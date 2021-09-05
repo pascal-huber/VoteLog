@@ -1,6 +1,5 @@
 <template>
 
-
     <EditVoteModal
         v-if='editSubject != undefined'
         v-bind:subject="editSubject"
@@ -8,9 +7,8 @@
         @changeVote="changeVote"
         @close="finishEdit"/>
 
-
     <div class="row">
-        <div class="col-sm">
+        <div class="col">
             <h1>Abstimmungen</h1>
         </div>
         <div class="col-sm text-end">
@@ -24,30 +22,36 @@
     </div>
 
     <div class="row">
-        <div class="col-sm">
+        <div class="col">
             <table>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>
-                        <Switzerland class="svg-logo"/>
-                    </th>
-                    <th></th>
-                    <th>
-                        <font-awesome-icon :icon="['fas', 'user']"/>
-                    </th>
-                    <th v-for="party in $store.state.parties"
-                        v-bind:key="party.name"
-                        style="width: 2.5rem">
-                        {{ party.name }}
-                    </th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="date-cell"></th>
+                        <th class="title-cell"></th>
+                        <th>
+                            <Switzerland class="svg-logo"/>
+                        </th>
+                        <th>
+                            <font-awesome-icon :icon="['fas', 'user']"/>
+                        </th>
+                        <th v-for="party in $store.state.parties"
+                            v-bind:key="party.name"
+                            class="party-cell">
+                            {{ party.name }}
+                        </th>
+                    </tr>
+                </thead>
 
-                <VotesTableSubject
-                    v-for="subject in $store.state.subjects"
-                    v-bind:key="subject.id"
-                    v-bind:userVote="userVote(subject.id)"
-                    v-bind:subject="subject" />
+                <tbody>
+                    <VotesTableSubject
+                        v-for="subject in orderedSubjects"
+                        v-bind:key="subject.id"
+                        v-bind:parties="$store.state.parties"
+                        v-bind:loggedIn="$store.state.user != undefined && $store.state.user.id != undefined"
+                        v-bind:userVote="userVote(subject.id)"
+                        v-bind:subject="subject" />
+                </tbody>
 
             </table>
         </div>
@@ -57,10 +61,10 @@
 <script>
 
  import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
- import VotesTableSubject from './VotesTableSubject.vue'
- import EditVoteModal from './EditVoteModal.vue'
- import { encryptData }  from '../crypto.js'
- import Switzerland from '../assets/switzerland_coat-of-arms.svg'
+ import VotesTableSubject from '@/components/VotesTableSubject.vue'
+ import EditVoteModal from '@/components/EditVoteModal.vue'
+ import { encryptData }  from '@/crypto.js'
+ import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
 
 
  export default {
@@ -72,6 +76,15 @@
          Switzerland,
      },
      computed: {
+         orderedSubjects() {
+             return [...this.$store.state.subjects].sort(
+                 (a, b) => {
+                     if(a.date.getTime() == b.date.getTime()){
+                         return a.name > b.name
+                     }
+                     a.date < b.date
+             });
+         },
          votesChanged(){
              return this.$store.state.votesChanged
          },
@@ -120,53 +133,59 @@
 
 <style lang="scss">
 
-$colorGood: #678A74;
-$colorBad: #D45079;
-$colorNeutral: #eee;
+ $colorNeutral: #eee;
 
- .agree {
-     color: $colorGood;
+ .agree > .ja-nein {
+     background: #86e074;
  }
- .disagree {
-     color: $colorBad;
+ .disagree > .ja-nein {
+     background: #eb6778;
+ }
+ .semiagree > .ja-nein {
+     background: #fad35c;
  }
  .neutral {
      color: $colorNeutral;
  }
 
-
- .success {
-     color: $colorGood
- }
- .unsuccessful {
-     color: $colorBad
- }
+ /* .success {
+    color: $colorGood
+    }
+    .unsuccessful {
+    color: $colorBad
+    }
+  */
 
  td:nth-child(2) {
-     text-align: left;
+     width: 100px;
  }
 
- td:nth-child(5), th:nth-child(5) {
+ td:nth-child(5), th:nth-child(5), td:nth-child(4), th:nth-child(4) {
      border-right: 2px solid $colorNeutral;
  }
 
  .button:hover {
-     color: $colorGood
+     color: #8987f3;
  }
 
+
+ table {
+     border-collapse: collapse;
+     width: 100%;
+     display: block;
+     overflow-x: auto;
+     overflow-y: hidden;
+     white-space: nowrap;
+ }
 
  tr {
      border: none;
  }
 
- table { border-collapse: collapse; }
-
- th, td {
-     padding-left: 5px;
-     padding-right: 5px;
- }
- td + td,  th + th {
+ td, th {
      text-align: center;
+     padding-left: 2px;
+     padding-right: 5px;
  }
 
  .svg-logo {
@@ -177,4 +196,43 @@ $colorNeutral: #eee;
      margin-bottom: 5px;
  }
 
+ .content-row {
+     border-top: 1px solid #efefef;
+ }
+
+ .content-row:hover {
+     background-color: #f3f3f3;
+ }
+
+ .date-cell {
+ }
+
+ .party-cell {
+     width: 45px;
+     text-align: center;
+ }
+
+ .title-cell, .title-cell > div {
+     max-width: 400px;
+ }
+
+ .title-cell > div {
+     text-align: left;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+ }
+
+ .detail-content {
+     text-align: left;
+
+     white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+     white-space: -pre-wrap;      /* Opera 4-6 */
+     white-space: -o-pre-wrap;    /* Opera 7 */
+     white-space: pre-wrap;       /* css-3 */
+     word-wrap: break-word;       /* Internet Explorer 5.5+ */
+     white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+     word-break: break-all;
+     white-space: normal;
+ }
 </style>
