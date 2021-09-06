@@ -48,7 +48,7 @@
                         v-for="subject in orderedSubjects"
                         v-bind:key="subject.id"
                         v-bind:parties="$store.state.parties"
-                        v-bind:loggedIn="$store.state.user != undefined && $store.state.user.id != undefined"
+                        v-bind:loggedIn="this.loggedIn"
                         v-bind:userVote="userVote(subject.id)"
                         v-bind:subject="subject" />
                 </tbody>
@@ -63,7 +63,6 @@
  import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
  import VotesTableSubject from '@/components/VotesTableSubject.vue'
  import EditVoteModal from '@/components/EditVoteModal.vue'
- import { encryptData }  from '@/crypto.js'
  import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
 
 
@@ -76,6 +75,9 @@
          Switzerland,
      },
      computed: {
+         loggedIn(){
+             return !!this.$store.state.user.encryptionKey;
+         },
          orderedSubjects() {
              return [...this.$store.state.subjects].sort(
                  (a, b) => {
@@ -115,16 +117,19 @@
              alert("changin vote...")
          },
          saveChanges(){
-             const data = this.$store.state.votes;
-             const aesKey = this.$store.state.user.aesKey;
-             encryptData(aesKey, data)
-                 .then((encryptedData) => {
-                     const payload = {
-                         uuid: this.$store.state.user.id,
-                         data: encryptedData,
-                     }
-                     this.$store.dispatch("sendData", payload);
-                 });
+
+             this.$store.dispatch("sendData");
+
+             // const data = this.$store.state.votes;
+             // const aesKey = this.$store.state.user.aesKey;
+             // encryptData(aesKey, data)
+             //     .then((encryptedData) => {
+             //         const payload = {
+             //             uuid: this.$store.state.user.id,
+             //             data: encryptedData,
+             //         }
+             //         this.$store.dispatch("sendData", payload);
+             //     });
          },
      },
  }

@@ -3,14 +3,18 @@
         <div class="col">
             <h2>Anmelden</h2>
 
+            <div v-if="loginFailed" class="alert alert-danger">
+                Login fehlgeschlagen
+            </div>
+
             <form>
                 <div class="form-group">
                     <input id="logUserId" class="form-control"
                            v-model="userId" placeholder="Benutzer ID">
                 </div>
                 <div class="form-group">
-                    <input id="logPassword" class="form-control"
-                           v-model="logPassword" placeholder="Verschlüsselungspasswort" type="password">
+                    <input id="password" class="form-control"
+                           v-model="password" placeholder="Verschlüsselungspasswort" type="password">
                 </div>
                 <!-- <div class="form-check">
                      <input class="form-check-input" type="checkbox" id="logRemember" v-model="logRemember" />
@@ -27,33 +31,32 @@
 </template>
 
 <script>
- import { generateKey } from '@/crypto.js'
 
  export default {
      data: function(){
          return {
              userId: undefined,
-             regPassword: undefined,
-             logPassword: undefined,
+             password: undefined,
+             loginFailed: false,
+         }
+     },
+     computed: {
+         loggedIn(){
+             return this.$store.state.user.loggedIn;
          }
      },
      methods: {
-         // TODO: don't change state here
-         login(){
-             generateKey(this.logPassword)
-                 .then((aesKey) => {
-                     this.$store.state.user.aesKey = aesKey
-                     this.$store.dispatch("getData", {userId: this.userId, aesKey: aesKey});
-                 }).then(() => {
-                     this.$router.push({name: 'home'});
-                 })
-                 .catch(() => {
-                     console.log("ERROR");
-                 });
+         async login(){
+             const payload = {
+                 userId: this.userId,
+                 password: this.password
+             };
+             try {
+                 await this.$store.dispatch("getData", payload);
+             } catch {
+                 this.loginFailed = true;
+             }
          },
      },
  }
 </script>
-
-<style scoped lang="scss">
-</style>

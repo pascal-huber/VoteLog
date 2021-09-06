@@ -1,5 +1,5 @@
 <template>
-    <NavBar v-bind:userId="this.$store.state.user?.id" />
+    <NavBar v-bind:loggedIn="loggedIn" />
     <div class="container">
         <router-view></router-view>
     </div>
@@ -13,6 +13,11 @@
      components: {
          NavBar,
      },
+     computed: {
+         loggedIn(){
+             return !!this.$store.state.user.encryptionKey;
+         }
+     }
  }
 </script>
 

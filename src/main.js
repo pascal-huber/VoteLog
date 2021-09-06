@@ -6,7 +6,16 @@ import { Answer } from '@/Answer.js'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import { decryptData } from './crypto.js'
+import {
+  generatePassword,
+  signData,
+  encryptData,
+  arrayBufferToHexString,
+  hexStringToArrayBuffer,
+  generateKeys,
+  decryptData,
+  exportKeyToJWK
+} from './crypto.js'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
 
@@ -21,7 +30,6 @@ const store = createStore({
     return {
       user: {
         id: undefined,
-        aesKey: undefined
       },
       subjects: subjects,
       parties: parties,
@@ -30,40 +38,68 @@ const store = createStore({
     }
   },
   actions: {
-    getData({ commit }, payload) {
-      axios.get(process.env.VUE_APP_API_URI + '/data/' + payload.userId)
-           .then(response => {
-             if(response.data.encryptedData != undefined){
-               decryptData(payload.aesKey, response.data.iv, response.data.encryptedData)
-                 .then((decryptedPayload) => {
-                   commit('SET_USER_ID', payload.userId);
-                   commit('SET_DATA', {
-                     votes: decryptedPayload
-                   });
-                 });
-             } else {
-               commit('SET_USER_ID', payload.userId);
-               commit('SET_DATA', {
-                 votes: []
-               });
-             }
-           });
+    async getData({ commit }, payload) {
+      try {
+
+        const response = await axios.get(process.env.VUE_APP_API_URI + '/data/' + payload.userId)
+        const salt = await hexStringToArrayBuffer(response.data.salt);
+        // console.log("received salt: " + JSON.stringify(response.data.salt));
+        // console.log("salt hex:      " + JSON.stringify(salt));
+        const keys = await generateKeys(payload.password, salt);
+
+        var data = undefined;
+        if(response.data.encryptedData){
+          data = await decryptData(keys.encryptionKey, response.data.iv, response.data.encryptedData)
+        }
+
+        commit('SET_DATA', { votes: data || [] });
+        commit('SET_USER', {
+          userId: payload.userId,
+          encryptionKey: keys.encryptionKey,
+          signingKey: keys.signingKey,
+          salt: keys.salt,
+          signature: response.data.signature,
+        });
+        router.push({name: 'home'});
+      } catch(error){
+        console.log("error", error)
+        throw new Error(error);
+      }
     },
-    register({ commit }) {
-      axios.post(process.env.VUE_APP_API_URI + '/register')
-           .then(response => {
-             commit('SET_USER_ID', response.data.userId)
-             commit('SET_DATA', {
-               votes: []
-             });
-             // storeKey(response.data.userId, payload.aesKey, payload.iv)
-           });
+    async register({ commit }) {
+      const password = await generatePassword();
+      const keys = await generateKeys(password);
+      const signingJWK = await exportKeyToJWK(keys.signingKey);
+      const salt = arrayBufferToHexString(keys.salt);
+      const data = {
+        salt: salt,
+        signingKey: signingJWK,
+      };
+      try {
+        const response = await axios.post(process.env.VUE_APP_API_URI + '/register', data);
+        commit('SET_USER_ID', response.data.userId);
+        commit('SET_USER_PASSWORD', password);
+      } catch(error) {
+        console.error("error", error);
+        throw Error();
+      }
     },
-    sendData({ commit }, payload) {
-      axios.post(process.env.VUE_APP_API_URI + '/data/' + payload.uuid, payload.data )
-           .then(() => {
-             commit('UNSET_UNSAVEDCHANGES')
-           });
+    async sendData({ commit }) {
+      try {
+        const data = await encryptData(store.state.user.encryptionKey, store.state.votes);
+        const url = process.env.VUE_APP_API_URI + '/data/' + store.state.user.id;
+        const lastSignature = store.state.user.signature;
+        const signature = await signData(
+          store.state.user.signingKey,
+          data.encryptedData, lastSignature
+        );
+        data.signature = arrayBufferToHexString(signature);
+        await axios.post(url, data);
+        commit('UNSET_UNSAVEDCHANGES')
+        commit('SET_SIGNATURE', data.signature);
+      } catch(error){
+        console.error("error", error);
+      }
     },
     setVote({ commit }, vote) {
       const index = this.state.votes.findIndex(e => e.id == vote.id)
@@ -80,7 +116,6 @@ const store = createStore({
       } else {
         commit('ADD_VOTE', vote);
       }
-
     },
     logout({ commit }) {
       commit('LOGOUT');
@@ -91,11 +126,24 @@ const store = createStore({
       state.votes = payload.votes
     },
     SET_USER_ID(state, userId){
-      state.user.id = userId
-      state.user.loggedIn = true
+      state.user.id = userId;
+    },
+    SET_USER_PASSWORD(state, password){
+      state.user.password = password;
+    },
+    SET_USER(state, payload){
+      state.user.id = payload.userId;
+      state.user.encryptionKey = payload.encryptionKey;
+      state.user.signingKey = payload.signingKey;
+      state.user.salt = payload.salt;
+      state.user.signature = payload.signature;
+      state.user.password = undefined;
     },
     SET_UNSAVEDCHANGES(state){
-      state.unsavedChanges = true
+      state.unsavedChanges = true;
+    },
+    SET_SIGNATURE(state, signature){
+      state.user.signature = signature;
     },
     UNSET_UNSAVEDCHANGES(state){
       state.unsavedChanges = false

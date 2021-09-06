@@ -4,9 +4,9 @@
             <router-link to="/" class="navbar-brand" href="">Votelog</router-link>
             <div>
                 <div>
-                    <router-link type="button" class="btn" v-if="!this.userId" to="/login">Login</router-link>
-                    <router-link type="button" class="btn" v-if="!this.userId" to="/register">Register</router-link>
-                    <a type="buton" class="btn" v-if="this.userId" @click="logout">Logout</a>
+                    <router-link type="button" class="btn" v-if="!this.loggedIn" to="/login">Login</router-link>
+                    <router-link type="button" class="btn" v-if="!this.loggedIn" to="/register">Register</router-link>
+                    <a type="buton" class="btn" v-if="this.loggedIn" @click="logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
 
  export default {
      name: 'NavBar',
-     props: ['userId'],
+     props: ['loggedIn'],
      methods: {
          logout(){
              this.$store.dispatch("logout");
