@@ -1,7 +1,9 @@
 <template>
     <NavBar v-bind:loggedIn="loggedIn" />
     <div class="container">
-        <router-view></router-view>
+        <!-- TODO: Is this :key=... a hacky solution to force reloading on url change? -->
+        <!-- source: https://laracasts.com/discuss/channels/vue/vue-2-reload-component-when-same-route-is-requested?page=1 -->
+        <router-view :key="$route.fullPath"></router-view>
     </div>
 </template>
 

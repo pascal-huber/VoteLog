@@ -18,12 +18,18 @@ import {
 } from './crypto.js'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
+import {mapGetters} from 'vuex';
 
 import App from '@/components/App.vue'
 import Index from '@/components/Index.vue'
 import Login from '@/components/Login.vue'
 import Register from '@/components/Register.vue'
 import NotFound from '@/components/NotFound.vue'
+import Subject from '@/components/Subject.vue'
+import ShowSubject from '@/components/ShowSubject.vue'
+import EditSubject from '@/components/EditSubject.vue'
+
+const app = createApp(Index)
 
 const store = createStore({
   state () {
@@ -34,8 +40,17 @@ const store = createStore({
       subjects: subjects,
       parties: parties,
       unsavedChanges: false,
-      votes: undefined
+      votes: [],
     }
+  },
+  computed: {
+    // TODO: add more mapGetters
+    ...mapGetters(['getUserVote'])
+  },
+  getters: {
+    getSubjectByHash: (state) => (hash) => state.subjects.find(subject => subject.hash == hash),
+    getSubjectById: (state) => (subjectId) => state.subjects.find(subject => subject.id == subjectId),
+    getUserVote: (state) => (subjectId) => state.votes?.find(vote => vote.id === subjectId),
   },
   actions: {
     async getData({ commit }, payload) {
@@ -153,7 +168,7 @@ const store = createStore({
       state.unsavedChanges = true
     },
     ADD_VOTE(state, vote){
-      state.votes.push(vote)
+      state.votes = [...state.votes, vote];
       state.unsavedChanges = true
     },
     DELETE_VOTE(state, index){
@@ -169,22 +184,24 @@ const store = createStore({
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-    faCheck,
-    faCircle,
-    faTimes,
-    faQuestion,
-    faHandshake,
-    faTrophy,
-    faEquals,
-    faNotEqual,
-    faUser,
-    faUsers,
-    faHandshakeSlash,
-    faPlusCircle,
-    faEdit,
+  faCheck,
+  faCircle,
+  faEye,
+  faTimes,
+  faQuestion,
+  faHandshake,
+  faTrophy,
+  faEquals,
+  faNotEqual,
+  faUser,
+  faUsers,
+  faHandshakeSlash,
+  faPlusCircle,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faCheck)
 library.add(faCircle)
+library.add(faEye)
 library.add(faTimes)
 library.add(faQuestion)
 library.add(faHandshake)
@@ -203,6 +220,27 @@ const routes = [
     name: 'home',
     component: App,
   },{
+    path: '/:hash',
+    name: 'Subject',
+    component: Subject,
+    props: true,
+    children: [
+      {
+        path: '',
+        name: 'showSubject',
+        component: ShowSubject,
+      },{
+        path: 'edit',
+        name: 'editSubject',
+        component: EditSubject,
+      },
+    ],
+  },{
+    path: '/:subjectId/edit',
+    name: 'editVote',
+    component: App,
+    props: true,
+  },{
     path: '/login',
     name: 'login',
     component: Login,
@@ -220,7 +258,6 @@ const router = new createRouter({
   routes
 })
 
-const app = createApp(Index)
 app.use(VueAxios, axios)
 app.use(store)
 app.use(router)

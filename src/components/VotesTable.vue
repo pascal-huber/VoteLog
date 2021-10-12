@@ -7,6 +7,9 @@
         @changeVote="changeVote"
         @close="finishEdit"/>
 
+    <!-- <EditVote v-show="true"/>
+    -->
+
     <div class="row">
         <div class="col">
             <h1>Abstimmungen</h1>
@@ -26,7 +29,6 @@
             <table>
                 <thead>
                     <tr>
-                        <th></th>
                         <th class="date-cell"></th>
                         <th class="title-cell"></th>
                         <th>
@@ -65,6 +67,8 @@
  import EditVoteModal from '@/components/EditVoteModal.vue'
  import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
 
+ // import EditVote from '@/components/EditVote.vue'
+ //
 
  export default {
      name: 'VotesTable',
@@ -73,6 +77,7 @@
          VotesTableSubject,
          EditVoteModal,
          Switzerland,
+         // EditVote,
      },
      computed: {
          loggedIn(){
@@ -99,10 +104,12 @@
      },
      methods: {
          userVote(subject_id) {
-             if(this.$store.state.votes == undefined){
-                 return undefined
-             }
-             return this.$store.state.votes.find(e => e.id == subject_id)
+             var x = this.$store.getters.getUserVote(subject_id);
+             return x;
+             // if(this.$store.state.votes == undefined){
+             //     return undefined
+             // }
+             // return this.$store.state.votes.find(e => e.id == subject_id)
          },
          edit(subject){
              this.editSubject = subject
@@ -117,19 +124,7 @@
              alert("changin vote...")
          },
          saveChanges(){
-
              this.$store.dispatch("sendData");
-
-             // const data = this.$store.state.votes;
-             // const aesKey = this.$store.state.user.aesKey;
-             // encryptData(aesKey, data)
-             //     .then((encryptedData) => {
-             //         const payload = {
-             //             uuid: this.$store.state.user.id,
-             //             data: encryptedData,
-             //         }
-             //         this.$store.dispatch("sendData", payload);
-             //     });
          },
      },
  }
@@ -218,10 +213,10 @@
  }
 
  .title-cell, .title-cell > div {
-     max-width: 400px;
+     width: 100%; /* TODO: css, wtf? */
  }
 
- .title-cell > div {
+ .title-cell {
      text-align: left;
      overflow: hidden;
      text-overflow: ellipsis;

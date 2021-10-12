@@ -3,27 +3,31 @@ import {Answer} from './Answer.js'
 
 export const subjects = [
 
-  {id: 16, date: new Date("2021-09-26"), name: "Löhne entlasten, Kapital gerecht besteuern"},
-  {id: 15, date: new Date("2021-09-26"), name: "Ehe für Alle"},
+  {id: 18, date: new Date("2021-11-28"), name: "Pflegeinitiative", hash: "2021-11_3"},
+  {id: 19, date: new Date("2021-11-28"), name: "Justiz-Initiative", hash: "2021-11_2"},
+  {id: 17, date: new Date("2021-11-28"), name: "Covid-19-Gesetz #2", hash: "2021-11_1"},
 
-  {id: 14, date: new Date("2021-06-13"), name: "Anti-Terror-Gesetz", outcome: Answer.Yes},
-  {id: 13, date: new Date("2021-06-13"), name: "Trinkwasser-Initiative", outcome: Answer.No},
-  {id: 12, date: new Date("2021-06-13"), name: "Pestizid-Initiative", outcome: Answer.No},
-  {id: 11, date: new Date("2021-06-13"), name: "Covid-Gesetz", outcome: Answer.Yes},
-  {id: 10, date: new Date("2021-06-13"), name: "CO2-Gesetz", outcome: Answer.No},
+  {id: 16, date: new Date("2021-09-26"), name: "Löhne entlasten, Kapital gerecht besteuern", outcome: Answer.No, hash: "2021-09_2"},
+  {id: 15, date: new Date("2021-09-26"), name: "Ehe für Alle", outcome: Answer.Yes, hash: "2021-09_1"},
 
-  {id: 9, date: new Date("2021-03-07"), name: "Ja zum Verhüllungsverbot", outcome: Answer.Yes},
-  {id: 8, date: new Date("2021-03-07"), name: "E-ID Gesetz", outcome: Answer.No},
-  {id: 7, date: new Date("2021-03-07"), name: "Wirtschaftspartnerschaftsabkommen Indonesien", outcome: Answer.Yes},
+  {id: 14, date: new Date("2021-06-13"), name: "Anti-Terror-Gesetz", outcome: Answer.Yes, hash: "2021-06_1"},
+  {id: 13, date: new Date("2021-06-13"), name: "Trinkwasser-Initiative", outcome: Answer.No, hash: "2021-06_2"},
+  {id: 12, date: new Date("2021-06-13"), name: "Pestizid-Initiative", outcome: Answer.No, hash: "2021-06_3"},
+  {id: 11, date: new Date("2021-06-13"), name: "Covid-19-Gesetz #1", outcome: Answer.Yes, hash: "2021-06_4"},
+  {id: 10, date: new Date("2021-06-13"), name: "CO2-Gesetz", outcome: Answer.No, hash: "2021-06_5"},
 
-  {id: 6, date: new Date("2020-11-29"), name: "Kriegsgeschäfte-Initiative", outcome: Answer.No},
-  {id: 5, date: new Date("2020-11-29"), name: "Konzernverantwortungs-Initiative", outcome: Answer.No},
+  {id: 9, date: new Date("2021-03-07"), name: "Verhüllungsverbot", outcome: Answer.Yes, hash: "2021-03_1"},
+  {id: 8, date: new Date("2021-03-07"), name: "E-ID Gesetz", outcome: Answer.No, hash: "2021-03_2"},
+  {id: 7, date: new Date("2021-03-07"), name: "Freihandelsabkommen Indonesien", outcome: Answer.Yes, hash: "2021-03_3"},
 
-  {id: 4, date: new Date("2020-09-27"), name: "Kinderzulagen", outcome: Answer.No},
-  {id: 3, date: new Date("2020-09-27"), name: "Vaterschaftsurlaub", outcome: Answer.Yes},
-  {id: 2, date: new Date("2020-09-27"), name: "Jagdgesetz (Wolf)", outcome: Answer.No},
-  {id: 1, date: new Date("2020-09-27"), name: "Kampfjetbeschaffung", outcome: Answer.Yes},
-  {id: 0, date: new Date("2020-09-27"), name: "Begrenzungsinitiative", outcome: Answer.No},
+  {id: 6, date: new Date("2020-11-29"), name: "Kriegsgeschäfte-Initiative", outcome: Answer.No, hash: "2020-11_1"},
+  {id: 5, date: new Date("2020-11-29"), name: "Konzernverantwortungs-Initiative", outcome: Answer.No, hash: "2020-11_2"},
+
+  {id: 4, date: new Date("2020-09-27"), name: "Kinderzulagen", outcome: Answer.No, hash: "2020-09_1"},
+  {id: 3, date: new Date("2020-09-27"), name: "Vaterschaftsurlaub", outcome: Answer.Yes, hash: "2020-09_2"},
+  {id: 2, date: new Date("2020-09-27"), name: "Jagdgesetz (Wolf)", outcome: Answer.No, hash: "2020-09_3"},
+  {id: 1, date: new Date("2020-09-27"), name: "Kampfjetbeschaffung", outcome: Answer.Yes, hash: "2020-09_4"},
+  {id: 0, date: new Date("2020-09-27"), name: "Begrenzungsinitiative", outcome: Answer.No, hash: "2020-09_5"},
 ];
 
 export const parties = [
@@ -48,6 +52,10 @@ export const parties = [
       {id: 14, answer: Answer.No},
       {id: 15, answer: Answer.Yes},
       {id: 16, answer: Answer.Yes},
+
+      {id: 17, answer: Answer.Yes},
+      {id: 18, answer: Answer.Yes},
+      {id: 19, answer: Answer.No},
     ]
   },{
     id: 1,
@@ -70,6 +78,10 @@ export const parties = [
       {id: 14, answer: Answer.No},
       {id: 15, answer: Answer.Yes},
       {id: 16, answer: Answer.Yes},
+
+      {id: 17, answer: Answer.Yes}, // is this right?
+      {id: 18, answer: Answer.Yes},
+      {id: 19, answer: Answer.No},
     ]
   },{
     id: 2,
@@ -92,6 +104,9 @@ export const parties = [
       {id: 14, answer: Answer.No},
       {id: 15, answer: Answer.Yes},
       {id: 16, answer: Answer.No},
+      {id: 17, answer: Answer.Yes},
+      {id: 18, answer: Answer.Yes},
+      {id: 19, answer: Answer.No},
     ]
   },{
   //   id: 3,
@@ -156,6 +171,10 @@ export const parties = [
       {id: 14, answer: Answer.Yes},
       {id: 15, answer: Answer.Yes}, // why not on website?
       {id: 16, answer: Answer.No},
+
+      {id: 17, answer: Answer.Yes},
+      {id: 18, answer: Answer.Abstention},
+      {id: 19, answer: Answer.No},
     ]
   },{
     id: 6,
@@ -178,6 +197,9 @@ export const parties = [
       {id: 14, answer: Answer.Yes},
       {id: 15, answer: Answer.Yes},
       {id: 16, answer: Answer.No},
+      {id: 17, answer: Answer.Yes},
+      {id: 18, answer: Answer.No},
+      {id: 19, answer: Answer.No},
     ]
   },{
   //   id: 6,
@@ -222,6 +244,9 @@ export const parties = [
       {id: 14, answer: Answer.Yes},
       {id: 15, answer: Answer.No},
       {id: 16, answer: Answer.No},
+
+
+      {id: 19, answer: Answer.No},
     ]
   },
 ];

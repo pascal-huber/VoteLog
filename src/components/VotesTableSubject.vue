@@ -1,23 +1,27 @@
 <template>
 
     <tr class="content-row">
-        <td>
-            <font-awesome-icon
-                v-if="this.loggedIn"
-                v-on:click="edit(subject)"
-                class="button"
-                :icon="['fas', 'edit']"/>
-        </td>
-
+        <!-- <td>
+             <router-link :to="'/' + subject.hash">
+             <font-awesome-icon
+             :icon="['fas', 'eye']"/>
+             </router-link>
+             <font-awesome-icon
+             v-if="this.loggedIn"
+             v-on:click="edit(subject)"
+             class="button"
+             :icon="['fas', 'edit']"/>
+             </td>
+        -->
         <td class="date-cell">
             <small>{{("0" + (subject.date.getMonth() + 1)).slice(-2)}}/{{ subject.date.getFullYear().toString().substring(2) }}</small>
         </td>
 
         <td class="title-cell">
             <div data-bs-toggle="collapse"
-               :href="'#collapse-row-' + subject.id"
-               aria-expanded="false"
-               :aria-controls="'collapse-row-' + subject.id">
+                                :href="'#collapse-row-' + subject.id"
+                                aria-expanded="false"
+                                :aria-controls="'collapse-row-' + subject.id">
                 {{ subject.name }}
             </div>
         </td>
@@ -66,14 +70,17 @@
                 :icon="['fas', 'question']"/>
         </td>
     </tr>
-    <tr class="detail-row">
-        <td></td>
-        <td></td>
-        <td colspan="9">
-            <div v-if="userVote && userVote.reasoning"
-                 class="detail-content collapse"
-                 :id="'collapse-row-' + subject.id">
-                <small><b>Begründung: </b></small> {{ userVote.reasoning }}
+
+    <tr>
+        <td colspan="10">
+            <div class="detail-row collapse detail-content" :id="'collapse-row-' + subject.id">
+                <div v-show="userVote?.reasoning">
+                    <small><b>Begründung: </b></small> {{ userVote?.reasoning }}
+                </div>
+                <router-link type="button" class="btn btn-primary btn-sm" :to="'/' + subject.hash + '/edit'">
+                    <font-awesome-icon
+                        :icon="['fas', 'edit']"/>
+                </router-link>
             </div>
         </td>
     </tr>
