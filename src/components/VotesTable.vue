@@ -35,12 +35,21 @@
                             <Switzerland class="svg-logo"/>
                         </th>
                         <th>
-                            <font-awesome-icon :icon="['fas', 'user']"/>
+                            <font-awesome-icon class="fa-2x" :icon="['fas', 'user']"/>
                         </th>
                         <th v-for="party in $store.state.parties"
                             v-bind:key="party.name"
                             class="party-cell">
-                            {{ party.name }}
+                            <DieMitte v-if="party.name == 'CVP'" class="svg-party-logo"/>
+                            <SVP v-else-if="party.name == 'SVP'" class="svg-party-logo"/>
+                            <FDP v-else-if="party.name == 'FDP'" class="svg-party-logo"/>
+                            <GLP v-else-if="party.name == 'GLP'" class="svg-party-logo"/>
+                            <GP v-else-if="party.name == 'GP'" class="svg-party-logo-gp"/>
+                            <SP v-else-if="party.name == 'SP'" class="svg-party-logo"/>
+                            <!-- <span v-else>
+                                 {{ party.name }}
+                                 </span>
+                            -->
                         </th>
                     </tr>
                 </thead>
@@ -66,6 +75,12 @@
  import VotesTableSubject from '@/components/VotesTableSubject.vue'
  import EditVoteModal from '@/components/EditVoteModal.vue'
  import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
+ import DieMitte from "@/assets/diemitte.svg"
+ import SVP from "@/assets/party_svp.svg"
+ import FDP from "@/assets/party_fdp.svg"
+ import GLP from "@/assets/party_glp.svg"
+ import GP from "@/assets/party_gp.svg"
+ import SP from "@/assets/party_sp.svg"
 
  // import EditVote from '@/components/EditVote.vue'
  //
@@ -77,6 +92,12 @@
          VotesTableSubject,
          EditVoteModal,
          Switzerland,
+         DieMitte,
+         SVP,
+         FDP,
+         GLP,
+         GP,
+         SP,
          // EditVote,
      },
      computed: {
@@ -160,7 +181,7 @@
      width: 100px;
  }
 
- td:nth-child(5), th:nth-child(5), td:nth-child(4), th:nth-child(4) {
+ td:nth-child(3), th:nth-child(3), td:nth-child(4), th:nth-child(4) {
      border-right: 2px solid $colorNeutral;
  }
 
@@ -189,11 +210,27 @@
  }
 
  .svg-logo {
-     width: 22px;
-     height: 22px;
+     width: 40px;
+     height: 40px;
      padding: 0;
      margin: 0;
      margin-bottom: 5px;
+ }
+
+ .svg-party-logo {
+     width: 40px;
+     height: 40px;
+     padding: 0;
+     margin: 0;
+     margin-bottom: 0px;
+ }
+
+ .svg-party-logo-gp {
+     width: 40px;
+     height: 40px;
+     padding: 0;
+     margin: 0;
+     margin-bottom: 0px;
  }
 
  .content-row {
@@ -235,4 +272,5 @@
      word-break: break-all;
      white-space: normal;
  }
+
 </style>

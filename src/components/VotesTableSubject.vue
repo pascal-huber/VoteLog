@@ -149,8 +149,8 @@
 
 <style>
  .ja-nein {
-     width: 30px;
-     height: 22px;
+     width: 40px;
+     height: 30px;
      padding: 0;
  }
 </style>
