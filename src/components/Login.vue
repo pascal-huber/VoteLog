@@ -1,31 +1,33 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <h2>Anmelden</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Anmelden</h2>
 
-            <div v-if="loginFailed" class="alert alert-danger">
-                Login fehlgeschlagen
+                <div v-if="loginFailed" class="alert alert-danger">
+                    Login fehlgeschlagen
+                </div>
+
+                <form>
+                    <div class="form-group">
+                        <input id="logUserId" class="form-control"
+                               v-model="userId" placeholder="Benutzer ID">
+                    </div>
+                    <div class="form-group">
+                        <input id="password" class="form-control"
+                               v-model="password" placeholder="Verschlüsselungspasswort" type="password">
+                    </div>
+                    <!-- <div class="form-check">
+                         <input class="form-check-input" type="checkbox" id="logRemember" v-model="logRemember" />
+                         <label class="form-check-label" for="logRemember">Angemeldet beleiben</label>
+                         </div>
+                    -->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary"
+                                v-on:click="login">Anmelden</button>
+                    </div>
+                </form>
             </div>
-
-            <form>
-                <div class="form-group">
-                    <input id="logUserId" class="form-control"
-                           v-model="userId" placeholder="Benutzer ID">
-                </div>
-                <div class="form-group">
-                    <input id="password" class="form-control"
-                           v-model="password" placeholder="Verschlüsselungspasswort" type="password">
-                </div>
-                <!-- <div class="form-check">
-                     <input class="form-check-input" type="checkbox" id="logRemember" v-model="logRemember" />
-                     <label class="form-check-label" for="logRemember">Angemeldet beleiben</label>
-                     </div>
-                -->
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary"
-                            v-on:click="login">Anmelden</button>
-                </div>
-            </form>
         </div>
     </div>
 </template>

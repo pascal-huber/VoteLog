@@ -1,5 +1,13 @@
 <template>
 
+
+    <div class="row">
+        <div class="col-sm-12 col-md-10">
+            <h3 v-if="!subject">Vorlage nicht gefunden</h3>
+            <h3 v-else>{{ subject.name }}</h3>
+        </div>
+    </div>
+
     <div class="form-group">
         <input type="radio" id="yes" name="answer" v-model="answer" :value=Answer.Yes>
         <label for="yes">Ja</label><br>

@@ -1,12 +1,12 @@
 <template>
 
-    <h3 v-if="!subject">Vorlage nicht gefunden</h3>
-    <h3 v-else>{{ subject.name }}</h3>
+    <div class="container">
 
-    <router-view v-if="!!subject"
-                 :hash="this.hash"
-                 :subject="this.subject"
-                 :userVote="this.userVote"></router-view>
+        <router-view v-if="!!subject"
+                     :hash="this.hash"
+                     :subject="this.subject"
+                     :userVote="this.userVote"></router-view>
+    </div>
 
 </template>
 

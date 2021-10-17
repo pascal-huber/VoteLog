@@ -1,9 +1,16 @@
 <template>
 
-    <router-link :to="{name: 'editSubject', params: { hash: this.hash}}" type="button" class="btn btn-primary">
-        Bearbeiten
-    </router-link>
-
+    <div class="row">
+        <div class="col-sm-12 col-md-10">
+            <h3 v-if="!subject">Vorlage nicht gefunden</h3>
+            <h3 v-else>{{ subject.name }}</h3>
+        </div>
+        <div class="col-sm-12 col-md-2 md-text-end">
+            <router-link :to="{name: 'editSubject', params: { hash: this.hash}}" type="button" class="btn btn-primary">
+                Bearbeiten
+            </router-link>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-2">
@@ -14,11 +21,11 @@
                 v-if="this.userVote == undefined"
                 class="neutral"
                 :icon="['fas', 'question']"/>
-            <Ja class="ja-nein"
+            <img :src="Ja" class="svg-logo"
                 v-else-if="this.userVote?.answer == Answer.Yes" />
-            <Nein class="ja-nein"
+            <img :src="Nein" class="svg-logo"
                   v-else-if="this.userVote?.answer == Answer.No" />
-            <Abstention class="ja-nein"
+            <img :src="Abstention" class="svg-logo"
                         v-else-if="this.userVote?.answer == Answer.Abstention" />
             <font-awesome-icon
                 v-else
@@ -35,7 +42,6 @@
             {{this.userVote?.reasoning}}
         </div>
     </div>
-
 </template>
 
 <script>
@@ -51,9 +57,6 @@
      name: 'ShowSubject',
      props: ['hash', 'subject', 'userVote'],
      components: {
-         Ja,
-         Nein,
-         Abstention,
          FontAwesomeIcon,
      },
      computed: {
@@ -62,6 +65,13 @@
          return {
              Answer: Answer, // TODO: this can't be the way, right?
          }
+     },
+     setup() {
+         return {
+             Ja,
+             Nein,
+             Abstention,
+         };
      },
      methods: {
          edit(){
