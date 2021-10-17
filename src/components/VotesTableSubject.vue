@@ -12,7 +12,7 @@
             <div class="row">
 
                 <!-- Switzerland -->
-                <div class="col" align="center" v-bind:class="classSwiss">
+                <div class="col svg-col" align="center" v-bind:class="classSwiss">
                     <img :src="Ja" v-if="subject.outcome == Answer.Yes" class="svg-logo"/>
                     <img :src="Nein" v-else-if="subject.outcome == Answer.No" class="svg-logo"/>
                     <font-awesome-icon
@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Me -->
-                <div class="col" align="center">
+                <div class="col svg-col" align="center">
                     <font-awesome-icon
                         v-if="userVote == undefined"
                         class="neutral"
@@ -41,7 +41,7 @@
 
 
                 <!-- Parties -->
-                <div class="col" align="center" v-for="(party, i) in this.parties"
+                <div class="col svg-col" align="center" v-for="(party, i) in this.parties"
                      v-bind:key="party"
                      v-bind:class="partyAnswers[i].answerClass">
                     <img :src="Ja" class="svg-logo"
