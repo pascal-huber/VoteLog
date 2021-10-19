@@ -59,18 +59,12 @@
      components: {
          FontAwesomeIcon,
      },
-     computed: {
-     },
-     data: function(){
-         return {
-             Answer: Answer, // TODO: this can't be the way, right?
-         }
-     },
      setup() {
          return {
+             Abstention,
+             Answer,
              Ja,
              Nein,
-             Abstention,
          };
      },
      methods: {

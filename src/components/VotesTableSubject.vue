@@ -2,13 +2,13 @@
 
 
     <div class="row votecard" @click="showDetails">
-        <div class="col-sm-2 col-lg-1">
-            <small>{{("0" + (subject.date.getMonth() + 1)).slice(-2)}}/{{ subject.date.getFullYear().toString().substring(2) }}</small>
-        </div>
-        <div class="col-sm-10 col-lg-5">
+        <div class="col-10 col-lg-5 order-lg-2">
             {{ subject.name }}
         </div>
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-2 col-lg-1 text-end text-lg-start order-lg-1">
+            <small class="datetext">{{("0" + (subject.date.getMonth() + 1)).slice(-2)}}/{{ subject.date.getFullYear().toString().substring(2) }}</small>
+        </div>
+        <div class="col-12 col-lg-6 order-3">
             <div class="row">
 
                 <!-- Switzerland -->
@@ -38,7 +38,6 @@
                         class="neutral"
                         :icon="['fas', 'question']"/>
                 </div>
-
 
                 <!-- Parties -->
                 <div class="col svg-col" align="center" v-for="(party, i) in this.parties"
@@ -94,16 +93,12 @@
          'parties',
          'loggedIn',
      ],
-     data: function(){
-         return {
-             Answer: Answer // TODO: this can't be the way, right?
-         }
-     },
      setup() {
          return {
+             Abstention,
+             Answer,
              Ja,
              Nein,
-             Abstention,
          };
      },
      components: {
@@ -155,5 +150,16 @@
     } */
  .votecard:hover {
      cursor:pointer;
+ }
+
+ .datetext {
+     color: gray;
+ }
+
+ .subject-title {
+    display: block !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
  }
 </style>

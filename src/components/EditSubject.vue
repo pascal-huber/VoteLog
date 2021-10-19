@@ -44,8 +44,12 @@
          return {
              answer: this.userVote?.answer,
              reasoning: this.userVote?.reasoning,
-             Answer: Answer // TODO: this can't be the way, right?
          }
+     },
+     setup() {
+         return {
+             Answer,
+         };
      },
      methods: {
          changeVote(){
