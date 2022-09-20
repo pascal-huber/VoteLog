@@ -12,6 +12,35 @@
 </template>
 
 <script>
+
+ export default {
+     name: 'Agreement',
+     components: {
+     },
+     computed: {
+         loggedIn(){
+             return !!this.$store.state.user.encryptionKey;
+         },
+         orderedSubjects() {
+             return [...this.$store.state.subjects].sort(
+                 (a, b) => {
+                     if(a.date.getTime() == b.date.getTime()){
+                         return a.name > b.name
+                     }
+                     a.date < b.date
+             });
+         },
+     },
+     data: function(){
+         return {
+             editSubject: undefined,
+             editUserVote: undefined,
+         }
+     },
+     methods: {
+     },
+ }
+
 </script>
 
 

@@ -7,14 +7,16 @@ import { Answer } from '@/Answer.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {
-  // generatePassword,
   signData,
   encryptData,
+  loadKeys,
   arrayBufferToHexString,
   hexStringToArrayBuffer,
-  generateKeys,
+  deriveKeys,
   decryptData,
-  exportKeyToJWK
+  exportKeyToJWK,
+  importBaseKey,
+  storeKeys
 } from './crypto.js'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
@@ -51,24 +53,44 @@ const store = createStore({
   getters: {
     getSubjectByHash: (state) => (hash) => state.subjects.find(subject => subject.hash == hash),
     getSubjectById: (state) => (subjectId) => state.subjects.find(subject => subject.id == subjectId),
+    getUserId: (state) => () => state.user.id,
     getUserVote: (state) => (subjectId) => state.votes?.find(vote => vote.id === subjectId),
     getError: (state) => () => state.error,
   },
   actions: {
+    async init({ commit }) {
+      let credentials = await loadKeys();
+      if(credentials){
+        commit('SET_CREDENTIALS_FULL', {
+          userId: credentials.userId,
+          salt: credentials.salt,
+          encryptionKey: credentials.encryptionKey,
+          signingKey: credentials.signingKey,
+        });
+      }
+    },
     async getData({ commit }, payload) {
       try {
-
         const response = await axios.get(process.env.VUE_APP_API_URI + '/data/' + payload.userId)
         const salt = await hexStringToArrayBuffer(response.data.salt);
-        // console.log("received salt: " + JSON.stringify(response.data.salt));
-        // console.log("salt hex:      " + JSON.stringify(salt));
-        const keys = await generateKeys(payload.password, salt);
+
+        let keys;
+        if(payload.password) {
+          let baseKey = await importBaseKey(payload.password);
+          keys = await deriveKeys(baseKey, salt);
+        } else {
+          keys = {
+            encryptionKey: this.state.user.encryptionKey,
+            signingKey: this.state.user.signingKey,
+            salt: this.state.user.salt,
+          }
+        }
 
         var data = undefined;
         if(response.data.encryptedData){
           data = await decryptData(keys.encryptionKey, response.data.iv, response.data.encryptedData)
         }
-
+        await storeKeys(keys, payload.userId);
         commit('SET_DATA', { votes: data || [] });
         commit('SET_USER', {
           userId: payload.userId,
@@ -84,9 +106,8 @@ const store = createStore({
       }
     },
     async register({ commit }, payload) {
-      // const password = await generatePassword();
-      console.log(payload.password);
-      const keys = await generateKeys(payload.password);
+      const baseKey = await importBaseKey(payload.password);
+      const keys = await deriveKeys(baseKey);
       const signingJWK = await exportKeyToJWK(keys.signingKey);
       const salt = arrayBufferToHexString(keys.salt);
       const data = {
@@ -100,7 +121,6 @@ const store = createStore({
           commit('SET_REGISTER_ERROR', response.data.message);
         } else {
           commit('SET_USER_ID', response.data.userId);
-          commit('SET_USER_PASSWORD', payload.password);
         }
       } catch(error) {
         console.error("error", error);
@@ -125,6 +145,8 @@ const store = createStore({
       }
     },
     setVote({ commit }, vote) {
+      console.log("setVote");
+      console.log(JSON.stringify(vote));
       const index = this.state.votes.findIndex(e => e.id == vote.id)
 
       if(vote.answer == Answer.Novote && vote.reasoning == undefined){
@@ -141,6 +163,8 @@ const store = createStore({
       }
     },
     logout({ commit }) {
+      // TODO: check if this is secure enough of if the keys remain in memory
+      sessionStorage.clear()
       commit('LOGOUT');
     },
   },
@@ -154,8 +178,15 @@ const store = createStore({
     SET_USER_ID(state, userId){
       state.user.id = userId;
     },
-    SET_USER_PASSWORD(state, password){
-      state.user.password = password;
+    SET_CREDENTIALS_FULL(state, payload){
+      state.user.id = payload.userId;
+      state.user.encryptionKey = payload.encryptionKey;
+      state.user.signingKey = payload.signingKey;
+      state.user.salt = payload.salt;
+    },
+    SET_CREDENTIALS(state, payload){
+      state.user.id = payload.userId;
+      state.user.baseKey = payload.baseKey;
     },
     SET_USER(state, payload){
       state.user.id = payload.userId;
@@ -163,7 +194,6 @@ const store = createStore({
       state.user.signingKey = payload.signingKey;
       state.user.salt = payload.salt;
       state.user.signature = payload.signature;
-      state.user.password = undefined;
     },
     SET_UNSAVEDCHANGES(state){
       state.unsavedChanges = true;

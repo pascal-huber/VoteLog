@@ -51,7 +51,7 @@
                         ID:
                     </div>
                     <div class="col-10">
-                        {{ confirmedUserId  }}
+                        {{ this.userId  }}
                     </div>
                 </div>
                 <div class="row">
@@ -59,7 +59,7 @@
                         Schlüssel:
                     </div>
                     <div class="col-10">
-                        {{ confirmedPassword }}
+                        {{ this.password }}
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" @click="finalize">Verstanden</button>
@@ -90,9 +90,6 @@
          },
          error(){
             return this.localError || this.$store.getters.getError();
-         },
-         confirmedPassword(){
-             return this.$store.state.user.password
          },
      },
      methods: {

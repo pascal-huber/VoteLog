@@ -3,6 +3,11 @@ import {Answer} from './Answer.js'
 
 export const subjects = [
 
+  // {id: 444, date: new Date("2022-09-25"), name: "Verrechnungssteuer", hash: "2022-09_4", outcome: undefined},
+  // {id: 333, date: new Date("2022-09-25"), name: "Stabilisierung AHV (Rentenalter)", hash: "2022-09_3", outcome: undefined},
+  // {id: 222, date: new Date("2022-09-25"), name: "Stabilisierung AHV (MWST)", hash: "2022-09_2", outcome: undefined},
+  // {id: 111, date: new Date("2022-09-25"), name: "Massentierhaltungsinitiative", hash: "2022-09_1", outcome: undefined},
+
   {id: 657, date: new Date("2022-05-15"), name: "Frontex EU-Verordnung", hash: "2022-05_2", outcome: Answer.Yes},
   {id: 656, date: new Date("2022-05-15"), name: "Änderung des Transplantationsgesetzes", hash: "2022-05_3", outcome: Answer.Yes},
   {id: 655, date: new Date("2022-05-15"), name: "Änderung des Filmgesetzes", hash: "2022-05_1", outcome: Answer.Yes},
@@ -73,6 +78,11 @@ export const parties = [
       {id: 651, answer: Answer.No},
 
       {id: 655, answer: Answer.Yes},
+
+      {id: 111, answer: Answer.Yes},
+      {id: 222, answer: Answer.No},
+      {id: 333, answer: Answer.No},
+      {id: 444, answer: Answer.No},
     ]
   },{
     id: 1,
@@ -106,6 +116,12 @@ export const parties = [
       {id: 651, answer: Answer.No},
 
       {id: 655, answer: Answer.Yes},
+
+
+      {id: 111, answer: Answer.Yes},
+      {id: 222, answer: Answer.No},
+      {id: 333, answer: Answer.No},
+      {id: 444, answer: Answer.No},
     ]
   },{
     id: 2,
@@ -137,6 +153,12 @@ export const parties = [
       {id: 651, answer: Answer.No},
 
       {id: 655, answer: Answer.Yes},
+
+
+      {id: 111, answer: Answer.Yes},
+      {id: 222, answer: Answer.Yes},
+      {id: 333, answer: Answer.Yes},
+      {id: 444, answer: Answer.Yes},
     ]
   },{
   //   id: 3,
@@ -207,6 +229,12 @@ export const parties = [
       {id: 648, answer: Answer.No},
 
       {id: 655, answer: Answer.Yes},
+
+
+      {id: 111, answer: Answer.No},
+      {id: 222, answer: Answer.Yes},
+      {id: 333, answer: Answer.Yes},
+      {id: 444, answer: Answer.Yes},
     ]
   },{
     id: 6,
@@ -239,6 +267,12 @@ export const parties = [
       {id: 651, answer: Answer.No},
 
       {id: 655, answer: Answer.No},
+
+
+      {id: 111, answer: Answer.No},
+      {id: 222, answer: Answer.Yes},
+      {id: 333, answer: Answer.Yes},
+      {id: 444, answer: Answer.Yes},
     ]
   },{
   //   id: 6,
@@ -295,6 +329,11 @@ export const parties = [
       //
       //
       {id: 655, answer: Answer.No},
+
+      {id: 111, answer: Answer.No},
+      {id: 222, answer: Answer.Yes},
+      {id: 333, answer: Answer.Yes},
+      {id: 444, answer: Answer.Yes},
     ]
   },
 ];

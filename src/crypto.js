@@ -1,3 +1,54 @@
+export async function storeKeys(key, userId){
+    try {
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("salt", arrayBufferToHexString(key.salt));
+        var encryptionKeyExportPromise = crypto.subtle.exportKey('raw', key.encryptionKey);
+        encryptionKeyExportPromise.then(function(raw){
+            sessionStorage.setItem("encryptionKey", arrayBufferToHexString(raw));
+        });
+        var signingKeyExportPromise = crypto.subtle.exportKey('raw', key.signingKey);
+        signingKeyExportPromise.then(function(raw){
+            sessionStorage.setItem("signingKey", arrayBufferToHexString(raw));
+        });
+    } catch(error) {
+        console.log("storeKeys error:");
+        console.log(error);
+    }
+}
+
+export async function loadKeys(){
+    try {
+        let userId = sessionStorage.getItem("userId");
+        let salt = sessionStorage.getItem("salt");
+        let encryptionKeyHex = sessionStorage.getItem("encryptionKey");
+        var encryptionKey = await crypto.subtle.importKey(
+            'raw',
+            hexStringToArrayBuffer(encryptionKeyHex),
+            { "name": "AES-GCM" },
+            true,
+            ["encrypt", "decrypt"]
+        );
+        let signingKeyHex = sessionStorage.getItem("signingKey");
+        var signingKey = await crypto.subtle.importKey(
+            'raw',
+            hexStringToArrayBuffer(signingKeyHex),
+            {
+                "name": "HMAC",
+                "hash": "SHA-256",
+            },
+            true,
+            ["sign", "verify"]
+        );
+        return {
+            userId: userId,
+            salt: salt,
+            encryptionKey: encryptionKey,
+            signingKey: signingKey,
+        }
+    } catch(e) {
+        return undefined;
+    }
+}
 
 export async function generateSalt() {
     var array = new Uint8Array(16);
@@ -59,18 +110,25 @@ export async function decryptData(key, ivString, encryptedDataString){
 
 // https://gist.github.com/chrisveness/770ee96945ec12ac84f134bf538d89fb
 // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/deriveBits
-export async function generateKeys(password, salt){
-    if(salt == undefined){
-        salt = await generateSalt();
-    }
+
+export async function importBaseKey(password){
     const passwordBuffer = new TextEncoder("utf-8").encode(password);
     const baseKey = await window.crypto.subtle.importKey(
         "raw",
         passwordBuffer,
         {"name": "PBKDF2"},
-        false,
+        true,
         ["deriveBits"]
     );
+    return baseKey;
+}
+export async function deriveKeys(baseKey, salt){
+    if(salt == undefined){
+        salt = await generateSalt();
+    }
+    console.log("deriveKeys");
+    console.log("salt: " + salt);
+    console.log("baseKey: " + baseKey);
     const keyBits = await window.crypto.subtle.deriveBits(
         {
             name: 'PBKDF2',
