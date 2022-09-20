@@ -1,6 +1,7 @@
 <template>
 
-    <div class="row">
+    <div class="row gy-2">
+
         <div class="col-sm-12 col-md-10">
             <h3 v-if="!subject">Vorlage nicht gefunden</h3>
             <h3 v-else>{{ subject.name }}</h3>
@@ -10,13 +11,11 @@
                 Bearbeiten
             </router-link>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-2">
+        <div class="col-3">
             Stimme:
         </div>
-        <div class="col-10">
+        <div class="col-9">
             <font-awesome-icon
                 v-if="this.userVote == undefined"
                 class="neutral"
@@ -24,7 +23,7 @@
             <img :src="Ja" class="svg-logo"
                 v-else-if="this.userVote?.answer == Answer.Yes" />
             <img :src="Nein" class="svg-logo"
-                  v-else-if="this.userVote?.answer == Answer.No" />
+                    v-else-if="this.userVote?.answer == Answer.No" />
             <img :src="Abstention" class="svg-logo"
                         v-else-if="this.userVote?.answer == Answer.Abstention" />
             <font-awesome-icon
@@ -32,13 +31,17 @@
                 class="neutral"
                 :icon="['fas', 'question']"/>
         </div>
-    </div>
+        <div class="col-3">
+            Einverstanden zu:
+        </div>
+        <div class="col-9">
+            {{ this.userVote?.agreement}}%
+        </div>
 
-    <div class="row">
-        <div class="col-2">
+        <div class="col-3">
             Begründung:
         </div>
-        <div class="col-10">
+        <div class="col-9">
             {{this.userVote?.reasoning}}
         </div>
     </div>

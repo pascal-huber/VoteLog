@@ -11,7 +11,7 @@
                 <form>
                     <div class="form-group">
                         <input id="logUserId" class="form-control"
-                               v-model="userId" placeholder="Benutzer ID">
+                               v-model="userId" placeholder="Benutzername">
                     </div>
                     <div class="form-group">
                         <input id="password" class="form-control"

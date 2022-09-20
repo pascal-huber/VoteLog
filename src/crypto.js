@@ -63,9 +63,10 @@ export async function generateKeys(password, salt){
     if(salt == undefined){
         salt = await generateSalt();
     }
+    const passwordBuffer = new TextEncoder("utf-8").encode(password);
     const baseKey = await window.crypto.subtle.importKey(
         "raw",
-        stringToArrayBuffer(password),
+        passwordBuffer,
         {"name": "PBKDF2"},
         false,
         ["deriveBits"]

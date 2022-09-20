@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Abstimmungen</h1>
+                <h2>Abstimmungen</h2>
             </div>
             <div class="col-sm text-end">
                 <button v-if="$store.state.unsavedChanges"

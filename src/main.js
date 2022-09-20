@@ -7,7 +7,7 @@ import { Answer } from '@/Answer.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {
-  generatePassword,
+  // generatePassword,
   signData,
   encryptData,
   arrayBufferToHexString,
@@ -21,6 +21,7 @@ import 'bootstrap'
 import {mapGetters} from 'vuex';
 
 import App from '@/components/App.vue'
+import Agreement from '@/components/Agreement.vue'
 import Index from '@/components/Index.vue'
 import Login from '@/components/Login.vue'
 import Register from '@/components/Register.vue'
@@ -51,6 +52,7 @@ const store = createStore({
     getSubjectByHash: (state) => (hash) => state.subjects.find(subject => subject.hash == hash),
     getSubjectById: (state) => (subjectId) => state.subjects.find(subject => subject.id == subjectId),
     getUserVote: (state) => (subjectId) => state.votes?.find(vote => vote.id === subjectId),
+    getError: (state) => () => state.error,
   },
   actions: {
     async getData({ commit }, payload) {
@@ -81,19 +83,25 @@ const store = createStore({
         throw new Error(error);
       }
     },
-    async register({ commit }) {
-      const password = await generatePassword();
-      const keys = await generateKeys(password);
+    async register({ commit }, payload) {
+      // const password = await generatePassword();
+      console.log(payload.password);
+      const keys = await generateKeys(payload.password);
       const signingJWK = await exportKeyToJWK(keys.signingKey);
       const salt = arrayBufferToHexString(keys.salt);
       const data = {
+        userId: payload.userId,
         salt: salt,
         signingKey: signingJWK,
       };
       try {
         const response = await axios.post(process.env.VUE_APP_API_URI + '/register', data);
-        commit('SET_USER_ID', response.data.userId);
-        commit('SET_USER_PASSWORD', password);
+        if(response.data.status == 'error') {
+          commit('SET_REGISTER_ERROR', response.data.message);
+        } else {
+          commit('SET_USER_ID', response.data.userId);
+          commit('SET_USER_PASSWORD', payload.password);
+        }
       } catch(error) {
         console.error("error", error);
         throw Error();
@@ -140,6 +148,9 @@ const store = createStore({
     SET_DATA(state, payload){
       state.votes = payload.votes
     },
+    SET_REGISTER_ERROR(state, message){
+      state.error = message;
+    },
     SET_USER_ID(state, userId){
       state.user.id = userId;
     },
@@ -184,6 +195,7 @@ const store = createStore({
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+  faDiceThree,
   faCheck,
   faCircle,
   faEye,
@@ -199,6 +211,7 @@ import {
   faPlusCircle,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
+library.add(faDiceThree)
 library.add(faCheck)
 library.add(faCircle)
 library.add(faEye)
@@ -240,6 +253,10 @@ const routes = [
     name: 'editVote',
     component: App,
     props: true,
+  },{
+    path: '/agreement',
+    name: 'agreement',
+    component: Agreement,
   },{
     path: '/login',
     name: 'login',

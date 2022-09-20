@@ -1,7 +1,10 @@
 <template>
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <router-link to="/" class="navbar-brand" href="">Votelog</router-link>
+            <div>
+                <router-link to="/" class="navbar-brand" href="">Votelog</router-link>
+                <router-link to="/agreement" type="button" class="btn" href="">agreement</router-link>
+            </div>
             <div>
                 <div>
                     <router-link type="button" class="btn" v-if="!this.loggedIn" to="/login">Login</router-link>

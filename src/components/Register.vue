@@ -1,24 +1,44 @@
 <template>
     <div class="container">
-        <div class="row" v-if="!userId" >
-            <div class="col">
-                <h2>Registrieren</h2>
-                <div v-if="error">
-                    {{ error }}
+        <div v-if="!confirmedUserId" >
+            <h2>Registrieren</h2>
+            <div v-if="error">
+                {{ error }}
+            </div>
+            <form class="row gy-2">
+                <div class="col-12">
+                    <div class="input-group">
+                        <input id="userId" class="form-control"
+                            v-model="userId" placeholder="Benutzername">
+                    </div>
                 </div>
-                <form>
-                    <!-- <div class="form-group">
-                         <input id="password" class="form-control" aria-describedby="passwordHelp"
-                         v-model="password" placeholder="Schlüsselmaterial" type="password">
-                         <small id="passwordHelp" class="form-text text-muted"></small>
-                         <input id="password2" class="form-control" aria-describedby="password2Help"
-                         v-model="password2" placeholder="nochmals das Schlüsselmaterial" type="password">
-                         </div>
-                    -->
+                <div class="col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-secondary" v-on:click="generatePassword">
+                                    <font-awesome-icon class="fa" :icon="['fas', 'dice-three']"/>
+                                </button>
+                            </span>
+                        </div>
+
+                        <input id="password" class="form-control"
+                        v-model="password" placeholder="Verschlüsselungspasswort">
+
+                        <div class="input-group-append">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-secondary" v-on:click="copyToClipboard">
+                                    Copy
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
                     <button type="button" class="btn btn-primary"
                             v-on:click="register">Registrieren</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <div class="row" v-else>
             <div class="col">
@@ -31,15 +51,15 @@
                         ID:
                     </div>
                     <div class="col-10">
-                        {{ userId  }}
+                        {{ confirmedUserId  }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-2">
-                        Passwort:
+                        Schlüssel:
                     </div>
                     <div class="col-10">
-                        {{ password  }}
+                        {{ confirmedPassword }}
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" @click="finalize">Verstanden</button>
@@ -50,27 +70,57 @@
 
 <script>
 
+ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
  export default {
+     components: {
+         FontAwesomeIcon,
+     },
      data: function(){
          return {
-             error: undefined,
+            userId: undefined,
+            password: undefined,
+            localError: undefined,
          }
      },
      computed: {
-         userId(){
+         confirmedUserId(){
              // TODO: don't access state directly in navbar?
              return this.$store.state.user.id
          },
-         password(){
+         error(){
+            return this.localError || this.$store.getters.getError();
+         },
+         confirmedPassword(){
              return this.$store.state.user.password
          },
      },
      methods: {
          async register(){
-             this.password = await this.$store.dispatch("register");
+            this.localError = undefined;
+            if(this.password && this.password.length >= 64){
+                await this.$store.dispatch("register", {userId: this.userId, password: this.password});
+            } else {
+                this.localError = "Passwort muss mindestens 64 Zeichen haben.";
+            }
          },
          finalize(){
              this.$router.push({name: 'login'});
+         },
+         generatePassword() {
+             let CharacterSet = '';
+             let password = '';
+             CharacterSet += 'abcdefghijklmnopqrstuvwxyz';
+             CharacterSet += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+             CharacterSet += '0123456789';
+             CharacterSet += '![]{}()%&*$#^<>~@|';
+             for(let i=0; i < 64; i++) {
+                 password += CharacterSet.charAt(Math.floor(Math.random() * CharacterSet.length));
+             }
+             this.password = password;
+         },
+         copyToClipboard() {
+             navigator.clipboard.writeText(this.password);
          },
      },
  }
