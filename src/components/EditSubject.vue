@@ -74,9 +74,6 @@
                  agreement: this.agreement,
              }
              this.$store.dispatch("setVote", vote);
-             this.goBack();
-         },
-         goBack(){
              this.$router.go(-1);
          },
      },

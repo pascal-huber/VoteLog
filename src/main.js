@@ -28,6 +28,7 @@ import Index from '@/components/Index.vue'
 import Login from '@/components/Login.vue'
 import Register from '@/components/Register.vue'
 import NotFound from '@/components/NotFound.vue'
+import Settings from '@/components/Settings.vue'
 import Subject from '@/components/Subject.vue'
 import ShowSubject from '@/components/ShowSubject.vue'
 import EditSubject from '@/components/EditSubject.vue'
@@ -228,11 +229,13 @@ import {
   faCheck,
   faCircle,
   faEye,
+  faCog,
   faTimes,
   faQuestion,
   faHandshake,
   faTrophy,
   faEquals,
+  faPowerOff,
   faNotEqual,
   faUser,
   faUsers,
@@ -244,12 +247,14 @@ library.add(faDiceThree)
 library.add(faCheck)
 library.add(faCircle)
 library.add(faEye)
+library.add(faCog)
 library.add(faTimes)
 library.add(faQuestion)
 library.add(faHandshake)
 library.add(faHandshakeSlash)
 library.add(faTrophy)
 library.add(faEquals)
+library.add(faPowerOff)
 library.add(faNotEqual)
 library.add(faUser)
 library.add(faUsers)
@@ -271,10 +276,16 @@ const routes = [
         path: '',
         name: 'showSubject',
         component: ShowSubject,
+        meta: {
+          requiresAuth: true,
+        }
       },{
         path: 'edit',
         name: 'editSubject',
         component: EditSubject,
+        meta: {
+          requiresAuth: true,
+        }
       },
     ],
   },{
@@ -282,10 +293,23 @@ const routes = [
     name: 'editVote',
     component: App,
     props: true,
+    meta: {
+      requiresAuth: true,
+    }
   },{
     path: '/agreement',
     name: 'agreement',
     component: Agreement,
+    meta: {
+      requiresAuth: true,
+    }
+  },{
+    path: '/settings',
+    name: 'settings',
+    component: Settings,
+    meta: {
+      requiresAuth: true,
+    }
   },{
     path: '/login',
     name: 'login',
@@ -302,6 +326,15 @@ const routes = [
 const router = new createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)
+      && !store.getters.getUserId()) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
 })
 
 app.use(VueAxios, axios)

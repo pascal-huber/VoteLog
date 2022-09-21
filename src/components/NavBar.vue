@@ -9,7 +9,12 @@
                 <div>
                     <router-link type="button" class="btn" v-if="!this.loggedIn" to="/login">Login</router-link>
                     <router-link type="button" class="btn" v-if="!this.loggedIn" to="/register">Register</router-link>
-                    <a type="buton" class="btn" v-if="this.loggedIn" @click="logout">Logout</a>
+                    <router-link type="button" class="btn" v-if="this.loggedIn" to="/settings">
+                        <font-awesome-icon class="fa" :icon="['fas', 'cog']"/>
+                    </router-link>
+                    <a type="buton" class="btn" v-if="this.loggedIn" @click="logout">
+                        <font-awesome-icon class="fa" :icon="['fas', 'power-off']"/>
+                    </a>
                 </div>
             </div>
         </div>
@@ -18,10 +23,14 @@
 
 <script>
 
+ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
  export default {
      name: 'NavBar',
      props: ['loggedIn'],
+     components: {
+         FontAwesomeIcon,
+     },
      methods: {
          logout(){
              this.$store.dispatch("logout");
