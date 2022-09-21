@@ -11,8 +11,8 @@ export async function storeKeys(key, userId){
             sessionStorage.setItem("signingKey", arrayBufferToHexString(raw));
         });
     } catch(error) {
-        console.log("storeKeys error:");
-        console.log(error);
+        console.log("error", error);
+        throw Error();
     }
 }
 
@@ -126,9 +126,6 @@ export async function deriveKeys(baseKey, salt){
     if(salt == undefined){
         salt = await generateSalt();
     }
-    console.log("deriveKeys");
-    console.log("salt: " + salt);
-    console.log("baseKey: " + baseKey);
     const keyBits = await window.crypto.subtle.deriveBits(
         {
             name: 'PBKDF2',

@@ -142,11 +142,10 @@ const store = createStore({
         commit('SET_SIGNATURE', data.signature);
       } catch(error){
         console.error("error", error);
+        throw new Error(error);
       }
     },
     setVote({ commit }, vote) {
-      console.log("setVote");
-      console.log(JSON.stringify(vote));
       const index = this.state.votes.findIndex(e => e.id == vote.id)
 
       if(vote.answer == Answer.Novote && vote.reasoning == undefined){
