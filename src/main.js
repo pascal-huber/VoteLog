@@ -4,7 +4,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { parties, subjects } from '@/data.js'
 import { Answer } from '@/Answer.js'
 
-import { AuthType, createClient } from "webdav";
+import { createClient } from "webdav";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'bootstrap/scss/bootstrap.scss'
@@ -51,46 +51,50 @@ const store = createStore({
   },
   actions: {
     async init({ commit }) {
-      console.log("INIT");
       if(!this.getters.isLoggedIn()){
-        commit('SET_CONNECTION', {
-          webDav: sessionStorage.getItem("webDav"),
-          userName: sessionStorage.getItem("webDav"),
-          password: sessionStorage.getItem("password")
-        });
+        let webDav = sessionStorage.getItem("webDav");
+        if(webDav != "null"){
+          commit('SET_CONNECTION', {
+            webDav: webDav,
+            userName: sessionStorage.getItem("webDav"),
+            password: sessionStorage.getItem("password")
+          });
+      }
       }
       if(this.getters.isLoggedIn() && !this.getters.getUserVotes()){
           this.store.dispatch("getData", this.getters.getConnection());
       }
     },
-    async getData({ commit }, payload) {
+    async login({ commit }, payload) {
+        commit('SET_CONNECTION', payload);    
+        sessionStorage.setItem("webDav", payload.webDav);
+        sessionStorage.setItem("userName", payload.userName);
+        sessionStorage.setItem("password", payload.password);
+    },
+    async getData({ commit }) {
       // FIXME: handle wrong credentials / failed login
-      console.log("GET_DATA");
-      try {
-        const client = createClient(
-          payload.webDav, {
-            authType: AuthType.Digest,
-            username: payload.userName,
-            password: payload.password
-          }
-        );
-        const content = await client.getFileContents("/votey.json", {format: "text"});
-        commit('SET_DATA', { votes: JSON.parse(content) });
-      } catch(error) {
-        commit('SET_DATA', { votes: [] });
+      if(store.getters.isLoggedIn()){
+        let connection = store.getters.getConnection();
+        try {
+          const client = createClient(
+            connection.webDav, {
+              username: connection.userName,
+              password: connection.password
+            }
+          );
+          const content = await client.getFileContents("/votey.json", {format: "text"});
+          commit('SET_DATA', { votes: JSON.parse(content) });
+        } catch(error) {
+          commit('SET_DATA', { votes: [] });
+        }
+        router.push({name: 'home'});
       }
-      sessionStorage.setItem("webDav", payload.webDav);
-      sessionStorage.setItem("userName", payload.userName);
-      sessionStorage.setItem("password", payload.password);
-      commit('SET_CONNECTION', payload);    
-      router.push({name: 'home'});
     },
     async sendData({ commit }) {
       try {
         let connection = store.getters.getConnection();
         const client = createClient(
           connection.webDav, {
-            authType: AuthType.Digest,
             username: connection.userName,
             password: connection.password 
           }

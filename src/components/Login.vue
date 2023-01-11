@@ -65,7 +65,8 @@ export default {
         password: this.password,
       };
       try {
-        await this.$store.dispatch("getData", payload);
+        await this.$store.dispatch("login", payload);
+        await this.$store.dispatch("getData");
       } catch {
         this.loginFailed = true;
       }

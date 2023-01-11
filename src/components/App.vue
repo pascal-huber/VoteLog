@@ -16,7 +16,7 @@ export default {
       await this.$store.dispatch("init");
     }
     if (!this.$store.getters.fetchedData()) {
-      await this.$store.dispatch("getData", this.$store.state.connection);
+      await this.$store.dispatch("getData");
     }
   },
 };
