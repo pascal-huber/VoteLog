@@ -1,26 +1,23 @@
 <template>
-    <VotesTable/>
+  <VotesTable />
 </template>
 
 <script>
- import VotesTable from '@/components/VotesTable.vue'
+import VotesTable from "@/components/VotesTable.vue";
 
- export default {
-     name: 'App',
-     components: {
-         VotesTable,
-     },
-     async beforeMount(){
-         let userId = this.$store.getters.getUserId();
-         if(!userId){
-            await this.$store.dispatch("init");
-            let userId = this.$store.getters.getUserId();
-            if(userId){
-                await this.$store.dispatch("getData", {
-                    userId: userId,
-                });
-            }
-         }
-     },
- }
+export default {
+  name: "App",
+  components: {
+    VotesTable,
+  },
+  async beforeMount() {
+    // TODO: make this nicer, it is really ugly
+    if (!this.$store.getters.isLoggedIn()) {
+      await this.$store.dispatch("init");
+    }
+    if (!this.$store.getters.fetchedData()) {
+      await this.$store.dispatch("getData", this.$store.state.connection);
+    }
+  },
+};
 </script>

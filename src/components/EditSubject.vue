@@ -1,6 +1,5 @@
 <template>
-
-
+    <!-- TODO: make this form nicer --> 
     <div class="row gy-2">
         <div class="col-sm-12 col-md-10">
             <h3 v-if="!subject">Vorlage nicht gefunden</h3>
@@ -32,8 +31,10 @@
     </div>
 
     <div class="col-12">
-        <label for="volume">Einverstanden zu {{ this.agreement }}%</label>
-        <input v-model="agreement" type="range" id="agreement" name="agreement" min="0" max="100" step="10">
+        <input v-model="agreementEnabled" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" :checked=this.agreementEnabled>
+        <label for="volume">&nbsp;Einverstanden zu&nbsp;</label>
+        <input v-model="agreement" type="range" id="agreement" name="agreement" min="0" max="100" step="5">
+        {{ this.agreement }}%
     </div>
 
 
@@ -58,6 +59,7 @@
              answer: this.userVote?.answer,
              reasoning: this.userVote?.reasoning,
              agreement: this.userVote?.agreement,
+             agreementEnabled: !!this.userVote?.agreement,
          }
      },
      setup() {
@@ -67,6 +69,11 @@
      },
      methods: {
          changeVote(){
+            // TODO: make this more interactive and intuitive
+            if(!this.agreementEnabled) {
+                console.log("agreement disabled");
+                this.agreement = undefined;
+            }
              var vote = {
                  id: this.subject.id,
                  answer: this.answer,

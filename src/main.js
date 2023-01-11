@@ -4,20 +4,9 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { parties, subjects } from '@/data.js'
 import { Answer } from '@/Answer.js'
 
+import { AuthType, createClient } from "webdav";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {
-  signData,
-  encryptData,
-  loadKeys,
-  arrayBufferToHexString,
-  hexStringToArrayBuffer,
-  deriveKeys,
-  decryptData,
-  exportKeyToJWK,
-  importBaseKey,
-  storeKeys
-} from './crypto.js'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
 import {mapGetters} from 'vuex';
@@ -38,9 +27,7 @@ const app = createApp(Index)
 const store = createStore({
   state () {
     return {
-      user: {
-        id: undefined,
-      },
+      connection: undefined,
       subjects: subjects,
       parties: parties,
       unsavedChanges: false,
@@ -54,96 +41,66 @@ const store = createStore({
   getters: {
     getSubjectByHash: (state) => (hash) => state.subjects.find(subject => subject.hash == hash),
     getSubjectById: (state) => (subjectId) => state.subjects.find(subject => subject.id == subjectId),
-    getUserId: (state) => () => state.user.id,
+    getConnection: (state) => () => state.connection,
+    isLoggedIn: (state) => () => !!state.connection?.webDav,
+    fetchedData: (state) => () => state.fetchedData,
+    unsavedChanges: (state) => () => state.unsavedChanges,
+    getUserVotes: (state) => () => state.votes,
     getUserVote: (state) => (subjectId) => state.votes?.find(vote => vote.id === subjectId),
     getError: (state) => () => state.error,
   },
   actions: {
     async init({ commit }) {
-      let credentials = await loadKeys();
-      if(credentials){
-        commit('SET_CREDENTIALS_FULL', {
-          userId: credentials.userId,
-          salt: credentials.salt,
-          encryptionKey: credentials.encryptionKey,
-          signingKey: credentials.signingKey,
+      console.log("INIT");
+      if(!this.getters.isLoggedIn()){
+        commit('SET_CONNECTION', {
+          webDav: sessionStorage.getItem("webDav"),
+          userName: sessionStorage.getItem("webDav"),
+          password: sessionStorage.getItem("password")
         });
+      }
+      if(this.getters.isLoggedIn() && !this.getters.getUserVotes()){
+          this.store.dispatch("getData", this.getters.getConnection());
       }
     },
     async getData({ commit }, payload) {
+      // FIXME: handle wrong credentials / failed login
+      console.log("GET_DATA");
       try {
-        const response = await axios.get(process.env.VUE_APP_API_URI + '/data/' + payload.userId)
-        const salt = await hexStringToArrayBuffer(response.data.salt);
-
-        let keys;
-        if(payload.password) {
-          let baseKey = await importBaseKey(payload.password);
-          keys = await deriveKeys(baseKey, salt);
-        } else {
-          keys = {
-            encryptionKey: this.state.user.encryptionKey,
-            signingKey: this.state.user.signingKey,
-            salt: this.state.user.salt,
+        const client = createClient(
+          payload.webDav, {
+            authType: AuthType.Digest,
+            username: payload.userName,
+            password: payload.password
           }
-        }
-
-        var data = undefined;
-        if(response.data.encryptedData){
-          data = await decryptData(keys.encryptionKey, response.data.iv, response.data.encryptedData)
-        }
-        await storeKeys(keys, payload.userId);
-        commit('SET_DATA', { votes: data || [] });
-        commit('SET_USER', {
-          userId: payload.userId,
-          encryptionKey: keys.encryptionKey,
-          signingKey: keys.signingKey,
-          salt: keys.salt,
-          signature: response.data.signature,
-        });
-        router.push({name: 'home'});
-      } catch(error){
-        console.log("error", error)
-        throw new Error(error);
-      }
-    },
-    async register({ commit }, payload) {
-      const baseKey = await importBaseKey(payload.password);
-      const keys = await deriveKeys(baseKey);
-      const signingJWK = await exportKeyToJWK(keys.signingKey);
-      const salt = arrayBufferToHexString(keys.salt);
-      const data = {
-        userId: payload.userId,
-        salt: salt,
-        signingKey: signingJWK,
-      };
-      try {
-        const response = await axios.post(process.env.VUE_APP_API_URI + '/register', data);
-        if(response.data.status == 'error') {
-          commit('SET_REGISTER_ERROR', response.data.message);
-        } else {
-          commit('SET_USER_ID', response.data.userId);
-        }
+        );
+        const content = await client.getFileContents("/votey.json", {format: "text"});
+        commit('SET_DATA', { votes: JSON.parse(content) });
       } catch(error) {
-        console.error("error", error);
-        throw Error();
+        commit('SET_DATA', { votes: [] });
       }
+      sessionStorage.setItem("webDav", payload.webDav);
+      sessionStorage.setItem("userName", payload.userName);
+      sessionStorage.setItem("password", payload.password);
+      commit('SET_CONNECTION', payload);    
+      router.push({name: 'home'});
     },
     async sendData({ commit }) {
       try {
-        const data = await encryptData(store.state.user.encryptionKey, store.state.votes);
-        const url = process.env.VUE_APP_API_URI + '/data/' + store.state.user.id;
-        const lastSignature = store.state.user.signature;
-        const signature = await signData(
-          store.state.user.signingKey,
-          data.encryptedData, lastSignature
+        let connection = store.getters.getConnection();
+        const client = createClient(
+          connection.webDav, {
+            authType: AuthType.Digest,
+            username: connection.userName,
+            password: connection.password 
+          }
         );
-        data.signature = arrayBufferToHexString(signature);
-        await axios.post(url, data);
+        let data = JSON.stringify(store.getters.getUserVotes());
+        await client.putFileContents("/votey.json", data, { overwrite: true });
         commit('UNSET_UNSAVEDCHANGES')
-        commit('SET_SIGNATURE', data.signature);
-      } catch(error){
+      } catch(error) {
         console.error("error", error);
-        throw new Error(error);
+        throw Error();
       }
     },
     setVote({ commit }, vote) {
@@ -163,43 +120,21 @@ const store = createStore({
       }
     },
     logout({ commit }) {
-      // TODO: check if this is secure enough of if the keys remain in memory
-      sessionStorage.clear()
+      sessionStorage.clear();
       commit('LOGOUT');
+      router.push({name: 'home'});
     },
   },
   mutations: {
     SET_DATA(state, payload){
-      state.votes = payload.votes
+      state.votes = payload.votes;
+      state.fetchedData = true;
     },
-    SET_REGISTER_ERROR(state, message){
-      state.error = message;
-    },
-    SET_USER_ID(state, userId){
-      state.user.id = userId;
-    },
-    SET_CREDENTIALS_FULL(state, payload){
-      state.user.id = payload.userId;
-      state.user.encryptionKey = payload.encryptionKey;
-      state.user.signingKey = payload.signingKey;
-      state.user.salt = payload.salt;
-    },
-    SET_CREDENTIALS(state, payload){
-      state.user.id = payload.userId;
-      state.user.baseKey = payload.baseKey;
-    },
-    SET_USER(state, payload){
-      state.user.id = payload.userId;
-      state.user.encryptionKey = payload.encryptionKey;
-      state.user.signingKey = payload.signingKey;
-      state.user.salt = payload.salt;
-      state.user.signature = payload.signature;
+    SET_CONNECTION(state, payload){
+      state.connection = payload;
     },
     SET_UNSAVEDCHANGES(state){
       state.unsavedChanges = true;
-    },
-    SET_SIGNATURE(state, signature){
-      state.user.signature = signature;
     },
     UNSET_UNSAVEDCHANGES(state){
       state.unsavedChanges = false
@@ -218,7 +153,7 @@ const store = createStore({
     },
     LOGOUT(state){
       state.votes = undefined;
-      state.user = {}
+      state.connection = undefined;
     },
   },
 })
@@ -242,6 +177,7 @@ import {
   faHandshakeSlash,
   faPlusCircle,
   faEdit,
+  faSave,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faDiceThree)
 library.add(faCheck)
@@ -260,6 +196,7 @@ library.add(faUser)
 library.add(faUsers)
 library.add(faPlusCircle)
 library.add(faEdit)
+library.add(faSave)
 
 const routes = [
   {
@@ -329,9 +266,12 @@ const router = new createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)
-      && !store.getters.getUserId()) {
-    next({ name: 'login' })
+  // TODO: this is kinda ugly
+  if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()){
+    store.dispatch("init");
+  }
+  if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()){
+      next({ name: 'login' })
   } else {
     next()
   }

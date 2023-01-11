@@ -5,14 +5,6 @@
             <div class="col">
                 <h2>Abstimmungen</h2>
             </div>
-            <div class="col-sm text-end">
-                <button v-if="$store.state.unsavedChanges"
-                        class="btn btn-danger"
-                        @click="saveChanges"
-                        type="submit">
-                    Save Changes
-                </button>
-            </div>
         </div>
     </div>
 
@@ -42,8 +34,9 @@
          HeaderRow,
      },
      computed: {
+        // TODO: move this somewhere else
          loggedIn(){
-             return !!this.$store.state.user.encryptionKey;
+             return !!this.$store.state.connection?.webDav;
          },
          orderedSubjects() {
              return [...this.$store.state.subjects].sort(
@@ -84,9 +77,6 @@
          changeVote(){
              // TODO: remove?
              alert("changin vote...")
-         },
-         saveChanges(){
-             this.$store.dispatch("sendData");
          },
      },
  }

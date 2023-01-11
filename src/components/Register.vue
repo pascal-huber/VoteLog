@@ -95,7 +95,7 @@
      methods: {
          async register(){
             this.localError = undefined;
-            if(this.password && this.password.length >= 64){
+            if(this.password && this.password.length >= 128){
                 await this.$store.dispatch("register", {userId: this.userId, password: this.password});
             } else {
                 this.localError = "Passwort muss mindestens 64 Zeichen haben.";
@@ -111,7 +111,7 @@
              CharacterSet += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
              CharacterSet += '0123456789';
              CharacterSet += '![]{}()%&*$#^<>~@|';
-             for(let i=0; i < 64; i++) {
+             for(let i=0; i < 128; i++) {
                  password += CharacterSet.charAt(Math.floor(Math.random() * CharacterSet.length));
              }
              this.password = password;
