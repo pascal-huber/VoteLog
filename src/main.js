@@ -56,7 +56,7 @@ const store = createStore({
         if(webDav != "null"){
           commit('SET_CONNECTION', {
             webDav: webDav,
-            userName: sessionStorage.getItem("webDav"),
+            userName: sessionStorage.getItem("userName"),
             password: sessionStorage.getItem("password")
           });
       }
@@ -74,9 +74,8 @@ const store = createStore({
     async getData({ commit }) {
       // FIXME: handle wrong credentials / failed login
       if(store.getters.isLoggedIn()){
-        let connection = store.getters.getConnection();
+        let connection = await store.getters.getConnection();
         try {
-          console.log(connection);
           const client = createClient(
             connection.webDav, {
               username: connection.userName,
@@ -93,8 +92,7 @@ const store = createStore({
     },
     async sendData({ commit }) {
       try {
-        let connection = store.getters.getConnection();
-        console.log(connection);
+        let connection = await store.getters.getConnection();
         const client = createClient(
           connection.webDav, {
             username: connection.userName,
