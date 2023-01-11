@@ -76,6 +76,7 @@ const store = createStore({
       if(store.getters.isLoggedIn()){
         let connection = store.getters.getConnection();
         try {
+          console.log(connection);
           const client = createClient(
             connection.webDav, {
               username: connection.userName,
@@ -93,6 +94,7 @@ const store = createStore({
     async sendData({ commit }) {
       try {
         let connection = store.getters.getConnection();
+        console.log(connection);
         const client = createClient(
           connection.webDav, {
             username: connection.userName,
