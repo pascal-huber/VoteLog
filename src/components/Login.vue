@@ -46,7 +46,7 @@ export default {
   data: function () {
     // TODO: Add environment variable for default webDav server
     return {
-      webDav: "https://dav.resolved.ch",
+      webDav: process.env.VUE_APP_WEBDAV_URI,
       userName: undefined,
       password: undefined,
       loginFailed: false,
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     loggedIn() {
-      return this.$store.state.user.loggedIn;
+      return this.$store.getters.isLoggedIn();
     },
   },
   methods: {

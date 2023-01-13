@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createStore  } from 'vuex'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { parties, subjects } from '@/data.js'
+import { terms } from '@/data.js'
 import { Answer } from '@/Answer.js'
 
 import { createClient } from "webdav";
@@ -9,16 +9,16 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
-import {mapGetters} from 'vuex';
+
+// TODO: what is this?
+// import {mapGetters} from 'vuex';
 
 import App from '@/components/App.vue'
 import Agreement from '@/components/Agreement.vue'
 import Index from '@/components/Index.vue'
 import Login from '@/components/Login.vue'
-import Register from '@/components/Register.vue'
 import NotFound from '@/components/NotFound.vue'
-import Settings from '@/components/Settings.vue'
-import Subject from '@/components/Subject.vue'
+// import Subject from '@/components/Subject.vue'
 import ShowSubject from '@/components/ShowSubject.vue'
 import EditSubject from '@/components/EditSubject.vue'
 
@@ -28,25 +28,42 @@ const store = createStore({
   state () {
     return {
       connection: undefined,
-      subjects: subjects,
-      parties: parties,
+      error: undefined,
+      fetchedData: false,
+      userVotes: undefined,
       unsavedChanges: false,
-      votes: [],
+      terms: terms,
     }
   },
   computed: {
-    // TODO: add more mapGetters
-    ...mapGetters(['getUserVote'])
+    // TODO: add more mapGetters (why?)
+    // ...mapGetters(['getUserVote']),
   },
   getters: {
-    getSubjectByHash: (state) => (hash) => state.subjects.find(subject => subject.hash == hash),
-    getSubjectById: (state) => (subjectId) => state.subjects.find(subject => subject.id == subjectId),
+    // TODO: support multiple legislation periods
+    getSubjectByHash: (state) => (term_hash, subject_id) => {
+      // TODO: catch inexistent term
+      let term = state.terms.find((term) => term.hash == term_hash);
+      let subject = term.subjects.find((subject) => subject.id == subject_id);
+      return subject;
+    },
+    getSubjectById: (state) => (subjectId) => state.votes[2].find(subject => subject.id == subjectId),
+    // TODO: return the rhight subjects
+    getSubjectsForPeriod: (state) => () => state.terms[2].subjects,
+    getTerm: (state) => (term_hash) => state.terms.find(
+      // TODO: compute defaultTermHash
+      term => term.hash == (term_hash || "2019_23")
+    ),
+    hasFetchedData: (state) => () => state.fetchedData,
+    getNextTermHash: (state) => (term_id) => state.terms.find(term => term.id == term_id + 1)?.hash,
+    getPrevTermHash: (state) => (term_id) => state.terms.find(term => term.id == term_id - 1)?.hash,
     getConnection: (state) => () => state.connection,
-    isLoggedIn: (state) => () => !!state.connection?.webDav,
+    isLoggedIn: (state) => () => state.connection?.webDav,
     fetchedData: (state) => () => state.fetchedData,
+    getTermHash: (state) => () => state.votes[2].hash,
     unsavedChanges: (state) => () => state.unsavedChanges,
-    getUserVotes: (state) => () => state.votes,
-    getUserVote: (state) => (subjectId) => state.votes?.find(vote => vote.id === subjectId),
+    getUserVotes: (state) => () => state.userVotes,
+    getUserVote: (state) => (subjectId) => state.userVotes?.find(vote => vote.id == subjectId),
     getError: (state) => () => state.error,
   },
   actions: {
@@ -61,8 +78,8 @@ const store = createStore({
           });
       }
       }
-      if(this.getters.isLoggedIn() && !this.getters.getUserVotes()){
-          this.store.dispatch("getData", this.getters.getConnection());
+      if(this.getters.isLoggedIn() && !this.getters.hasFetchedData()){
+          store.dispatch("getData", this.getters.getConnection());
       }
     },
     async login({ commit }, payload) {
@@ -100,7 +117,10 @@ const store = createStore({
           }
         );
         let data = JSON.stringify(store.getters.getUserVotes());
-        await client.putFileContents("/votey.json", data, { overwrite: true });
+        await client.putFileContents("/votey.json", data, { 
+          contentLength: false,
+          overwrite: true,
+        });
         commit('UNSET_UNSAVEDCHANGES')
       } catch(error) {
         console.error("error", error);
@@ -108,7 +128,7 @@ const store = createStore({
       }
     },
     setVote({ commit }, vote) {
-      const index = this.state.votes.findIndex(e => e.id == vote.id)
+      const index = this.state.userVotes.findIndex(e => e.id == vote.id)
 
       if(vote.answer == Answer.Novote && vote.reasoning == undefined){
         if(index !== -1){
@@ -123,6 +143,10 @@ const store = createStore({
         commit('ADD_VOTE', vote);
       }
     },
+    // changePeriod({ commit }, amount) {
+    //   // TODO: this is a bit silly
+    //   commit('CHANGE_PERIOD', amount*4);
+    // },
     logout({ commit }) {
       sessionStorage.clear();
       commit('LOGOUT');
@@ -131,7 +155,7 @@ const store = createStore({
   },
   mutations: {
     SET_DATA(state, payload){
-      state.votes = payload.votes;
+      state.userVotes = payload.votes;
       state.fetchedData = true;
     },
     SET_CONNECTION(state, payload){
@@ -144,19 +168,22 @@ const store = createStore({
       state.unsavedChanges = false
     },
     UPDATE_VOTE(state, payload){
-      state.votes.splice(payload.index, 1, payload.vote)
+      state.userVotes.splice(payload.index, 1, payload.vote)
       state.unsavedChanges = true
     },
     ADD_VOTE(state, vote){
-      state.votes = [...state.votes, vote];
+      state.userVotes = [...state.userVotes, vote];
       state.unsavedChanges = true
     },
+    // SET_PERIOD(state, i){
+    //   state.period.setFullYear(state.period.getFullYear() + i);
+    // },
     DELETE_VOTE(state, index){
-      state.votes.splice(index, 1);
+      state.userVotes.splice(index, 1);
       state.unsavedChanges = true
     },
     LOGOUT(state){
-      state.votes = undefined;
+      state.userVotes = undefined;
       state.connection = undefined;
     },
   },
@@ -182,6 +209,8 @@ import {
   faPlusCircle,
   faEdit,
   faSave,
+  faAngleRight,
+  faAngleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faDiceThree)
 library.add(faCheck)
@@ -201,64 +230,80 @@ library.add(faUsers)
 library.add(faPlusCircle)
 library.add(faEdit)
 library.add(faSave)
+library.add(faAngleRight)
+library.add(faAngleLeft)
 
 const routes = [
   {
-    path: '/',
+    path: '/:term_hash?',
     name: 'home',
-    component: App,
-  },{
-    path: '/:hash',
-    name: 'Subject',
-    component: Subject,
     props: true,
-    children: [
-      {
-        path: '',
+    component: App,
+    // children: [],
+    // meta: {
+    //   requiresData: true,
+    // }
+  },{
+        path: '/:term_hash/:subject_id',
         name: 'showSubject',
+        props: true,
         component: ShowSubject,
         meta: {
           requiresAuth: true,
+          // requiresData: true,
         }
-      },{
-        path: 'edit',
+  },{
+        path: '/:term_hash/:subject_id/edit',
         name: 'editSubject',
+        props: true,
         component: EditSubject,
         meta: {
           requiresAuth: true,
+          // requiresData: true,
         }
-      },
-    ],
-  },{
-    path: '/:subjectId/edit',
-    name: 'editVote',
-    component: App,
-    props: true,
-    meta: {
-      requiresAuth: true,
-    }
+      // },
+  // },{
+  //   path: '/subject/:hash',
+  //   name: 'Subject',
+  //   component: Subject,
+  //   props: true,
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'showSubject',
+  //       component: ShowSubject,
+  //       meta: {
+  //         requiresAuth: true,
+  //       }
+  //     },{
+  //       path: 'edit',
+  //       name: 'editSubject',
+  //       component: EditSubject,
+  //       meta: {
+  //         requiresAuth: true,
+  //       }
+  //     },
+  //   ],
+  // },{
+  //   path: '/:subjectId/edit',
+  //   name: 'editVote',
+  //   component: App,
+  //   props: true,
+  //   meta: {
+  //     requiresAuth: true,
+  //   }
   },{
     path: '/agreement',
     name: 'agreement',
     component: Agreement,
     meta: {
       requiresAuth: true,
-    }
-  },{
-    path: '/settings',
-    name: 'settings',
-    component: Settings,
-    meta: {
-      requiresAuth: true,
+      // requiresData: true,
     }
   },{
     path: '/login',
     name: 'login',
     component: Login,
-  },{
-    path: '/register',
-    name: 'register',
-    component: Register,
   },{
     path: '/:pathMatch(.*)*',
     component: NotFound
@@ -273,9 +318,10 @@ router.beforeEach((to, from, next) => {
   // TODO: this is kinda ugly
   if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()){
     store.dispatch("init");
+    // console.log("init end, -> " + next);
   }
   if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()){
-      next({ name: 'login' })
+    next({ name: 'login' })
   } else {
     next()
   }
@@ -284,4 +330,5 @@ router.beforeEach((to, from, next) => {
 app.use(VueAxios, axios)
 app.use(store)
 app.use(router)
+router.app = app;
 app.mount('#app')

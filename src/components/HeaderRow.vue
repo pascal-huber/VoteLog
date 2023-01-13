@@ -11,7 +11,7 @@
                             <font-awesome-icon class="fa-2x" :icon="['fas', 'user']"/>
                         </div>
                         <!-- TODO: dont access store directly -->
-                        <div v-for="party in $store.state.parties"
+                        <div v-for="party in parties"
                              v-bind:key="party.name"
                              class="col svg-col" align="center">
                             <img :src="DieMitte" v-if="party.name == 'CVP'" class="svg-party-logo"/>
@@ -42,6 +42,9 @@
      components: {
          FontAwesomeIcon,
      },
+     props: [
+        'parties',
+     ],
      setup() {
          return {
              Switzerland,

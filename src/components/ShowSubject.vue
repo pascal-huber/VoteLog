@@ -1,51 +1,60 @@
 <template>
-  <div class="row gy-2">
-    <div class="col-sm-12 col-md-10">
-      <h3 v-if="!subject">Vorlage nicht gefunden</h3>
-      <h3 v-else>{{ subject.name }}</h3>
-    </div>
-    <div class="col-sm-12 col-md-2 md-text-end">
-      <router-link
-        :to="{ name: 'editSubject', params: { hash: this.hash } }"
-        type="button"
-        class="btn btn-primary"
-      >
-        Bearbeiten
-      </router-link>
-    </div>
+  <div class="container">
+    <div class="row gy-2">
+      <div class="col-sm-12 col-md-10">
+        <h3 v-if="!subject">Vorlage nicht gefunden</h3>
+        <h3 v-else>{{ subject.name }}</h3>
+      </div>
+      <div class="col-sm-12 col-md-2 md-text-end">
+        <router-link
+          :to="{
+            name: 'editSubject',
+            params: { term_hash: this.term_hash, subject_id: this.subject_id },
+          }"
+          type="button"
+          class="btn btn-primary"
+        >
+          Bearbeiten
+        </router-link>
+      </div>
 
-    <div class="col-3">Stimme:</div>
-    <div class="col-9">
-      <font-awesome-icon
-        v-if="this.userVote == undefined"
-        class="neutral"
-        :icon="['fas', 'question']"
-      />
-      <img :src="Ja" class="svg-logo" v-else-if="this.userVote?.answer == Answer.Yes" />
-      <img :src="Nein" class="svg-logo" v-else-if="this.userVote?.answer == Answer.No" />
-      <img
-        :src="Abstention"
-        class="svg-logo"
-        v-else-if="this.userVote?.answer == Answer.Abstention"
-      />
-      <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
-    </div>
+      <div class="col-3">Stimme:</div>
+      <div class="col-9">
+        <font-awesome-icon
+          v-if="this.userVote == undefined"
+          class="neutral"
+          :icon="['fas', 'question']"
+        />
+        <img :src="Ja" class="svg-logo" v-else-if="this.userVote?.answer == Answer.Yes" />
+        <img
+          :src="Nein"
+          class="svg-logo"
+          v-else-if="this.userVote?.answer == Answer.No"
+        />
+        <img
+          :src="Abstention"
+          class="svg-logo"
+          v-else-if="this.userVote?.answer == Answer.Abstention"
+        />
+        <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+      </div>
 
-    <div class="col-3">Einverstanden zu:</div>
-    <div class="col-9" v-if="!!this.userVote?.agreement">
-      {{ this.userVote?.agreement }}%
-    </div>
-    <div class="col-9" v-else>
-      <font-awesome-icon
-        v-if="this.userVote == undefined"
-        class="neutral"
-        :icon="['fas', 'question']"
-      />
-    </div>
+      <div class="col-3">Einverstanden zu:</div>
+      <div class="col-9" v-if="!!this.userVote?.agreement">
+        {{ this.userVote?.agreement }}%
+      </div>
+      <div class="col-9" v-else>
+        <font-awesome-icon
+          v-if="this.userVote == undefined"
+          class="neutral"
+          :icon="['fas', 'question']"
+        />
+      </div>
 
-    <div class="col-3">Begründung:</div>
-    <div class="col-9">
-      {{ this.userVote?.reasoning }}
+      <div class="col-3">Begründung:</div>
+      <div class="col-9">
+        {{ this.userVote?.reasoning }}
+      </div>
     </div>
   </div>
 </template>
@@ -60,9 +69,15 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default {
   name: "ShowSubject",
-  props: ["hash", "subject", "userVote"],
+  props: ["term_hash", "subject_id"],
   components: {
     FontAwesomeIcon,
+  },
+  data: function () {
+    return {
+      subject: this.$store.getters.getSubjectByHash(this.term_hash, this.subject_id),
+      userVote: this.$store.getters.getUserVote(this.subject_id),
+    };
   },
   setup() {
     return {
