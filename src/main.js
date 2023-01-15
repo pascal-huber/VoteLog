@@ -69,7 +69,7 @@ const store = createStore({
     async init() {
       if (!this.getters.isLoggedIn()) {
         let webDav = sessionStorage.getItem("webDav");
-        let userName = sessionStorage.getItem("unserName");
+        let userName = sessionStorage.getItem("userName");
         let password = sessionStorage.getItem("password");
         if (webDav != "null" && webDav != undefined) {
           store.dispatch("login", {
