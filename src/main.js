@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { createStore  } from 'vuex'
+import { createStore } from 'vuex'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { terms } from '@/data.js'
 import { Answer } from '@/Answer.js'
@@ -10,24 +10,25 @@ import VueAxios from 'vue-axios'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
 
-// TODO: what is this?
+// TODO: Check out "mapGetters" for vuex. Do I want them?
 // import {mapGetters} from 'vuex';
 
 import App from '@/components/App.vue'
-import Agreement from '@/components/Agreement.vue'
+import Analysis from '@/components/Analysis.vue'
+import VotesTable from '@/components/VotesTable.vue'
 import Index from '@/components/Index.vue'
 import Login from '@/components/Login.vue'
 import NotFound from '@/components/NotFound.vue'
-// import Subject from '@/components/Subject.vue'
 import ShowSubject from '@/components/ShowSubject.vue'
 import EditSubject from '@/components/EditSubject.vue'
 
 const app = createApp(Index)
 
 const store = createStore({
-  state () {
+  state() {
     return {
       connection: undefined,
+      client: undefined,
       error: undefined,
       fetchedData: false,
       userVotes: undefined,
@@ -36,93 +37,98 @@ const store = createStore({
     }
   },
   computed: {
-    // TODO: add more mapGetters (why?)
     // ...mapGetters(['getUserVote']),
   },
   getters: {
-    // TODO: support multiple legislation periods
+    fetchedData: (state) => () => state.fetchedData,
+    getClient: (state) => () => state.client,
     getSubjectByHash: (state) => (term_hash, subject_id) => {
-      // TODO: catch inexistent term
       let term = state.terms.find((term) => term.hash == term_hash);
-      let subject = term.subjects.find((subject) => subject.id == subject_id);
-      return subject;
+      return term?.subjects.find((subject) => subject.id == subject_id);
     },
-    getSubjectById: (state) => (subjectId) => state.votes[2].find(subject => subject.id == subjectId),
-    // TODO: return the rhight subjects
-    getSubjectsForPeriod: (state) => () => state.terms[2].subjects,
-    getTerm: (state) => (term_hash) => state.terms.find(
-      // TODO: compute defaultTermHash
-      term => term.hash == (term_hash || "2019_23")
-    ),
-    hasFetchedData: (state) => () => state.fetchedData,
+    getTerm: (state) => (term_hash) => {
+      let thash = term_hash;
+      if (!thash) {
+        // TODO: compute defaultTermHash
+        thash = "2019_23";
+      }
+      return state.terms.find(term => term.hash == thash);
+    },
     getNextTermHash: (state) => (term_id) => state.terms.find(term => term.id == term_id + 1)?.hash,
     getPrevTermHash: (state) => (term_id) => state.terms.find(term => term.id == term_id - 1)?.hash,
     getConnection: (state) => () => state.connection,
-    isLoggedIn: (state) => () => state.connection?.webDav,
-    fetchedData: (state) => () => state.fetchedData,
     getTermHash: (state) => () => state.votes[2].hash,
-    unsavedChanges: (state) => () => state.unsavedChanges,
     getUserVotes: (state) => () => state.userVotes,
     getUserVote: (state) => (subjectId) => state.userVotes?.find(vote => vote.id == subjectId),
     getError: (state) => () => state.error,
+    hasFetchedData: (state) => () => !!state.fetchedData,
+    isLoggedIn: (state) => () => state.connection?.webDav,
+    unsavedChanges: (state) => () => state.unsavedChanges,
   },
   actions: {
-    async init({ commit }) {
-      if(!this.getters.isLoggedIn()){
+    async init() {
+      if (!this.getters.isLoggedIn()) {
         let webDav = sessionStorage.getItem("webDav");
-        if(webDav != "null"){
-          commit('SET_CONNECTION', {
+        let userName = sessionStorage.getItem("unserName");
+        let password = sessionStorage.getItem("password");
+        if (webDav != "null" && webDav != undefined) {
+          store.dispatch("login", {
             webDav: webDav,
-            userName: sessionStorage.getItem("userName"),
-            password: sessionStorage.getItem("password")
+            userName: userName,
+            password: password,
           });
+        }
       }
-      }
-      if(this.getters.isLoggedIn() && !this.getters.hasFetchedData()){
-          store.dispatch("getData", this.getters.getConnection());
+      if (this.getters.isLoggedIn() && !this.getters.hasFetchedData()) {
+        store.dispatch("getData", this.getters.getConnection());
       }
     },
-    async login({ commit }, payload) {
-        commit('SET_CONNECTION', payload);    
-        sessionStorage.setItem("webDav", payload.webDav);
-        sessionStorage.setItem("userName", payload.userName);
-        sessionStorage.setItem("password", payload.password);
+    async login({ commit }, connection) {
+      try {
+        const client = createClient(
+          connection.webDav, {
+          username: connection.userName,
+          password: connection.password
+        });
+        // list just to make sure the client works
+        await client.getDirectoryContents("/");
+
+        // save connection in vuex
+        commit('SET_CONNECTION', connection); // TODO: remove username etc from vuex
+        commit('SET_CLIENT', client); // TODO: remove username etc from vuex
+        sessionStorage.setItem("webDav", connection.webDav);
+        if (connection.userName) {
+          sessionStorage.setItem("userName", connection.userName);
+        }
+        if (connection.password) {
+          sessionStorage.setItem("password", connection.password);
+        }
+        store.dispatch("getData");
+      } catch (error) {
+        throw Error(error);
+      }
     },
     async getData({ commit }) {
-      // FIXME: handle wrong credentials / failed login
-      if(store.getters.isLoggedIn()){
-        let connection = await store.getters.getConnection();
+      if (store.getters.isLoggedIn()) {
         try {
-          const client = createClient(
-            connection.webDav, {
-              username: connection.userName,
-              password: connection.password
-            }
-          );
-          const content = await client.getFileContents("/votey.json", {format: "text"});
+          const client = store.getters.getClient();
+          const content = await client.getFileContents("/votey.json", { format: "text" });
           commit('SET_DATA', { votes: JSON.parse(content) });
-        } catch(error) {
+        } catch (error) {
           commit('SET_DATA', { votes: [] });
         }
-        router.push({name: 'home'});
       }
     },
     async sendData({ commit }) {
       try {
-        let connection = await store.getters.getConnection();
-        const client = createClient(
-          connection.webDav, {
-            username: connection.userName,
-            password: connection.password 
-          }
-        );
+        const client = store.getters.getClient();
         let data = JSON.stringify(store.getters.getUserVotes());
-        await client.putFileContents("/votey.json", data, { 
+        await client.putFileContents("/votey.json", data, {
           contentLength: false,
           overwrite: true,
         });
         commit('UNSET_UNSAVEDCHANGES')
-      } catch(error) {
+      } catch (error) {
         console.error("error", error);
         throw Error();
       }
@@ -130,59 +136,59 @@ const store = createStore({
     setVote({ commit }, vote) {
       const index = this.state.userVotes.findIndex(e => e.id == vote.id)
 
-      if(vote.answer == Answer.Novote && vote.reasoning == undefined){
-        if(index !== -1){
+      if (vote.answer == Answer.Novote && vote.reasoning == undefined) {
+        if (index !== -1) {
           commit('DELETE_VOTE', index);
         } else {
           commit('SET_UNSAVEDCHANGES')
         }
         return;
-      } else if(index !== -1) {
-        commit('UPDATE_VOTE', {index: index, vote: vote});
+      } else if (index !== -1) {
+        commit('UPDATE_VOTE', { index: index, vote: vote });
       } else {
         commit('ADD_VOTE', vote);
       }
     },
-    // changePeriod({ commit }, amount) {
-    //   // TODO: this is a bit silly
-    //   commit('CHANGE_PERIOD', amount*4);
-    // },
     logout({ commit }) {
       sessionStorage.clear();
       commit('LOGOUT');
-      router.push({name: 'home'});
+      router.push({ path: '/' });
     },
   },
   mutations: {
-    SET_DATA(state, payload){
+    SET_DATA(state, payload) {
       state.userVotes = payload.votes;
       state.fetchedData = true;
     },
-    SET_CONNECTION(state, payload){
+    SET_CONNECTION(state, payload) {
       state.connection = payload;
     },
-    SET_UNSAVEDCHANGES(state){
+    SET_CLIENT(state, client) {
+      state.client = client;
+    },
+    SET_UNSAVEDCHANGES(state) {
       state.unsavedChanges = true;
     },
-    UNSET_UNSAVEDCHANGES(state){
+    UNSET_UNSAVEDCHANGES(state) {
       state.unsavedChanges = false
     },
-    UPDATE_VOTE(state, payload){
+    UPDATE_VOTE(state, payload) {
       state.userVotes.splice(payload.index, 1, payload.vote)
       state.unsavedChanges = true
     },
-    ADD_VOTE(state, vote){
+    ADD_VOTE(state, vote) {
       state.userVotes = [...state.userVotes, vote];
       state.unsavedChanges = true
     },
     // SET_PERIOD(state, i){
     //   state.period.setFullYear(state.period.getFullYear() + i);
     // },
-    DELETE_VOTE(state, index){
+    DELETE_VOTE(state, index) {
       state.userVotes.splice(index, 1);
       state.unsavedChanges = true
     },
-    LOGOUT(state){
+    LOGOUT(state) {
+      state.client = undefined;
       state.userVotes = undefined;
       state.connection = undefined;
     },
@@ -235,76 +241,51 @@ library.add(faAngleLeft)
 
 const routes = [
   {
-    path: '/:term_hash?',
+    path: '/',
+    // TODO: compute redirection
+    redirect: '/2019_23',
+  },
+  {
+    path: '/:term_hash',
     name: 'home',
     props: true,
     component: App,
-    // children: [],
-    // meta: {
-    //   requiresData: true,
-    // }
-  },{
+    children: [
+      {
+        path: '',
+        name: 'votesTable',
+        props: true,
+        component: VotesTable,
+      }, {
+        path: 'analysis',
+        name: 'analysis',
+        props: true,
+        component: Analysis,
+        meta: {
+          requiresAuth: true,
+        }
+      }, {
         path: '/:term_hash/:subject_id',
         name: 'showSubject',
         props: true,
         component: ShowSubject,
         meta: {
           requiresAuth: true,
-          // requiresData: true,
-        }
-  },{
+        },
+      }, {
         path: '/:term_hash/:subject_id/edit',
         name: 'editSubject',
         props: true,
         component: EditSubject,
         meta: {
           requiresAuth: true,
-          // requiresData: true,
-        }
-      // },
-  // },{
-  //   path: '/subject/:hash',
-  //   name: 'Subject',
-  //   component: Subject,
-  //   props: true,
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'showSubject',
-  //       component: ShowSubject,
-  //       meta: {
-  //         requiresAuth: true,
-  //       }
-  //     },{
-  //       path: 'edit',
-  //       name: 'editSubject',
-  //       component: EditSubject,
-  //       meta: {
-  //         requiresAuth: true,
-  //       }
-  //     },
-  //   ],
-  // },{
-  //   path: '/:subjectId/edit',
-  //   name: 'editVote',
-  //   component: App,
-  //   props: true,
-  //   meta: {
-  //     requiresAuth: true,
-  //   }
-  },{
-    path: '/agreement',
-    name: 'agreement',
-    component: Agreement,
-    meta: {
-      requiresAuth: true,
-      // requiresData: true,
-    }
-  },{
+        },
+      }],
+  }, {
     path: '/login',
     name: 'login',
     component: Login,
-  },{
+  }, {
     path: '/:pathMatch(.*)*',
     component: NotFound
   }
@@ -315,12 +296,8 @@ const router = new createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // TODO: this is kinda ugly
-  if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()){
-    store.dispatch("init");
-    // console.log("init end, -> " + next);
-  }
-  if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()){
+  store.dispatch("init");
+  if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
     next({ name: 'login' })
   } else {
     next()

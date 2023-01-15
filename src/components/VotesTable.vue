@@ -1,40 +1,48 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row" v-if="!this.term">
       <div class="col">
-        <h2>Abstimmungen</h2>
-      </div>
-      <div class="col">
-        <router-link 
-          v-if="prevTermHash()"
-          :to="{ name: 'home', params: {term_hash: prevTermHash() }}" 
-          href="">
-          <font-awesome-icon :icon="['fas', 'angle-left']" />
-        </router-link>
-        {{ this.termName() }}
-        <router-link 
-          v-if="nextTermHash()"
-          :to="{ name: 'home', params: {term_hash: nextTermHash() }}" 
-          href="">
-          <font-awesome-icon :icon="['fas', 'angle-right']" />
-        </router-link>
+        <h2>Legislaturperiod nicht gefunden</h2>
       </div>
     </div>
-  </div>
-  <HeaderRow v-bind:parties="term.parties"/>
-  <div class="container" v-for="subject in term.subjects" v-bind:key="subject.id">
-    <!-- <router-link 
-      v-for="subject in term.subjects"
-      v-bind:key="subject.id"
-      :to="{ name: 'showSubject', params: {term_hash: this.term.hash, subject_id: subject.id }}" 
-      href=""> -->
-    <VotesTableSubject
-      v-bind:term_hash="this.term.hash"
-      v-bind:loggedIn="this.loggedIn"
-      v-bind:userVote="userVote(subject.id)"
-      v-bind:subject="subject"
-    />
-    <!-- </router-link> -->
+    <div class="row" v-else>
+      <div class="col col-12 col-md-6">
+        <h2>Abstimmungen</h2>
+      </div>
+      <div class="col col-12 col-md-6 d-flex justify-content-md-end">
+        <!-- v-if="prevTermHash()" -->
+        <div class="align-self-center p-2">
+          <router-link
+            :is="!prevTermHash() ? 'span' : 'router-link'"
+            :to="{ name: 'votesTable', params: { term_hash: prevTermHash() } }"
+            href=""
+          >
+            <font-awesome-icon class="fa-2x" :icon="['fas', 'angle-left']" />
+          </router-link>
+        </div>
+        <div class="align-self-center p-2">
+          <span class="term_name">{{ this.termName() }}</span>
+        </div>
+        <div class="align-self-center p-2">
+          <router-link
+            :is="!nextTermHash() ? 'span' : 'router-link'"
+            :to="{ name: 'votesTable', params: { term_hash: nextTermHash() } }"
+            href=""
+          >
+            <font-awesome-icon class="fa-2x" :icon="['fas', 'angle-right']" />
+          </router-link>
+        </div>
+      </div>
+      <HeaderRow v-bind:parties="term.parties" />
+      <div class="container" v-for="subject in term.subjects" v-bind:key="subject.id">
+        <VotesTableSubject
+          v-bind:term_hash="this.term.hash"
+          v-bind:loggedIn="this.loggedIn"
+          v-bind:userVote="userVote(subject.id)"
+          v-bind:subject="subject"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,19 +52,18 @@ import HeaderRow from "@/components/HeaderRow.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default {
+  // TODO: remove beforeUpdate
   beforeUpdate() {
-    console.log("beforeUpdate");
+    // console.log("beforeUpdate");
   },
   name: "VotesTable",
-  props: [
-    'term',
-  ],
-  data: function(){
+  props: ["term"],
+  data: function () {
     return {
       // term: this.$store.getters.getTerm(),
       editSubject: undefined,
       editUserVote: undefined,
-    }
+    };
   },
   components: {
     VotesTableSubject,
@@ -90,13 +97,15 @@ export default {
   },
   methods: {
     termName() {
-      return this.term.start_date.getFullYear() + " - " + this.term.end_date.getFullYear();
+      return (
+        this.term.start_date.getFullYear() + " - " + this.term.end_date.getFullYear()
+      );
     },
-    nextTermHash(){
-      return this.$store.getters.getNextTermHash(this.term.id);
+    nextTermHash() {
+      return this.$store.getters.getNextTermHash(this.term?.id);
     },
-    prevTermHash(){
-      return this.$store.getters.getPrevTermHash(this.term.id);
+    prevTermHash() {
+      return this.$store.getters.getPrevTermHash(this.term?.id);
     },
     userVote(subject_id) {
       // TODO: remove this
@@ -140,6 +149,10 @@ $colorNeutral: #ddd;
 }
 .neutral {
   color: $colorNeutral;
+}
+
+.term_name {
+  font-size: 1.2rem;
 }
 
 /* .success {

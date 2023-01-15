@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="d-flex align-items-cente m-auto">
     <div class="row">
-      <div class="col">
+      <div class="col-12">
         <h2>Anmelden</h2>
         <div v-if="loginFailed" class="alert alert-danger">Anmeldung fehlgeschlagen</div>
         <form>
@@ -67,7 +67,9 @@ export default {
       try {
         await this.$store.dispatch("login", payload);
         await this.$store.dispatch("getData");
-      } catch {
+        this.$router.push({ path: '/' });
+      } catch(error) {
+        console.error(error);
         this.loginFailed = true;
       }
     },

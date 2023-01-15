@@ -1,10 +1,35 @@
 <template>
-  <nav class="navbar navbar-light bg-light">
+  <nav class="navbar navbar-light navbar-expand bg-light">
     <div class="container-fluid">
-      <div>
-        <router-link to="/" class="navbar-brand" href="">Votelog</router-link>
-        <!-- <router-link to="/agreement" type="button" class="btn" href="">agreement</router-link> -->
-      </div>
+      <router-link to="/" class="navbar-brand" href="">Votey</router-link>
+      <ul v-if="this.termHash()" class="navbar-nav me-auto">
+        <li class="nav-item">
+          <router-link
+            :to="{
+              name: 'votesTable',
+              params: { term_hash: termHash() },
+            }"
+            type="a"
+            :class="{ 'nav-link': true, active: this.$route.name == 'votesTable' }"
+            href=""
+          >
+            votelog
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+            :to="{
+              name: 'analysis',
+              params: { term_hash: termHash() },
+            }"
+            type="a"
+            :class="{ 'nav-link': true, active: this.$route.name == 'analysis' }"
+            href=""
+          >
+            analysis
+          </router-link>
+        </li>
+      </ul>
       <div v-if="!this.loggedIn">
         <div>
           <router-link type="button" class="btn" to="/login">Anmelden</router-link>
@@ -29,11 +54,23 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default {
   name: "NavBar",
-  props: ["loggedIn", "unsavedChanges"],
+  props: ["loggedIn", "unsavedChanges", "term_hash"],
+  // loggedIn: Boolean,
+  // unsavedChanges: Boolean,
+  // term_hash: String,
+  // },
   components: {
     FontAwesomeIcon,
   },
+  computed: {},
   methods: {
+    // term(){
+    //   return this.$store.getters.getTerm(this.term_hash);
+    // },
+    termHash() {
+      // TODO: make this nicer
+      return this.$store.getters.getTerm(this.term_hash)?.hash; // || this.$store.getters.getTerm(undefined)?.term_hash;
+    },
     logout() {
       this.$store.dispatch("logout");
     },
