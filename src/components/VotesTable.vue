@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row" v-if="!this.term">
       <div class="col">
-        <h2>Legislaturperiod nicht gefunden</h2>
+        <h2>Legislaturperiode nicht gefunden</h2>
       </div>
     </div>
     <div class="row" v-else>
@@ -251,6 +251,11 @@ th {
   border-bottom: 1px solid #ddd;
   margin-top: 10px;
   padding-bottom: 10px;
+}
+
+.svg-logo-swiss {
+  height: 30px;
+  width: 30px;
 }
 
 .svg-logo {

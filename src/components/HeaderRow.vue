@@ -5,7 +5,7 @@
                 <div class="col-lg-6 fixed-header">
                     <div class="row ">
                         <div class="col svg-col" align="center">
-                            <img :src="Switzerland" class="svg-logo"/>
+                            <img :src="Switzerland" class="svg-logo-swiss"/>
                         </div>
                         <div class="col svg-col" align="center">
                             <font-awesome-icon class="fa-2x" :icon="['fas', 'user']"/>

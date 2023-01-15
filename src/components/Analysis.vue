@@ -1,12 +1,16 @@
 <template>
   <!-- TODO: This is copied from VotesTable.vue (minor changes) -->
   <div class="container">
-    <div class="row">
+    <div class="row" v-if="!this.term">
+      <div class="col">
+        <h2>Legislaturperiode nicht gefunden</h2>
+      </div>
+    </div>
+    <div v-else class="row">
       <div class="col col-12 col-md-6">
         <h2>Analysis</h2>
       </div>
       <div class="col col-12 col-md-6 d-flex justify-content-md-end">
-        <!-- v-if="prevTermHash()" -->
         <div class="align-self-center p-2">
           <router-link
             :is="!prevTermHash() ? 'span' : 'router-link'"
@@ -29,14 +33,12 @@
           </router-link>
         </div>
       </div>
-    </div>
 
-    <HeaderRow v-bind:parties="term.parties" />
+      <HeaderRow v-bind:parties="term.parties" />
 
-    <div class="container">
       <div class="row votecard" @click="showDetails">
-        <div class="col-12 col-lg-6 ">Übereinstimmung</div>
-        <div class="col-12 col-lg-6 ">
+        <div class="col-12 col-lg-6">Übereinstimmung</div>
+        <div class="col-12 col-lg-6">
           <div class="row">
             <!-- Switzerland -->
             <div class="col svg-col" align="center">{{ swissAgreement }}%</div>

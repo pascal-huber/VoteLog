@@ -1,9 +1,12 @@
 <template>
   <nav class="navbar navbar-light navbar-expand bg-light">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand" href="">Votey</router-link>
+      <router-link to="/" class="navbar-brand" href="">
+        <img :src="Switzerland" class="swiss-logo"/>
+        <span v-if="!loggedIn">Votelog</span>
+      </router-link>
       <ul v-if="this.termHash()" class="navbar-nav me-auto">
-        <li class="nav-item">
+        <li v-if="loggedIn" class="nav-item">
           <router-link
             :to="{
               name: 'votesTable',
@@ -13,10 +16,10 @@
             :class="{ 'nav-link': true, active: this.$route.name == 'votesTable' }"
             href=""
           >
-            votelog
+            VoteLog
           </router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="loggedIn" class="nav-item">
           <router-link
             :to="{
               name: 'analysis',
@@ -26,7 +29,7 @@
             :class="{ 'nav-link': true, active: this.$route.name == 'analysis' }"
             href=""
           >
-            analysis
+          Analysis
           </router-link>
         </li>
       </ul>
@@ -51,6 +54,7 @@
 
 <script>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Switzerland from "@/assets/switzerland_coat-of-arms.svg";
 
 export default {
   name: "NavBar",
@@ -61,6 +65,11 @@ export default {
   // },
   components: {
     FontAwesomeIcon,
+  },
+  setup() {
+    return {
+      Switzerland,
+    }
   },
   computed: {},
   methods: {
@@ -80,3 +89,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.swiss-logo {
+  height: 30px;
+}
+</style>
