@@ -32,11 +32,11 @@ export const terms = [
     ],
     subjects: [
       {
-        id: 628, 
-        date: new Date("2019-05-19"), 
-        name: "EU-Waffenrichtlinie", 
+        id: 628,
+        date: new Date("2019-05-19"),
+        name: "EU-Waffenrichtlinie",
         hash: "2019-05_628",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -50,11 +50,11 @@ export const terms = [
         ],
       },
       {
-        id: 627, 
-        date: new Date("2019-05-19"), 
-        name: "Steuerreform und AHV (STAF)", 
+        id: 627,
+        date: new Date("2019-05-19"),
+        name: "Steuerreform und AHV (STAF)",
         hash: "2019-05_627",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.No },
@@ -68,11 +68,11 @@ export const terms = [
         ],
       },
       {
-        id: 626, 
-        date: new Date("2019-02-10"), 
-        name: "Zersiedlungsinitiative", 
+        id: 626,
+        date: new Date("2019-02-10"),
+        name: "Zersiedlungsinitiative",
         hash: "2019-02_626",
-        outcome: Answer.No, 
+        outcome: Answer.No,
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.No },
@@ -86,11 +86,11 @@ export const terms = [
         ],
       },
       {
-        id: 625, 
-        date: new Date("2018-11-25"), 
-        name: "Überwachung von Versicherten", 
+        id: 625,
+        date: new Date("2018-11-25"),
+        name: "Überwachung von Versicherten",
         hash: "2018-11_625",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -104,11 +104,11 @@ export const terms = [
         ],
       },
       {
-        id: 624, 
-        date: new Date("2018-11-25"), 
-        name: "Selbstbestimmungsinitiative", 
+        id: 624,
+        date: new Date("2018-11-25"),
+        name: "Selbstbestimmungsinitiative",
         hash: "2018-11_624",
-        outcome: Answer.No, 
+        outcome: Answer.No,
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -161,6 +161,14 @@ export const terms = [
         name: "Verrechnungssteuer",
         hash: "2022-09_661",
         outcome: Answer.No,
+        // Öffentliche Finanzen > Steuerwesen > Direkte Steuern
+        // Wirtschaft > Finanzwesen > Banken, Börsen, Versicherungen
+        categories: [
+          // "Steuerwesen",
+          // "Finanzwesen",
+          ["Öffentliche Finanzen", "Steuerwesen", "Direkte Steuern"],
+          ["Wirtschaft", "Finanzwesen", "Banken, Börsen, Versicherungen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -178,6 +186,14 @@ export const terms = [
         name: "Stabilisierung AHV (Rentenalter)",
         hash: "2022-09_660",
         outcome: Answer.Yes,
+        // Sozialpolitik > Sozialversicherungen > Alters- und Hinterbliebenenversicherung
+        // Sozialpolitik > Soziale Gruppen > Stellung der Frau
+        categories: [
+          // "Soziale Gruppen",
+          // "Sozialversicherungen",
+          ["Sozialpolitik", "Sozialversicherungen", "Alters- und Hinterbliebenenversicherung"],
+          ["Sozialpolitik", "Soziale Gruppen", "Stellung der Frau"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -195,6 +211,14 @@ export const terms = [
         name: "Stabilisierung AHV (MWST)",
         hash: "2022-09_659",
         outcome: Answer.Yes,
+        // Sozialpolitik > Sozialversicherungen > Alters- und Hinterbliebenenversicherung
+        // Öffentliche Finanzen > Steuerwesen > Indirekte Steuern
+        categories: [
+          // "Sozialversicherungen",
+          // "Steuerwesen",
+          ["Sozialpolitik", "Sozialversicherungen", "Alters- und Hinterbliebenenversicherung"],
+          ["Öffentliche Finanzen", "Steuerwesen", "Indirekte Steuern"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -212,6 +236,14 @@ export const terms = [
         name: "Massentierhaltungsinitiative",
         hash: "2022-09_658",
         outcome: Answer.No,
+        // Landwirtschaft > Tierische Produktion
+        // Umwelt und Lebensraum > Umwelt > Tierschutz
+        categories: [
+          // "Landwirtschaft",
+          // "Umwelt und Lebensraum",
+          ["Landwirtschaft", "Tierische Produktion"],
+          ["Umwelt und Lebensraum", "Umwelt", "Tierschutz"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -224,11 +256,19 @@ export const terms = [
         ]
       },
       {
-        id: 657, 
-        date: new Date("2022-05-15"), 
-        name: "Frontex EU-Verordnung", 
-        hash: "2022-05_657", 
+        id: 657,
+        date: new Date("2022-05-15"),
+        name: "Frontex EU-Verordnung",
+        hash: "2022-05_657",
         outcome: Answer.Yes,
+        // Aussenpolitik > Europapolitik > EU
+        // Sozialpolitik > Soziale Gruppen > Flüchtlinge
+        categories: [
+          // "Aussenpolitik",
+          // "Soziale Gruppen",
+          ["Aussenpolitik", "Europapolitik", "EU"],
+          ["Sozialpolitik", "Soziale Gruppen", "Flüchtlinge"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.No },
@@ -241,11 +281,19 @@ export const terms = [
         ],
       },
       {
-        id: 656, 
-        date: new Date("2022-05-15"), 
-        name: "Änderung des Transplantationsgesetzes", 
-        hash: "2022-05_656", 
+        id: 656,
+        date: new Date("2022-05-15"),
+        name: "Widerspruchsregelung bei der Organspende",
+        hash: "2022-05_656",
         outcome: Answer.Yes,
+        // Sozialpolitik > Gesundheit > Gesundheitspolitik
+        // Staatsordnung > Rechtsordnung > Grundrechte
+        categories: [
+          // "Gesundheit",
+          // "Staatsordnung" // top-level, usure
+          ["Sozialpolitik", "Gesundheit", "Gesundheitspolitik"],
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -258,11 +306,22 @@ export const terms = [
         ],
       },
       {
-        id: 655, 
-        date: new Date("2022-05-15"), 
-        name: "Änderung des Filmgesetzes", 
-        hash: "2022-05_655", 
+        id: 655,
+        date: new Date("2022-05-15"),
+        name: "Änderung des Filmgesetzes",
+        hash: "2022-05_655",
         outcome: Answer.Yes,
+        // Kultur, Religion, Medien > Kulturpolitik
+        // Kultur, Religion, Medien > Medien und Kommunikation > Radio, Fernsehen, Elektronische Medien
+        // Wirtschaft > Wirtschaftspolitik > Strukturpolitik
+        categories: [
+          // "Kulturpolitik",
+          // "Medien und Kommunikation",
+          // "Wirtschaftspolitik"
+          ["Kultur, Religion, Medien", "Kulturpolitik"],
+          ["Kultur, Religion, Medien", "Medien und Kommunikation", "Radio, Fernsehen, Elektronische Medien"],
+          ["Wirtschaft", "Wirtschaftspolitik", "Strukturpolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -275,11 +334,19 @@ export const terms = [
         ],
       },
       {
-        id: 654, 
-        date: new Date("2022-02-13"), 
-        name: "Massnahmenpaket zugunsten der Medien", 
-        hash: "2022-02_654", 
+        id: 654,
+        date: new Date("2022-02-13"),
+        name: "Massnahmenpaket zugunsten der Medien",
+        hash: "2022-02_654",
         outcome: Answer.No,
+        // Kultur, Religion, Medien > Medien und Kommunikation
+        // Wirtschaft > Wirtschaftspolitik > Strukturpolitik
+        categories: [
+          // "Medien und Kommunikation",
+          // "Wirtschaftspolitik",
+          ["Kultur, Religion, Medien", "Medien und Kommunikation"],
+          ["Wirtschaft", "Wirtschaftspolitik", "Strukturpolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -292,11 +359,17 @@ export const terms = [
         ],
       },
       {
-        id: 653, 
-        date: new Date("2022-02-13"), 
-        name: "Änderung Bundesgesetzes Stempelabgaben", 
-        hash: "2022-02_653", 
+        id: 653,
+        date: new Date("2022-02-13"),
+        name: "Änderung Bundesgesetzes Stempelabgaben",
+        hash: "2022-02_653",
         outcome: Answer.No,
+        // Öffentliche Finanzen > Steuerwesen > Indirekte Steuern
+        // Wirtschaft > Finanzwesen > Banken, Börsen, Versicherungen
+        categories: [
+          ["Öffentliche Finanzen", "Steuerwesen", "Indirekte Steuern"],
+          ["Wirtschaft", "Finanzwesen", "Banken, Börsen, Versicherungen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -309,11 +382,22 @@ export const terms = [
         ],
       },
       {
-        id: 652, 
-        date: new Date("2022-02-13"), 
-        name: "Kinder ohne Tabakwerbung", 
-        hash: "2022-02_652", 
+        id: 652,
+        date: new Date("2022-02-13"),
+        name: "Kinder ohne Tabakwerbung",
+        hash: "2022-02_652",
         outcome: Answer.Yes,
+        // Sozialpolitik > Gesundheit > Suchtmittel
+        // Sozialpolitik > Soziale Gruppen > Kinder und Jugendliche
+        // Wirtschaft > Wirtschaftspolitik > Wettbewerbspolitik
+        categories: [
+          // "Gesundheit",
+          // "Soziale Gruppen",
+          // "Wirtschaftspolitik"
+          ["Sozialpolitik", "Gesundheit", "Suchtmittel"],
+          ["Sozialpolitik", "Soziale Gruppen", "Kinder und Jugendliche"],
+          ["Wirtschaft", "Wirtschaftspolitik", "Wettbewerbspolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -326,11 +410,21 @@ export const terms = [
         ]
       },
       {
-        id: 651, 
-        date: new Date("2022-02-13"), 
-        name: "Tierversuchsverbotsinitiative", 
-        hash: "2022-02_651", 
+        id: 651,
+        date: new Date("2022-02-13"),
+        name: "Tierversuchsverbotsinitiative",
+        hash: "2022-02_651",
         outcome: Answer.No,
+        // Bildung und Forschung > Forschung > Tierversuche
+        // Sozialpolitik > Gesundheit > Medizinforschung und -technik
+        // Sozialpolitik > Gesundheit > Medikamente
+        categories: [
+          // "Bildung und Forschung",  // top level
+          // "Gesundheit",
+          ["Bildung und Forschung", "Forschung", "Tierversuche"],
+          ["Sozialpolitik", "Gesundheit", "Medizinforschung und -technik"],
+          ["Sozialpolitik", "Gesundheit", "Medikamente"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -343,11 +437,22 @@ export const terms = [
         ],
       },
       {
-        id: 650, 
-        date: new Date("2021-11-28"), 
-        name: "Covid-19-Gesetz #2", 
-        hash: "2021-11_650", 
+        id: 650,
+        date: new Date("2021-11-28"),
+        name: "Covid-19-Gesetz #2",
+        hash: "2021-11_650",
         outcome: Answer.Yes,
+        // Sozialpolitik > Gesundheit
+        // Staatsordnung > Rechtsordnung > Grundrechte
+        // Wirtschaft > Wirtschaftspolitik~
+        categories: [
+          // "Gesundheit",
+          // "Staatsordnung", // top level
+          // "Wirtschaftspolitik"
+          ["Sozialpolitik", "Gesundheit"],
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+          ["Wirtschaft", "Wirtschaftspolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -360,11 +465,18 @@ export const terms = [
         ],
       },
       {
-        id: 649, 
-        date: new Date("2021-11-28"), 
-        name: "Justiz-Initiative", 
-        hash: "2021-11_649", 
+        id: 649,
+        date: new Date("2021-11-28"),
+        name: "Justiz-Initiative",
+        hash: "2021-11_649",
         outcome: Answer.No,
+        // Staatsordnung > Institutionen > Gerichte
+        // Staatsordnung > Politisches System > Wahlsystem
+        categories: [
+          // "Staatsordnung", // top level
+          ["Staatsordnung", "Institutionen", "Gerichte"],
+          ["Staatsordnung", "Politisches System", "Wahlsystem"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -377,11 +489,22 @@ export const terms = [
         ],
       },
       {
-        id: 648, 
-        date: new Date("2021-11-28"), 
-        name: "Pflegeinitiative", 
-        hash: "2021-11_648", 
+        id: 648,
+        date: new Date("2021-11-28"),
+        name: "Pflegeinitiative",
+        hash: "2021-11_648",
         outcome: Answer.Yes,
+        // Sozialpolitik > Gesundheit > Gesundheitspolitik
+        // Sozialpolitik > Sozialversicherungen > Kranken- und Unfallversicherung
+        // Wirtschaft > Arbeit und Beschäftigung > Arbeitsbedingungen
+        categories: [
+          // "Gesundheit",
+          // "Sozialversicherungen",
+          // "Arbeit und Beschäftigung"
+          ["Sozialpolitik", "Gesundheit", "Gesundheitspolitik"],
+          ["Sozialpolitik", "Sozialversicherungen", "Kranken- und Unfallversicherung"],
+          ["Wirtschaft", "Arbeit und Beschäftigung", "Arbeitsbedingungen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -394,11 +517,16 @@ export const terms = [
         ],
       },
       {
-        id: 647, 
-        date: new Date("2021-09-26"), 
-        name: "Ehe für Alle", 
-        outcome: Answer.Yes, 
+        id: 647,
+        date: new Date("2021-09-26"),
+        name: "Ehe für Alle",
+        outcome: Answer.Yes,
         hash: "2021-09_647",
+        categories: [
+          ["Sozialpolitik", "Soziale Gruppen", "Homosexuelle"],
+          ["Sozialpolitik", "Soziale Gruppen", "Familienpolitik"],
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -411,11 +539,14 @@ export const terms = [
         ],
       },
       {
-        id: 646, 
-        date: new Date("2021-09-26"), 
-        name: "Löhne entlasten, Kapital gerecht besteuern", 
+        id: 646,
+        date: new Date("2021-09-26"),
+        name: "Löhne entlasten, Kapital gerecht besteuern",
         hash: "2021-09_646",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Öffentliche Finanzen", "Steuerwesen", "Direkte Steuern Sozialpolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -428,11 +559,16 @@ export const terms = [
         ],
       },
       {
-        id: 645, 
-        date: new Date("2021-06-13"), 
-        name: "Anti-Terror-Gesetz", 
+        id: 645,
+        date: new Date("2021-06-13"),
+        name: "Anti-Terror-Gesetz",
         hash: "2021-06_645",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Sicherheitspolitik", "Öffentliche Sicherheit", "Staatsschutz"],
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+          ["Sicherheitspolitik", "Öffentliche Sicherheit", "Polizei"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -445,11 +581,16 @@ export const terms = [
         ],
       },
       {
-        id: 644, 
-        date: new Date("2021-06-13"), 
-        name: "CO2-Gesetz", 
+        id: 644,
+        date: new Date("2021-06-13"),
+        name: "CO2-Gesetz",
         hash: "2021-06_644",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Umwelt und Lebensraum", "Umwelt", "Umweltpolitik"],
+          ["Energie", "Erdöl – Gas"],
+          ["Öffentliche Finanzen", "Steuerwesen", "Indirekte Steuern"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -462,11 +603,16 @@ export const terms = [
         ],
       },
       {
-        id: 643, 
-        date: new Date("2021-06-13"), 
-        name: "Covid-19-Gesetz #1", 
+        id: 643,
+        date: new Date("2021-06-13"),
+        name: "Covid-19-Gesetz #1",
         hash: "2021-06_643",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Sozialpolitik", "Gesundheit"],
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+          ["Wirtschaft", "Wirtschaftspolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -479,11 +625,16 @@ export const terms = [
         ],
       },
       {
-        id: 642, 
-        date: new Date("2021-06-13"), 
-        name: "Pestizid-Initiative", 
+        id: 642,
+        date: new Date("2021-06-13"),
+        name: "Pestizid-Initiative",
         hash: "2021-06_642",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Umwelt und Lebensraum", "Umwelt", "Gewässerschutz"],
+          ["Landwirtschaft", "Agrarpolitik"],
+          ["Umwelt und Lebensraum", "Umwelt", "Bodenschutz"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -496,11 +647,16 @@ export const terms = [
         ],
       },
       {
-        id: 641, 
-        date: new Date("2021-06-13"), 
-        name: "Trinkwasser-Initiative", 
+        id: 641,
+        date: new Date("2021-06-13"),
+        name: "Trinkwasser-Initiative",
         hash: "2021-06_641",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Umwelt und Lebensraum", "Umwelt", "Gewässerschutz"],
+          ["Landwirtschaft", "Agrarpolitik"],
+          ["Landwirtschaft", "Tierische Produktion"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -513,11 +669,16 @@ export const terms = [
         ],
       },
       {
-        id: 640, 
-        date: new Date("2021-03-07"), 
-        name: "Freihandelsabkommen Indonesien", 
+        id: 640,
+        date: new Date("2021-03-07"),
+        name: "Freihandelsabkommen Indonesien",
         hash: "2021-03_640",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Aussenpolitik", "Aussenwirtschaftspolitik"],
+          ["Aussenpolitik", "Staatsverträge mit einzelnen Staaten"],
+          ["Umwelt und Lebensraum", "Umwelt"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -530,11 +691,14 @@ export const terms = [
         ],
       },
       {
-        id: 639, 
-        date: new Date("2021-03-07"), 
-        name: "E-ID Gesetz", 
+        id: 639,
+        date: new Date("2021-03-07"),
+        name: "E-ID Gesetz",
         hash: "2021-03_639",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Staatsordnung", "Rechtsordnung", "Datenschutz"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -547,11 +711,16 @@ export const terms = [
         ],
       },
       {
-        id: 638, 
-        date: new Date("2021-03-07"), 
-        name: "Verhüllungsverbot", 
+        id: 638,
+        date: new Date("2021-03-07"),
+        name: "Verhüllungsverbot",
         hash: "2021-03_638",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+          ["Staatsordnung", "Rechtsordnung", "Strafrecht"],
+          ["Kultur, Religion, Medien", "Religion – Kirchen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -564,11 +733,16 @@ export const terms = [
         ],
       },
       {
-        id: 637, 
-        date: new Date("2020-11-29"), 
-        name: "Kriegsgeschäfte-Initiative", 
+        id: 637,
+        date: new Date("2020-11-29"),
+        name: "Kriegsgeschäfte-Initiative",
         hash: "2020-11_637",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Sicherheitspolitik", "Armee", "Rüstung"],
+          ["Staatsordnung", "Institutionen", "Nationalbank"],
+          ["Wirtschaft", "Finanzwesen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -582,11 +756,16 @@ export const terms = [
         ],
       },
       {
-        id: 636, 
-        date: new Date("2020-11-29"), 
-        name: "Konzernverantwortungsinitiative", 
+        id: 636,
+        date: new Date("2020-11-29"),
+        name: "Konzernverantwortungsinitiative",
         hash: "2020-11_636",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Wirtschaft", "Wirtschaftspolitik", "Gesellschaftsrecht"],
+          ["Staatsordnung", "Rechtsordnung", "Grundrechte"],
+          ["Umwelt und Lebensraum", "Umwelt"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -600,11 +779,15 @@ export const terms = [
         ],
       },
       {
-        id: 635, 
-        date: new Date("2020-09-27"), 
-        name: "Kampfjetbeschaffung", 
+        id: 635,
+        date: new Date("2020-09-27"),
+        name: "Kampfjetbeschaffung",
         hash: "2020-09_635",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Sicherheitspolitik", "Armee", "Rüstung"],
+          ["Öffentliche Finanzen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -618,11 +801,16 @@ export const terms = [
         ],
       },
       {
-        id: 634, 
-        date: new Date("2020-09-27"), 
-        name: "Vaterschaftsurlaub", 
+        id: 634,
+        date: new Date("2020-09-27"),
+        name: "Vaterschaftsurlaub",
         hash: "2020-09_634",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Sozialpolitik", "Soziale Gruppen", "Familienpolitik"],
+          ["Sozialpolitik", "Sozialversicherungen"],
+          ["Wirtschaft", "Arbeit und Beschäftigung"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -636,11 +824,15 @@ export const terms = [
         ],
       },
       {
-        id: 633, 
-        date: new Date("2020-09-27"), 
-        name: "Kinderzulagen", 
+        id: 633,
+        date: new Date("2020-09-27"),
+        name: "Kinderzulagen",
         hash: "2020-09_633",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Öffentliche Finanzen", "Steuerwesen", "Direkte Steuern"],
+          ["Sozialpolitik", "Soziale Gruppen", "Familienpolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -654,11 +846,15 @@ export const terms = [
         ],
       },
       {
-        id: 632, 
-        date: new Date("2020-09-27"), 
-        name: "Jagdgesetz (Wolf)", 
+        id: 632,
+        date: new Date("2020-09-27"),
+        name: "Jagdgesetz (Wolf)",
         hash: "2020-09_632",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Landwirtschaft", "Fischerei – Jagd – Haustiere"],
+          ["Umwelt und Lebensraum", "Umwelt", "Tierschutz"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -672,11 +868,15 @@ export const terms = [
         ],
       },
       {
-        id: 631, 
-        date: new Date("2020-09-27"), 
-        name: "Begrenzungsinitiative", 
+        id: 631,
+        date: new Date("2020-09-27"),
+        name: "Begrenzungsinitiative",
         hash: "2020-09_631",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Aussenpolitik", "Europapolitik", "EU"],
+          ["Sozialpolitik", "Soziale Gruppen", "Ausländerpolitik"],
+        ],
         parties: [
           { id: "SP", answer: Answer.No },
           { id: "GP", answer: Answer.No },
@@ -690,11 +890,15 @@ export const terms = [
         ],
       },
       {
-        id: 630, 
-        date: new Date("2020-02-09"), 
-        name: "Sexuelle Diskriminierung", 
+        id: 630,
+        date: new Date("2020-02-09"),
+        name: "Sexuelle Diskriminierung",
         hash: "2020-02_630",
-        outcome: Answer.Yes, 
+        outcome: Answer.Yes,
+        categories: [
+          ["Sozialpolitik", "Soziale Gruppen", "Homosexuelle"],
+          ["Staatsordnung", "Rechtsordnung", "Strafrecht"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },
@@ -708,11 +912,14 @@ export const terms = [
         ],
       },
       {
-        id: 629, 
-        date: new Date("2020-02-09"), 
-        name: "Mehr bezahlbare Wohnungen", 
+        id: 629,
+        date: new Date("2020-02-09"),
+        name: "Mehr bezahlbare Wohnungen",
         hash: "2020-02_629",
-        outcome: Answer.No, 
+        outcome: Answer.No,
+        categories: [
+          ["Umwelt und Lebensraum", "Wohnen", "Mietwesen"],
+        ],
         parties: [
           { id: "SP", answer: Answer.Yes },
           { id: "GP", answer: Answer.Yes },

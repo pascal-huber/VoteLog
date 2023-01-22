@@ -14,7 +14,7 @@ import 'bootstrap'
 // import {mapGetters} from 'vuex';
 
 import App from '@/components/App.vue'
-import Analysis from '@/components/Analysis.vue'
+// import Analysis from '@/components/Analysis.vue'
 import VotesTable from '@/components/VotesTable.vue'
 import Index from '@/components/Index.vue'
 import Login from '@/components/Login.vue'
@@ -62,7 +62,7 @@ const store = createStore({
     getUserVote: (state) => (subjectId) => state.userVotes?.find(vote => vote.id == subjectId),
     getError: (state) => () => state.error,
     hasFetchedData: (state) => () => !!state.fetchedData,
-    isLoggedIn: (state) => () => state.connection?.webDav,
+    isLoggedIn: (state) => () => state.client != undefined,
     unsavedChanges: (state) => () => state.unsavedChanges,
   },
   actions: {
@@ -72,7 +72,7 @@ const store = createStore({
         let userName = sessionStorage.getItem("userName");
         let password = sessionStorage.getItem("password");
         if (webDav != "null" && webDav != undefined) {
-          store.dispatch("login", {
+          await store.dispatch("login", {
             webDav: webDav,
             userName: userName,
             password: password,
@@ -80,33 +80,26 @@ const store = createStore({
         }
       }
       if (this.getters.isLoggedIn() && !this.getters.hasFetchedData()) {
-        store.dispatch("getData", this.getters.getConnection());
+        await store.dispatch("getData", this.getters.getConnection());
       }
     },
     async login({ commit }, connection) {
-      try {
-        const client = createClient(
-          connection.webDav, {
-          username: connection.userName,
-          password: connection.password
-        });
-        // list just to make sure the client works
-        await client.getDirectoryContents("/");
-
-        // save connection in vuex
-        commit('SET_CONNECTION', connection); // TODO: remove username etc from vuex
-        commit('SET_CLIENT', client); // TODO: remove username etc from vuex
-        sessionStorage.setItem("webDav", connection.webDav);
-        if (connection.userName) {
-          sessionStorage.setItem("userName", connection.userName);
-        }
-        if (connection.password) {
-          sessionStorage.setItem("password", connection.password);
-        }
-        store.dispatch("getData");
-      } catch (error) {
-        throw Error(error);
+      const client = createClient(
+        connection.webDav, {
+        username: connection.userName,
+        password: connection.password
+      });
+      await client.getDirectoryContents("/");
+      commit('SET_CONNECTION', connection); // TODO: remove username etc from vuex
+      commit('SET_CLIENT', client); // TODO: remove username etc from vuex
+      sessionStorage.setItem("webDav", connection.webDav);
+      if (connection.userName) {
+        sessionStorage.setItem("userName", connection.userName);
       }
+      if (connection.password) {
+        sessionStorage.setItem("password", connection.password);
+      }
+      store.dispatch("getData");
     },
     async getData({ commit }) {
       if (store.getters.isLoggedIn()) {
@@ -120,22 +113,16 @@ const store = createStore({
       }
     },
     async sendData({ commit }) {
-      try {
-        const client = store.getters.getClient();
-        let data = JSON.stringify(store.getters.getUserVotes());
-        await client.putFileContents("/votey.json", data, {
-          contentLength: false,
-          overwrite: true,
-        });
-        commit('UNSET_UNSAVEDCHANGES')
-      } catch (error) {
-        console.error("error", error);
-        throw Error();
-      }
+      const client = store.getters.getClient();
+      let data = JSON.stringify(store.getters.getUserVotes());
+      await client.putFileContents("/votey.json", data, {
+        contentLength: false,
+        overwrite: true,
+      });
+      commit('UNSET_UNSAVEDCHANGES')
     },
     setVote({ commit }, vote) {
       const index = this.state.userVotes.findIndex(e => e.id == vote.id)
-
       if (vote.answer == Answer.Novote && vote.reasoning == undefined) {
         if (index !== -1) {
           commit('DELETE_VOTE', index);
@@ -217,6 +204,8 @@ import {
   faSave,
   faAngleRight,
   faAngleLeft,
+  faGripLinesVertical,
+  // faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faDiceThree)
 library.add(faCheck)
@@ -238,6 +227,8 @@ library.add(faEdit)
 library.add(faSave)
 library.add(faAngleRight)
 library.add(faAngleLeft)
+library.add(faGripLinesVertical)
+// library.add(faAngleDown)
 
 const routes = [
   {
@@ -257,15 +248,15 @@ const routes = [
         props: true,
         component: VotesTable,
       }, {
-        path: 'analysis',
-        name: 'analysis',
-        props: true,
-        component: Analysis,
-        meta: {
-          requiresAuth: true,
-        }
+        path: 'categories',
+        name: 'votesTableCategory',
+        // props: true,
+        props: {
+          category: true,
+        },
+        component: VotesTable,
       }, {
-        path: '/:term_hash/:subject_id',
+        path: ':subject_id',
         name: 'showSubject',
         props: true,
         component: ShowSubject,
@@ -273,7 +264,7 @@ const routes = [
           requiresAuth: true,
         },
       }, {
-        path: '/:term_hash/:subject_id/edit',
+        path: ':subject_id/edit',
         name: 'editSubject',
         props: true,
         component: EditSubject,
@@ -296,12 +287,13 @@ const router = new createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  store.dispatch("init");
-  if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
-    next({ name: 'login' })
-  } else {
-    next()
-  }
+  store.dispatch("init").then(() => {
+    if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
+      next({ name: 'login' })
+    } else {
+      next()
+    }
+  });
 })
 
 app.use(VueAxios, axios)

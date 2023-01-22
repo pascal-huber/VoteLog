@@ -91,7 +91,7 @@ import Abstention from "@/assets/abstention.svg";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default {
-  name: "VotesTable",
+  name: "VotesTableSubject",
   props: [
     "subject",
     "userVote",

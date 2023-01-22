@@ -2,11 +2,11 @@
   <nav class="navbar navbar-light navbar-expand bg-light">
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand" href="">
-        <img :src="Switzerland" class="swiss-logo"/>
-        <span v-if="!loggedIn">Votelog</span>
+        <img :src="Switzerland" class="swiss-logo" />
+        <!-- <span class="navbar-brand m-3" v-if="!loggedIn">VoteLog</span> -->
       </router-link>
       <ul v-if="this.termHash()" class="navbar-nav me-auto">
-        <li v-if="loggedIn" class="nav-item">
+        <li class="nav-item">
           <router-link
             :to="{
               name: 'votesTable',
@@ -19,17 +19,17 @@
             VoteLog
           </router-link>
         </li>
-        <li v-if="loggedIn" class="nav-item">
+        <li class="nav-item">
           <router-link
             :to="{
-              name: 'analysis',
+              name: 'votesTableCategory',
               params: { term_hash: termHash() },
             }"
             type="a"
-            :class="{ 'nav-link': true, active: this.$route.name == 'analysis' }"
+            :class="{ 'nav-link': true, active: this.$route.name == 'votesTableCategory' }"
             href=""
           >
-          Analysis
+            Kategorien
           </router-link>
         </li>
       </ul>
@@ -69,7 +69,7 @@ export default {
   setup() {
     return {
       Switzerland,
-    }
+    };
   },
   computed: {},
   methods: {

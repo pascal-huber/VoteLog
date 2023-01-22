@@ -36,26 +36,45 @@
 
       <HeaderRow v-bind:parties="term.parties" />
 
-      <div class="row votecard" @click="showDetails">
-        <div class="col-12 col-lg-6">Übereinstimmung</div>
-        <div class="col-12 col-lg-6">
-          <div class="row">
-            <!-- Switzerland -->
-            <div class="col svg-col" align="center">{{ swissAgreement }}%</div>
+      <div class="container">
+        <div class="row votecard">
+          <div class="col-12 col-lg-6">Alle Vorlagen</div>
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <!-- Switzerland -->
+              <div class="col svg-col" align="center">{{ swissAgreement }}%</div>
 
-            <!-- userVote -->
-            <div class="col svg-col" align="center">
-              {{ numberOfUserVotes }}/{{ numberOfUserVotes }}
+              <!-- userVote -->
+              <div class="col svg-col" align="center">
+                <!-- {{ numberOfUserVotes }}/{{ numberOfUserVotes }} -->
+                100%
+              </div>
+
+              <!-- Parties -->
+              <div
+                class="col svg-col"
+                align="center"
+                v-for="party in this.term.parties"
+                v-bind:key="party"
+              >
+                {{ partyAgreement(party.name) }}%
+              </div>
             </div>
+          </div>
+        </div>
 
-            <!-- Parties -->
-            <div
-              class="col svg-col"
-              align="center"
-              v-for="party in this.term.parties"
-              v-bind:key="party"
-            >
-              {{ partyAgreement(party.name) }}%
+        <div class="row votecard" v-for="category in categories" v-bind:key="category">
+          <div class="col-12 col-lg-6">{{ category }}</div>
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <!-- userVote -->
+              <Percentage v-bind:percentage="swissAgreementCategory(category)" />
+              <Percentage v-bind:percentage="100" />
+              <Percentage
+                v-for="party in this.term.parties"
+                v-bind:key="party"
+                v-bind:percentage="partyAgreementCategory(party.name, category)"
+              />
             </div>
           </div>
         </div>
@@ -66,6 +85,7 @@
 
 <script>
 import HeaderRow from "@/components/HeaderRow.vue";
+import Percentage from "@/components/Percentage.vue";
 import { Answer } from "@/Answer.js";
 import Ja from "@/assets/ja.svg";
 import Nein from "@/assets/nein.svg";
@@ -85,6 +105,7 @@ export default {
   components: {
     FontAwesomeIcon,
     HeaderRow,
+    Percentage,
   },
   setup() {
     return {
@@ -109,6 +130,37 @@ export default {
     //   return this.$store.getters.unsavedChanges();
     // },
     // TODO: numberOfUserVotes, swissAgreement and partAgreement are highly redundant
+
+    categories() {
+      let categories = new Set();
+      for (var i = 0; i < this.term.subjects.length; i++) {
+        let vote = this.term.subjects[i];
+        if (vote.categories) {
+          for (var ii = 0; ii < vote.categories.length; ii++) {
+            categories.add(vote.categories[ii][0]);
+            // for (var iii = 0; iii < vote.categories[ii].length - 1; iii++) {
+            //   categories.add(vote.categories[ii].slice(0, iii + 1).join("###"));
+            // }
+          }
+        }
+      }
+      return Array.from(categories).sort();
+    },
+    // categories() {
+    //   let categories = new Map();
+    //   for (var i = 0; i < this.term.subjects.length; i++) {
+    //     let vote = this.term.subjects[i];
+    //     if (vote.categories) {
+    //       for (var ii = 0; ii < vote.categories.length; ii++) {
+    //         let ctr = categories.get(vote.categories[ii]) || 0;
+    //         ctr++;
+    //         categories.set(vote.categories[ii], ctr);
+    //       }
+    //     }
+    //   }
+    //   console.log(categories);
+    //   return categories;
+    // },
     numberOfUserVotes() {
       let ctr = 0;
       for (var i = 0; i < this.term.subjects.length; i++) {
@@ -150,6 +202,99 @@ export default {
     };
   },
   methods: {
+    numberOfUserVotesCategory(category) {
+      // TODO: merge with numberOfUserVotes
+      let ctr = 0;
+      for (var i = 0; i < this.term.subjects.length; i++) {
+        let vote = this.term.subjects[i];
+        if (!vote.categories || !vote.categories.includes(category)) {
+          continue;
+        }
+        let userVote = this.$store.getters.getUserVote(vote.id);
+        if (!userVote) {
+          continue;
+        }
+        ctr++;
+      }
+      return ctr;
+    },
+    // swissAgreementCate() {
+    //   let ctr = 0.0;
+    //   let userVotes = 0;
+    //   for (var i = 0; i < this.subjects.length; i++) {
+    //     let vote = this.subjects[i];
+    //     // console.log(vote);
+    //     let userVote = this.$store.getters.getUserVote(vote.id);
+    //     if (!userVote) {
+    //       continue;
+    //     }
+    //     if (userVote.answer == vote.outcome) {
+    //       ctr++;
+    //     }
+    //     if (userVote.answer == Answer.Abstention) {
+    //       ctr += 0.5;
+    //     }
+    //     if (userVote.answer != Answer.Novote) {
+    //       userVotes++;
+    //     }
+    //   }
+    //   return Math.round((ctr / userVotes) * 100);
+    // },
+    swissAgreementCategory(category) {
+      // TODO: merge with swissAgreement()
+      let ctr = 0.0;
+      let userVotes = 0;
+      for (var i = 0; i < this.term.subjects.length; i++) {
+        let vote = this.term.subjects[i];
+        if (!vote.categories?.find((cat) => cat[0] == category)) {
+          continue;
+        }
+
+        let userVote = this.$store.getters.getUserVote(vote.id);
+        if (!userVote) {
+          continue;
+        }
+        if (userVote.answer == vote.outcome) {
+          ctr++;
+        }
+        if (userVote.answer == Answer.Abstention) {
+          ctr += 0.5;
+        }
+        if (userVote.answer != Answer.Novote) {
+          userVotes++;
+        }
+      }
+      return Math.round((ctr / userVotes) * 100);
+    },
+    partyAgreementCategory(party, category) {
+      let agreement = 0.0;
+      let userVotes = 0;
+      for (var i = 0; i < this.term.subjects.length; i++) {
+        let vote = this.term.subjects[i];
+        if (!vote.categories?.find((cat) => cat[0] == category)) {
+          continue;
+        }
+
+        let userVote = this.$store.getters.getUserVote(vote.id);
+        if (!userVote) {
+          continue;
+        }
+        let partyVote = vote.parties.find((partyVote) => partyVote.id == party);
+        if (!partyVote) {
+          continue;
+        }
+        if (userVote.answer == partyVote.answer) {
+          agreement++;
+        } else if (userVote.answer == Answer.Abstention) {
+          agreement += 0.5;
+        }
+
+        if (userVote.answer != Answer.Novote) {
+          userVotes++;
+        }
+      }
+      return Math.round(100 * (agreement / userVotes));
+    },
     partyAgreement(party) {
       let agreement = 0.0;
       let userVotes = 0;
