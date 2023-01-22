@@ -89,7 +89,7 @@ export default {
   data: function () {
     return {
       subject: this.$store.getters.getSubjectByHash(this.term_hash, this.subject_id),
-      userVote: this.$store.getters.getUserVote(this.subject_id),
+      userVote: this.$store.getters.getUserVote(this.subject_id) || {},
     };
   },
   setup() {
