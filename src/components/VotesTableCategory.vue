@@ -11,12 +11,12 @@
           <div class="col-12 col-lg-6">{{ category }}</div>
           <div class="col-12 col-lg-6">
             <div class="row">
-              <Percentage
+              <PercentageValue
                 v-bind:percentage="swissAgreementCategory(category)"
                 v-bind:color="true"
               />
-              <Percentage v-bind:percentage="'-'" v-bind:color="false" />
-              <Percentage
+              <PercentageValue v-bind:percentage="'-'" v-bind:color="false" />
+              <PercentageValue
                 v-for="party in this.parties"
                 v-bind:key="party"
                 v-bind:percentage="partyAgreementCategory(party.name, category)"
@@ -75,7 +75,7 @@
 
 <script>
 import { Answer } from "@/Answer.js";
-import Percentage from "@/components/Percentage.vue";
+import PercentageValue from "@/components/PercentageValue.vue";
 // import Ja from "@/assets/ja.svg";
 // import Nein from "@/assets/nein.svg";
 // import Abstention from "@/assets/abstention.svg";
@@ -97,7 +97,7 @@ export default {
   // },
   components: {
     // FontAwesomeIcon,
-    Percentage,
+    PercentageValue,
     VotesTableSubject,
   },
   computed: {

@@ -16,7 +16,7 @@ const yellow = chroma.lab(89.61, 2.04, 60.43);
 const green = chroma.lab(82.92, -35.03, 29.72);
 
 export default {
-  name: "Percentage",
+  name: "PercentageValue",
   props: ["percentage", "color"],
   components: {
     FontAwesomeIcon,

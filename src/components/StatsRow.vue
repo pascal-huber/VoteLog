@@ -3,9 +3,9 @@
     <div class="col-12 col-lg-6">Übereinstimmung</div>
     <div class="col-12 col-lg-6">
       <div class="row">
-        <Percentage v-bind:percentage="swissAgreement" v-bind:color="true" />
-        <Percentage v-bind:percentage="'-'" v-bind:color="false" />
-        <Percentage
+        <PercentageValue v-bind:percentage="swissAgreement" v-bind:color="true" />
+        <PercentageValue v-bind:percentage="'-'" v-bind:color="false" />
+        <PercentageValue
           v-for="party in parties"
           v-bind:key="party"
           v-bind:percentage="partyAgreement(party.name)"
@@ -18,13 +18,13 @@
 
 <script>
 import { Answer } from "@/Answer.js";
-import Percentage from "@/components/Percentage.vue";
+import PercentageValue from "@/components/PercentageValue.vue";
 
 export default {
   name: "VotesTable",
   props: ["parties", "subjects", "category"],
   components: {
-    Percentage,
+    PercentageValue,
   },
   computed: {
     swissAgreement() {
