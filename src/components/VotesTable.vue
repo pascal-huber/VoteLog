@@ -7,7 +7,8 @@
     </div>
     <div class="row" v-else>
       <div class="col col-6 col-md-6">
-        <h2>Abstimmungen</h2>
+        <h2 v-if="!category">Abstimmungen</h2>
+        <h2 v-else>Kategorien</h2>
       </div>
       <div class="col col-6 d-flex justify-content-end">
         <div class="align-self-center p-2">
