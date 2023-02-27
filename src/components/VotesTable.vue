@@ -83,16 +83,10 @@ import StatsRow from "@/components/StatsRow.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default {
-  // TODO: remove beforeUpdate
-  beforeUpdate() {
-    // console.log("beforeUpdate");
-  },
   name: "VotesTable",
   props: ["term", "category"],
   data: function () {
     return {
-      // term: this.$store.getters.getTerm(),
-      // category: this.category,
       editSubject: undefined,
       editUserVote: undefined,
       filter: "all",
@@ -106,7 +100,6 @@ export default {
     FontAwesomeIcon,
   },
   computed: {
-    // TODO: redundant with analysis
     categories() {
       let categories = new Set();
       for (var i = 0; i < this.term.subjects.length; i++) {
@@ -136,15 +129,6 @@ export default {
         return false;
       });
     },
-    // TODO: move this somewhere else
-    // period() {
-    //   return this.$store.state.period;
-    // },
-    // periodSubjects(){
-    //   let x = this.$store.getters.getSubjectsForPeriod();
-    //   console.log(x);
-    //   return x;
-    // },
     loggedIn() {
       return this.$store.getters.isLoggedIn();
     },
@@ -211,7 +195,7 @@ export default {
 @import "bootstrap/scss/_functions.scss";
 @import "bootstrap/scss/_variables.scss";
 @import "bootstrap/scss/_mixins.scss";
-@import "colors.scss";
+@import "@/colors.scss";
 
 .agree > .svg-logo {
   background: $blue;
@@ -244,7 +228,7 @@ export default {
 
 .vote-list > div:not(:last-child),
 .category-list > div:not(:last-child) {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $colorNeutral;
   margin-top: 2px;
   padding-bottom: 2px;
 }
@@ -279,7 +263,7 @@ export default {
 }
 
 @include media-breakpoint-up(md) {
-  /* larger icons for large layout */
+  /* NOTE: larger icons for large layout */
   .svg-logo {
     width: 35px;
     height: 25px;

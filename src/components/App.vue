@@ -30,15 +30,6 @@ export default {
       term: this.$store.getters.getTerm(this.term_hash),
     };
   },
-  // async beforeMount() {
-  //   // TODO: make this nicer, it is really ugly
-  //   if (!this.$store.getters.isLoggedIn()) {
-  //     await this.$store.dispatch("init");
-  //   }
-  //   if (!this.$store.getters.fetchedData()) {
-  //     await this.$store.dispatch("getData");
-  //   }
-  // },
 };
 </script>
 

@@ -10,7 +10,6 @@
           <div class="col svg-col" align="center">
             <font-awesome-icon class="fa-2x" :icon="['fas', 'user']" />
           </div>
-          <!-- TODO: dont access store directly -->
           <div
             v-for="party in parties"
             v-bind:key="party.name"
@@ -80,7 +79,6 @@ export default {
       return offsetTop;
     },
     handleScroll() {
-      // shift bt padding-top of #headerrow
       if (window.pageYOffset > this.sticky - 4) {
         this.header.classList.add("sticky");
       } else {
@@ -96,7 +94,7 @@ export default {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  /* background generated with https://cssgradient.io/ */
+  /* NOTE: background generated with https://cssgradient.io/ */
   background: rgb(255, 255, 255);
   background: linear-gradient(
     180deg,

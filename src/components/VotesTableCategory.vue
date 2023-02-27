@@ -66,7 +66,6 @@ export default {
     VotesTableSubject,
   },
   computed: {
-    // TODO: redundant function userVote
     htCategory() {
       return "#" + this.category.replace(regex, "");
     },
@@ -139,11 +138,6 @@ export default {
 </script>
 
 <style>
-/* .ja-nein {
-    width: 40px;
-    height: 30px;
-    padding: 0;
-    } */
 .votecard-category:hover {
   cursor: pointer;
 }
@@ -159,16 +153,7 @@ export default {
   white-space: nowrap;
 }
 
-.category > * {
-  /* margin: 0; */
-  /* padding: 0; */
-  /* background: #eee; */
-  /* transition-delay: background 1s; */
-  /* padding: 0rem; */
-}
-
 .accordion-collapse {
   border-top: 1px solid #ddd;
 }
-
 </style>

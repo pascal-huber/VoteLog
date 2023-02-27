@@ -172,7 +172,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './colors.scss';
+@import '@/colors.scss';
 .svg-logo-huge {
   width: 60px;
   height: 40px;

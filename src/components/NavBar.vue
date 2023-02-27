@@ -3,7 +3,6 @@
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand" href="">
         <img :src="Switzerland" class="swiss-logo" />
-        <!-- <span class="navbar-brand m-3" v-if="!loggedIn">VoteLog</span> -->
       </router-link>
       <ul v-if="this.termHash()" class="navbar-nav me-auto">
         <li class="nav-item">
@@ -59,10 +58,6 @@ import Switzerland from "@/assets/switzerland_coat-of-arms.svg";
 export default {
   name: "NavBar",
   props: ["loggedIn", "unsavedChanges", "term_hash"],
-  // loggedIn: Boolean,
-  // unsavedChanges: Boolean,
-  // term_hash: String,
-  // },
   components: {
     FontAwesomeIcon,
   },
@@ -73,12 +68,8 @@ export default {
   },
   computed: {},
   methods: {
-    // term(){
-    //   return this.$store.getters.getTerm(this.term_hash);
-    // },
     termHash() {
-      // TODO: make this nicer
-      return this.$store.getters.getTerm(this.term_hash)?.hash; // || this.$store.getters.getTerm(undefined)?.term_hash;
+      return this.$store.getters.getTerm(this.term_hash)?.hash; 
     },
     logout() {
       this.$store.dispatch("logout");

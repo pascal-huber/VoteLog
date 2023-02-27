@@ -11,12 +11,6 @@
 import chroma from "chroma-js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-// const red = chroma.lab(67.27, 38.01, 25.63);
-// const yellow = chroma.lab(94.63, -9.99, 41.25);
-// const blue = chroma.lab(78.92440299097102, -5.974876605936153, -15.651050205886508);
-// const gray = chroma.lab(90, 0, 0);
-
-
 const red = chroma.lab(67, 38, 26);
 const yellow = chroma.lab(95, 12, 40);
 const blue = chroma.lab(79, -6, -16);

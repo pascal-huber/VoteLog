@@ -44,7 +44,6 @@
 <script>
 export default {
   data: function () {
-    // TODO: Add environment variable for default webDav server
     return {
       webDav: process.env.VUE_APP_WEBDAV_URI,
       userName: undefined,

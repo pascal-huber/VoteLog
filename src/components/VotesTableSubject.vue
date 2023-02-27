@@ -46,7 +46,6 @@
         </div>
 
         <!-- Parties -->
-        <!-- TODO: make sure they are in the right order -->
         <div
           class="col svg-col"
           align="center"
@@ -151,11 +150,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "colors.scss";
-
-// .votecard:hover {
-//   cursor: pointer;
-// }
+@import "@/colors.scss";
 
 .datetext {
   color: gray;
