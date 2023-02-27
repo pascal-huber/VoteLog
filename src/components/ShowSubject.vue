@@ -5,18 +5,7 @@
         <h2 v-if="!subject">Vorlage nicht gefunden</h2>
         <h2 v-else>{{ subject.name }}</h2>
       </div>
-      <div class="col-sm-12 col-md-2 md-text-end">
-        <router-link
-          :to="{
-            name: 'editSubject',
-            params: { term_hash: this.term_hash, subject_id: this.subject_id },
-          }"
-          type="button"
-          class="btn btn-primary"
-        >
-          Bearbeiten
-        </router-link>
-      </div>
+      <div class="col-sm-12 col-md-2 md-text-end"></div>
 
       <div class="col-2">ID:</div>
       <div class="col-10">
@@ -39,8 +28,20 @@
         </ul>
       </div>
 
-      <div class="col-12 mt-4">
+      <div class="col-12 col-md-6 mt-4">
         <h4>Deine Stimme</h4>
+      </div>
+      <div class="col-12 col-md-6 mt-4">
+        <router-link
+          :to="{
+            name: 'editSubject',
+            params: { term_hash: this.term_hash, subject_id: this.subject_id },
+          }"
+          type="button"
+          class="btn btn-primary"
+        >
+          Bearbeiten
+        </router-link>
       </div>
 
       <div class="col-3">Stimme:</div>
@@ -64,21 +65,15 @@
         <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
       </div>
 
-      <!-- <div class="col-3">Einverstanden zu:</div>
-      <div class="col-9" v-if="!!this.userVote?.agreement">
-        {{ this.userVote?.agreement }}%
-      </div>
-      <div class="col-9" v-else>
-        <font-awesome-icon
-          v-if="this.userVote == undefined"
-          class="neutral"
-          :icon="['fas', 'question']"
-        />
-      </div> -->
+      <div class="col-3">Gewichtung:</div>
+      <div v-if="this.userVote?.importance == 0" class="col-9">0</div>
+      <div v-else class="col-9">{{ this.userVote?.importance || 1}}x</div>
 
       <div class="col-3">Begründung:</div>
       <div class="col-9">
-        {{ this.userVote?.reasoning }}
+        <span style="white-space: pre">
+          {{ this.userVote?.reasoning }}
+        </span>
       </div>
       <div class="col-12 mt-4">
         <h4>Weitere Resourcen</h4>
@@ -126,7 +121,7 @@ export default {
   computed: {
     uniqueCategories() {
       let categories = new Set();
-      for(var i = 0; i < this.subject.categories.length; i++){
+      for (var i = 0; i < this.subject.categories.length; i++) {
         categories.add(this.subject.categories[i][0]);
       }
       return [...categories];

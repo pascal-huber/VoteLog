@@ -4,7 +4,7 @@
     <!-- source: https://laracasts.com/discuss/channels/vue/vue-2-reload-component-when-same-route-is-requested?page=1 -->
     <router-view :key="$route.fullPath"></router-view>
     <footer id="footer" class="pb-2 pt-4 mt-auto text-center">
-      <a href="https://github.com/pascal-huber/votey-vue" target="_blank">VoteLog</a> by
+      <a href="https://github.com/pascal-huber/VoteLog" target="_blank">VoteLog</a> by
       Pascal Huber
     </footer>
   </div>

@@ -9,7 +9,7 @@
       <div class="col col-6 col-md-6">
         <h2>Abstimmungen</h2>
       </div>
-      <div class="col col-6 d-flex justify-content-md-end">
+      <div class="col col-6 d-flex justify-content-end">
         <div class="align-self-center p-2">
           <!-- TODO: find a nicer way if prevTermHash is undefined -->
           <span v-if="prevTermHash">
@@ -20,7 +20,7 @@
           <font-awesome-icon v-else class="fa-2x" :icon="['fas', 'angle-left']" />
         </div>
         <div class="align-self-center p-2">
-          <span class="term_name">{{ this.termName() }}</span>
+          <span class="term_name">{{ term.hash }}</span>
         </div>
         <div class="align-self-center p-2">
           <!-- TODO: find a nicer way if nextTermHash is undefined -->
@@ -43,12 +43,14 @@
       </div>
 
       <HeaderRow v-bind:parties="term.parties" />
-      <div v-if="!category" class="container">
-        <StatsRow
-          v-bind:parties="term.parties"
-          v-bind:subjects="filteredSubjects"
-          v-bind:category="filter"
-        />
+      <div v-if="!category" class="container vote-list">
+        <div>
+          <StatsRow
+            v-bind:parties="term.parties"
+            v-bind:subjects="filteredSubjects"
+            v-bind:category="filter"
+          />
+        </div>
         <div v-for="subject in filteredSubjects" v-bind:key="subject.id">
           <VotesTableSubject
             v-bind:term_hash="this.term.hash"
@@ -58,7 +60,7 @@
           />
         </div>
       </div>
-      <div v-else>
+      <div v-else class="category-list">
         <div v-for="category in categories" v-bind:key="category">
           <VotesTableCategory
             v-bind:category="category"
@@ -179,7 +181,6 @@ export default {
       return subjects;
     },
     toggleCategory() {
-      // this.category = !this.category;
       if (this.category) {
         this.$router.push({ name: "votesTable" });
       } else {
@@ -191,18 +192,8 @@ export default {
       let prefix = "\xa0".repeat((arr.length - 1) * 5);
       return prefix + arr[arr.length - 1];
     },
-    termName() {
-      return (
-        this.term.start_date.getFullYear() + " - " + this.term.end_date.getFullYear()
-      );
-    },
     userVote(subject_id) {
-      // TODO: remove this
       return this.$store.getters.getUserVote(subject_id);
-      // if(this.$store.state.votes == undefined){
-      //     return undefined
-      // }
-      // return this.$store.state.votes.find(e => e.id == subject_id)
     },
     edit(subject) {
       this.editSubject = subject;
@@ -212,10 +203,6 @@ export default {
       this.editSubject = undefined;
       this.editUserVote = undefined;
     },
-    changeVote() {
-      // TODO: remove?
-      alert("changin vote...");
-    },
   },
 };
 </script>
@@ -224,18 +211,16 @@ export default {
 @import "bootstrap/scss/_functions.scss";
 @import "bootstrap/scss/_variables.scss";
 @import "bootstrap/scss/_mixins.scss";
-
-$colorNeutral: #ddd;
+@import "colors.scss";
 
 .agree > .svg-logo {
-  background: #96e094;
+  background: $blue;
 }
 .disagree > .svg-logo {
-  background: #eb8778;
-  // background: #428bca;
+  background: $red;
 }
 .semiagree > .svg-logo {
-  background: #fad38c;
+  background: $yellow;
 }
 .neutral {
   color: $colorNeutral;
@@ -245,57 +230,10 @@ $colorNeutral: #ddd;
   font-size: 1.2rem;
 }
 
-/* .success {
-    color: $colorGood
-    }
-    .unsuccessful {
-    color: $colorBad
-    }
-  */
-
-td:nth-child(2) {
-  width: 100px;
-}
-
-td:nth-child(3),
-th:nth-child(3),
-td:nth-child(4),
-th:nth-child(4) {
-  border-right: 2px solid $colorNeutral;
-}
-
 .button:hover {
   color: #8987f3;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  display: block;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-}
-
-tr {
-  border: none;
-}
-
-td,
-th {
-  text-align: center;
-  padding-left: 2px;
-  padding-right: 5px;
-}
-
-/* .svg-party-logo-gp {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    margin: 0;
-    margin-bottom: 0px;
-    }
-  */
 .content-row {
   border-top: 1px solid #efefef;
 }
@@ -304,43 +242,21 @@ th {
   background-color: #f3f3f3;
 }
 
-.date-cell {
-}
-
-.party-cell {
-  width: 45px;
-  text-align: center;
-}
-
-.title-cell,
-.title-cell > div {
-  width: 100%; /* TODO: css, wtf? */
-}
-
-.title-cell {
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.detail-content {
-  text-align: left;
-
-  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  white-space: pre-wrap; /* css-3 */
-  word-wrap: break-word; /* Internet Explorer 5.5+ */
-  white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
-  word-break: break-all;
-  white-space: normal;
-}
-
-.votecard {
+.vote-list > div:not(:last-child),
+.category-list > div:not(:last-child) {
   border-bottom: 1px solid #ddd;
-  margin-top: 10px;
-  padding-bottom: 10px;
+  margin-top: 2px;
+  padding-bottom: 2px;
+}
+
+.vote-list > div,
+.category-list > div {
+  cursor: pointer;
+}
+
+.svg-col {
+  padding: 0;
+  margin: 0 2px;
 }
 
 .svg-logo-swiss {
@@ -362,7 +278,7 @@ th {
   margin: 0;
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(md) {
   /* larger icons for large layout */
   .svg-logo {
     width: 35px;
@@ -372,16 +288,5 @@ th {
     width: 35px;
     height: 30px;
   }
-
-  /* spacing between votes */
-  .votecard {
-    margin-top: 2px;
-    padding-bottom: 2px;
-  }
-}
-
-.svg-col {
-  padding: 0;
-  margin: 0;
 }
 </style>

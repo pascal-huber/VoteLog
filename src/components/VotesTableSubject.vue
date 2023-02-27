@@ -1,14 +1,23 @@
 <template>
-  <div class="row votecard" @click="showDetails">
-    <div class="col-10 col-lg-5 order-lg-2">
-      {{ subject.name }}
-    </div>
-    <div class="col-2 col-lg-1 text-end text-lg-start order-lg-1">
-      <small class="datetext"
-        >{{ ("0" + (subject.date.getMonth() + 1)).slice(-2) }}/{{
-          subject.date.getFullYear().toString().substring(2)
-        }}</small
-      >
+  <div class="row" @click="showDetails">
+    <div class="col-12 col-lg-6">
+      <div class="d-flex">
+        <div class="order-lg-2 me-auto p-0 px-lg-2">
+          <span :class="{ 'text-secondary': this.userVote?.importance == 0 }">
+            {{ subject.name }}
+          </span>
+        </div>
+        <div class="importance-cell">
+          <ImportanceSymbol v-bind:importance="userVote?.importance" />
+        </div>
+        <div class="date-cell">
+          <small class="datetext"
+            >&nbsp;{{ ("0" + (subject.date.getMonth() + 1)).slice(-2) }}/{{
+              subject.date.getFullYear().toString().substring(2)
+            }}</small
+          >
+        </div>
+      </div>
     </div>
     <div class="col-12 col-lg-6 order-3">
       <div class="row">
@@ -69,47 +78,37 @@
 </template>
 
 <script>
-// <tr class="content-row">
-//      <tr>
-//      <td colspan="10">
-//      <div class="detail-row collapse detail-content" :id="'collapse-row-' + subject.id">
-//      <div v-show="userVote?.reasoning">
-//      <small><b>Begründung: </b></small> {{ userVote?.reasoning }}
-//      </div>
-//      <router-link type="button" class="btn btn-primary btn-sm" :to="'/' + subject.hash + '/edit'">
-//      <font-awesome-icon
-//      :icon="['fas', 'edit']"/>
-//      </router-link>
-//      </div>
-//      </td>
-//      </tr>
-//
-import { Answer } from "@/Answer.js";
-import Ja from "@/assets/ja.svg";
-import Nein from "@/assets/nein.svg";
-import Abstention from "@/assets/abstention.svg";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { Answer } from "../Answer.js";
+import Novote from "@/assets/novote.svg";
+import Ja from "@/assets/ja.svg";
+import Abstention from "@/assets/abstention.svg";
+import ImportanceSymbol from "@/components/ImportanceSymbol.vue";
+import Nein from "@/assets/nein.svg";
+import T0x from "@/assets/0x.svg";
+import T1x from "@/assets/1x.svg";
+import T2x from "@/assets/2x.svg";
+import T4x from "@/assets/4x.svg";
 
 export default {
   name: "VotesTableSubject",
-  props: [
-    "subject",
-    "userVote",
-
-    "term_hash",
-    //  'parties',
-    "loggedIn",
-  ],
+  props: ["subject", "userVote", "term_hash", "loggedIn"],
   setup() {
     return {
-      Abstention,
       Answer,
+      Novote,
       Ja,
+      Abstention,
       Nein,
+      T0x,
+      T1x,
+      T2x,
+      T4x,
     };
   },
   components: {
     FontAwesomeIcon,
+    ImportanceSymbol,
   },
   computed: {
     classSwiss() {
@@ -125,10 +124,6 @@ export default {
     },
   },
   methods: {
-    // NOTE: might need this when refactoring
-    // edit(subject) {
-    //   this.$parent.edit(subject);
-    // },
     showDetails() {
       if (this.loggedIn) {
         this.$router.push({
@@ -155,15 +150,12 @@ export default {
 };
 </script>
 
-<style>
-/* .ja-nein {
-    width: 40px;
-    height: 30px;
-    padding: 0;
-    } */
-.votecard:hover {
-  cursor: pointer;
-}
+<style lang="scss">
+@import "colors.scss";
+
+// .votecard:hover {
+//   cursor: pointer;
+// }
 
 .datetext {
   color: gray;
@@ -174,5 +166,21 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.importance {
+  color: $red;
+}
+
+.date-cell {
+  flex-basis: 40px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.importance-cell {
+  flex-basis: 20px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 </style>

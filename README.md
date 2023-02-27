@@ -1,7 +1,25 @@
 
-# Votey
+# VoteLog
 
-## Project setup
+Webapp to keep track of your votes in Switzerland and see which parties agree
+with you where.
+
+## Features
+ 
+ - Show and compare results of Swiss referendums and initiatives
+ - Provide reasoning for your decision
+ - Categorization by topics
+ - Load and store to WebDAV
+
+## Setup
+
+### Build and run Development WebDAV server
+```
+docker build -t webdav-dev dev/webdav/
+docker-compose -f dev/webdav/docker-compose.yml up -d
+``` 
+
+### Install dependencies
 ```
 npm install
 ```

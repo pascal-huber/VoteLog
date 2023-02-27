@@ -1,91 +1,52 @@
 <template>
-  <div class="row votecard">
+  <div class="row">
     <div class="col-12 col-lg-6">Übereinstimmung</div>
     <div class="col-12 col-lg-6">
       <div class="row">
-        <PercentageValue v-bind:percentage="swissAgreement" v-bind:color="true" />
-        <PercentageValue v-bind:percentage="'-'" v-bind:color="false" />
-        <PercentageValue
-          v-for="party in parties"
-          v-bind:key="party"
-          v-bind:percentage="partyAgreement(party.name)"
-          v-bind:color="true"
-        />
+        <div class="col svg-col">
+          <PercentageValue v-bind:percentage="swissAgreementX" v-bind:color="true" />
+        </div>
+        <div class="col svg-col">
+          <PercentageValue v-bind:percentage="'-'" v-bind:color="false" />
+        </div>
+        <div class="col svg-col" v-for="party in parties" v-bind:key="party">
+          <PercentageValue
+            v-bind:percentage="partyAgreementX(party.name)"
+            v-bind:color="true"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Answer } from "@/Answer.js";
+import { partyAgreement, swissAgreement } from "@/Answer.js";
 import PercentageValue from "@/components/PercentageValue.vue";
 
 export default {
   name: "VotesTable",
-  props: ["parties", "subjects", "category"],
+  props: ["parties", "subjects"],
   components: {
     PercentageValue,
   },
   computed: {
-    swissAgreement() {
-      let ctr = 0.0;
-      let userVotes = 0;
-      for (var i = 0; i < this.subjects.length; i++) {
-        let vote = this.subjects[i];
-        // console.log(vote);
-        let userVote = this.$store.getters.getUserVote(vote.id);
-        if (!userVote) {
-          continue;
-        }
-        if (userVote.answer == vote.outcome) {
-          ctr++;
-        }
-        if (userVote.answer == Answer.Abstention) {
-          ctr += 0.5;
-        }
-        if (userVote.answer != Answer.Novote) {
-          userVotes++;
-        }
-      }
-      return Math.round((ctr / userVotes) * 100);
+    // TODO: clean those functions
+    swissAgreementX() {
+      let userVotes = this.$store.getters.getUserVotes();
+      return swissAgreement(this.subjects, userVotes);
     },
   },
   methods: {
-    partyAgreement(party) {
-      let agreement = 0.0;
-      let userVotes = 0;
-      for (var i = 0; i < this.subjects.length; i++) {
-        let vote = this.subjects[i];
-        let userVote = this.$store.getters.getUserVote(vote.id);
-        if (!userVote) {
-          continue;
-        }
-        let partyVote = vote.parties.find((partyVote) => partyVote.id == party);
-        if (!partyVote) {
-          continue;
-        }
-        if (userVote.answer == partyVote.answer) {
-          agreement++;
-        } else if (userVote.answer == Answer.Abstention) {
-          agreement += 0.5;
-        }
-
-        if (userVote.answer != Answer.Novote) {
-          userVotes++;
-        }
-      }
-      return Math.round(100 * (agreement / userVotes));
+    partyAgreementX(party) {
+      let userVotes = this.$store.getters.getUserVotes();
+      return partyAgreement(party, userVotes, this.subjects);
     },
   },
 };
 </script>
 
 <style>
-/* .ja-nein {
-    width: 40px;
-    height: 30px;
-    padding: 0;
-    } */
 .votecard:hover {
   cursor: pointer;
 }

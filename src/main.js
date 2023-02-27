@@ -105,7 +105,7 @@ const store = createStore({
       if (store.getters.isLoggedIn()) {
         try {
           const client = store.getters.getClient();
-          const content = await client.getFileContents("/votey.json", { format: "text" });
+          const content = await client.getFileContents("/votelog.json", { format: "text" });
           commit('SET_DATA', { votes: JSON.parse(content) });
         } catch (error) {
           commit('SET_DATA', { votes: [] });
@@ -205,7 +205,9 @@ import {
   faAngleRight,
   faAngleLeft,
   faGripLinesVertical,
-  // faAngleDown,
+  faAngleDown,
+  faAngleUp,
+  faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faDiceThree)
 library.add(faCheck)
@@ -228,7 +230,9 @@ library.add(faSave)
 library.add(faAngleRight)
 library.add(faAngleLeft)
 library.add(faGripLinesVertical)
-// library.add(faAngleDown)
+library.add(faAngleDown)
+library.add(faAngleUp)
+library.add(faAngleDoubleUp)
 
 const routes = [
   {

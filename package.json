@@ -1,5 +1,5 @@
 {
-  "name": "votey-vue",
+  "name": "VoteLog",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -22,6 +22,7 @@
     "vue": "^3.2.45",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.1.6",
+    "vue-slider-component": "^4.1.0-beta.7",
     "vuex": "^4.1.0",
     "webdav": "^4.11.2"
   },
