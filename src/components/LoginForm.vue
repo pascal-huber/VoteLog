@@ -6,7 +6,7 @@
         <div v-if="loginFailed" class="alert alert-danger">Anmeldung fehlgeschlagen</div>
         <form>
           <div v-if="!customWebDav">
-            <span>server: {{ webDav }}&nbsp;</span><br />
+            <span>server: {{ defaultWebDav }}&nbsp;</span><br />
             <small>
               <a class="link-primary" @click="toggleWebDav">use different server</a>
             </small>
@@ -54,7 +54,8 @@
 export default {
   data: function () {
     return {
-      webDav: process.env.VUE_APP_WEBDAV_URI,
+      webDav: undefined,
+      defaultWebDav: process.env.VUE_APP_WEBDAV_URI,
       userName: undefined,
       password: undefined,
       loginFailed: false,
@@ -69,7 +70,7 @@ export default {
   methods: {
     async login() {
       const payload = {
-        webDav: this.webDav,
+        webDav: this.customWebDav ? this.webDav : this.defaultWebDav,
         userName: this.userName,
         password: this.password,
       };
