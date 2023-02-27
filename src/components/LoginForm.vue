@@ -1,11 +1,22 @@
 <template>
-  <div class="d-flex align-items-cente m-auto">
+  <div class="d-flex align-items-center m-auto">
     <div class="row">
       <div class="col-12">
         <h2>Anmelden</h2>
         <div v-if="loginFailed" class="alert alert-danger">Anmeldung fehlgeschlagen</div>
         <form>
-          <div class="form-group">
+          <div v-if="!customWebDav">
+            <span>server: {{ webDav }}&nbsp;</span><br />
+            <small>
+              <a class="link-primary" @click="toggleWebDav">use different server</a>
+            </small>
+          </div>
+          <div v-else>
+            <small>
+              <a class="link-primary" @click="toggleWebDav">use default server</a>
+            </small>
+          </div>
+          <div v-if="customWebDav" class="form-group">
             <input
               id="webDav"
               class="form-control"
@@ -31,9 +42,7 @@
             />
           </div>
           <div class="form-group">
-            <button type="button" class="btn btn-primary" v-on:click="login">
-              Anmelden
-            </button>
+            <button type="button" class="btn btn-primary" @click="login">Anmelden</button>
           </div>
         </form>
       </div>
@@ -49,6 +58,7 @@ export default {
       userName: undefined,
       password: undefined,
       loginFailed: false,
+      customWebDav: false,
     };
   },
   computed: {
@@ -66,11 +76,14 @@ export default {
       try {
         await this.$store.dispatch("login", payload);
         await this.$store.dispatch("getData");
-        this.$router.push({ path: '/' });
-      } catch(error) {
+        this.$router.push({ path: "/" });
+      } catch (error) {
         console.error(error);
         this.loginFailed = true;
       }
+    },
+    toggleWebDav() {
+      this.customWebDav = !this.customWebDav;
     },
   },
 };
