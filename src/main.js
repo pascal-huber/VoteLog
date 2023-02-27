@@ -10,11 +10,10 @@ import VueAxios from 'vue-axios'
 import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap'
 
-// TODO: Check out "mapGetters" for vuex. Do I want them?
+// TODO: Check out "mapGetters" for vuex.
 // import {mapGetters} from 'vuex';
 
 import App from '@/components/App.vue'
-// import Analysis from '@/components/Analysis.vue'
 import VotesTable from '@/components/VotesTable.vue'
 import Index from '@/components/Index.vue'
 import Login from '@/components/LoginForm.vue'
@@ -36,9 +35,6 @@ const store = createStore({
       terms: terms,
     }
   },
-  computed: {
-    // ...mapGetters(['getUserVote']),
-  },
   getters: {
     fetchedData: (state) => () => state.fetchedData,
     getClient: (state) => () => state.client,
@@ -49,7 +45,7 @@ const store = createStore({
     getTerm: (state) => (term_hash) => {
       let thash = term_hash;
       if (!thash) {
-        // TODO: compute defaultTermHash
+        // FIXME: compute defaultTermHash
         thash = "2019_23";
       }
       return state.terms.find(term => term.hash == thash);
@@ -115,7 +111,7 @@ const store = createStore({
     async sendData({ commit }) {
       const client = store.getters.getClient();
       let data = JSON.stringify(store.getters.getUserVotes());
-      await client.putFileContents("/votey.json", data, {
+      await client.putFileContents("/votelog.json", data, {
         contentLength: false,
         overwrite: true,
       });
@@ -172,7 +168,7 @@ const store = createStore({
     // },
     DELETE_VOTE(state, index) {
       state.userVotes.splice(index, 1);
-      state.unsavedChanges = true
+      state.unsavedChanges = true;
     },
     LOGOUT(state) {
       state.client = undefined;

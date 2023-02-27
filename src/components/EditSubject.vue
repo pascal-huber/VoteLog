@@ -142,11 +142,7 @@ export default {
       this.$router.go(-1);
     },
     setAnswer(answer) {
-      if (answer == this.userVote.answer) {
-        this.userVote.answer = undefined;
-      } else {
-        this.userVote.answer = answer;
-      }
+      this.userVote.answer = answer;
     },
     setImportance(importance) {
       this.userVote.importance = importance;
@@ -155,7 +151,7 @@ export default {
       var vote = {
         id: this.subject.id,
         answer: this.userVote.answer,
-        reasoning: this.userVote.reasoning,
+        reasoning: this.userVote.reasoning ? this.userVote.reasoning : undefined,
         importance: this.userVote.importance,
       };
       if (

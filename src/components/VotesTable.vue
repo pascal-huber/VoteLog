@@ -11,7 +11,6 @@
       </div>
       <div class="col col-6 d-flex justify-content-end">
         <div class="align-self-center p-2">
-          <!-- TODO: find a nicer way if prevTermHash is undefined -->
           <span v-if="prevTermHash">
             <router-link :to="{ params: { term_hash: prevTermHash } }" href="">
               <font-awesome-icon class="fa-2x" :icon="['fas', 'angle-left']" />
@@ -23,7 +22,6 @@
           <span class="term_name">{{ term.hash }}</span>
         </div>
         <div class="align-self-center p-2">
-          <!-- TODO: find a nicer way if nextTermHash is undefined -->
           <span v-if="nextTermHash">
             <router-link :to="{ params: { term_hash: nextTermHash } }" href="">
               <font-awesome-icon class="fa-2x" :icon="['fas', 'angle-right']" />

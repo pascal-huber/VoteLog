@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: color percentage -->
   <div class="col" :style="{ 'background-color': colorHex }" align="center">
     <font-awesome-icon v-if="this.percentage == '-'" class="neutral" :icon="['fas', 'grip-lines-vertical']" />
     <font-awesome-icon v-else-if="isNaN(this.percentage)" class="neutral" :icon="['fas', 'question']" />
@@ -11,6 +10,7 @@
 import chroma from "chroma-js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+// TODO: if possible, use base colors from colors.scss
 const red = chroma.lab(67, 38, 26);
 const yellow = chroma.lab(95, 12, 40);
 const blue = chroma.lab(79, -6, -16);

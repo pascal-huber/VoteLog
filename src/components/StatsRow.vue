@@ -31,13 +31,14 @@ export default {
     PercentageValue,
   },
   computed: {
-    // TODO: clean those functions
+    // TODO: if possible, get rid of this function
     swissAgreementX() {
       let userVotes = this.$store.getters.getUserVotes();
       return swissAgreement(this.subjects, userVotes);
     },
   },
   methods: {
+    // TODO: if possible, get rid of this function
     partyAgreementX(party) {
       let userVotes = this.$store.getters.getUserVotes();
       return partyAgreement(party, userVotes, this.subjects);
