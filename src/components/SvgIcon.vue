@@ -1,13 +1,13 @@
 <template>
-  <InlineSvg class="svg-logo" :src="require(`@/assets/${icon}.svg`)" />
+    <InlineSvg class="svg-logo" :src="require(`@/assets/${icon}.svg`)" />
 </template>
 
 <script>
-import InlineSvg from "vue-inline-svg";
+import InlineSvg from 'vue-inline-svg';
 export default {
-  props: ["icon"],
-  components: {
-    InlineSvg,
-  },
+    components: {
+        InlineSvg,
+    },
+    props: ['icon'],
 };
 </script>

@@ -2,14 +2,14 @@
 
 Build and start it:
 
-``` sh
+```sh
 docker build -t webdav-dev .
 docker-compose -f docker-compose.yml up -d
 ```
 
 Test it:
 
-``` sh
+```sh
 ❯ cadaver http://localhost:8080/
 Authentication required for Restricted on server `localhost':
 Username: cat
@@ -25,4 +25,3 @@ Deleting `justafile.txt': succeeded.
 dav:/> exit
 Connection to `localhost' closed.
 ```
-

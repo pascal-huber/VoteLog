@@ -9,16 +9,16 @@ const getters = {
         let thash = term_hash;
         if (!thash) {
             // FIXME: compute defaultTermHash
-            thash = "2019_23";
+            thash = '2019_23';
         }
-        return state.terms.find(term => term.hash == thash);
+        return state.terms.find((term) => term.hash == thash);
     },
-    getNextTermHash: (state) => (term_id) => state.terms.find(term => term.id == term_id + 1)?.hash,
-    getPrevTermHash: (state) => (term_id) => state.terms.find(term => term.id == term_id - 1)?.hash,
+    getNextTermHash: (state) => (term_id) => state.terms.find((term) => term.id == term_id + 1)?.hash,
+    getPrevTermHash: (state) => (term_id) => state.terms.find((term) => term.id == term_id - 1)?.hash,
     getConnection: (state) => () => state.connection,
     getTermHash: (state) => () => state.votes[2].hash,
     getUserVotes: (state) => () => state.userVotes,
-    getUserVote: (state) => (subjectId) => state.userVotes?.find(vote => vote.id == subjectId),
+    getUserVote: (state) => (subjectId) => state.userVotes?.find((vote) => vote.id == subjectId),
     getError: (state) => () => state.error,
     hasFetchedData: (state) => () => !!state.fetchedData,
     isLoggedIn: (state) => () => state.client != undefined,

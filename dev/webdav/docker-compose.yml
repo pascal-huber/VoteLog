@@ -4,4 +4,4 @@ services:
     image: webdav-dev
     restart: always
     ports:
-      - "8080:80"
+      - '8080:80'

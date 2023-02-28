@@ -1,3 +1,3 @@
 # Assets
 
- - Beth Ellen font for svg
+- Beth Ellen font for svg

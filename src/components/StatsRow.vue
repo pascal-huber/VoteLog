@@ -1,65 +1,62 @@
 <template>
-  <div class="row g-0">
-    <div class="col-12 col-lg-6">Übereinstimmung</div>
-    <div class="col-12 col-lg-6">
-      <div class="row g-0">
-        <div class="col svg-col">
-          <PercentageValue v-bind:percentage="swissAgreementX" v-bind:color="true" />
+    <div class="row g-0">
+        <div class="col-12 col-lg-6">Übereinstimmung</div>
+        <div class="col-12 col-lg-6">
+            <div class="row g-0">
+                <div class="col svg-col">
+                    <PercentageValue :percentage="swissAgreementX" :color="true" />
+                </div>
+                <div class="col svg-col">
+                    <PercentageValue :percentage="'-'" :color="false" />
+                </div>
+                <div v-for="party in parties" :key="party" class="col svg-col">
+                    <PercentageValue :percentage="partyAgreementX(party.name)" :color="true" />
+                </div>
+            </div>
         </div>
-        <div class="col svg-col">
-          <PercentageValue v-bind:percentage="'-'" v-bind:color="false" />
-        </div>
-        <div class="col svg-col" v-for="party in parties" v-bind:key="party">
-          <PercentageValue
-            v-bind:percentage="partyAgreementX(party.name)"
-            v-bind:color="true"
-          />
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-import { agreement } from "@/Answer.js";
-import PercentageValue from "@/components/PercentageValue.vue";
+import { agreement } from '@/Answer.js';
+import PercentageValue from '@/components/PercentageValue.vue';
 
 export default {
-  name: "VotesTable",
-  props: ["parties", "subjects"],
-  components: {
-    PercentageValue,
-  },
-  computed: {
-    // TODO: if possible, get rid of this function
-    swissAgreementX() {
-      let userVotes = this.$store.getters.getUserVotes();
-      return agreement(this.subjects, userVotes);
+    name: 'VotesTable',
+    components: {
+        PercentageValue,
     },
-  },
-  methods: {
-    // TODO: if possible, get rid of this function
-    partyAgreementX(party) {
-      let userVotes = this.$store.getters.getUserVotes();
-      return agreement(this.subjects, userVotes, party);
+    props: ['parties', 'subjects'],
+    computed: {
+        // TODO: if possible, get rid of this function
+        swissAgreementX() {
+            let userVotes = this.$store.getters.getUserVotes();
+            return agreement(this.subjects, userVotes);
+        },
     },
-  },
+    methods: {
+        // TODO: if possible, get rid of this function
+        partyAgreementX(party) {
+            let userVotes = this.$store.getters.getUserVotes();
+            return agreement(this.subjects, userVotes, party);
+        },
+    },
 };
 </script>
 
 <style>
 .votecard:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .datetext {
-  color: gray;
+    color: gray;
 }
 
 .subject-title {
-  display: block !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    display: block !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 </style>
