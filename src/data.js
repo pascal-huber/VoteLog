@@ -166,7 +166,11 @@ export const terms = [
                     // "Steuerwesen",
                     // "Finanzwesen",
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern'],
-                    ['Wirtschaft', 'Finanzwesen', 'Banken, Börsen, Versicherungen'],
+                    [
+                        'Wirtschaft',
+                        'Finanzwesen',
+                        'Banken, Börsen, Versicherungen',
+                    ],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -190,7 +194,11 @@ export const terms = [
                 categories: [
                     // "Soziale Gruppen",
                     // "Sozialversicherungen",
-                    ['Sozialpolitik', 'Sozialversicherungen', 'Alters- und Hinterbliebenenversicherung'],
+                    [
+                        'Sozialpolitik',
+                        'Sozialversicherungen',
+                        'Alters- und Hinterbliebenenversicherung',
+                    ],
                     ['Sozialpolitik', 'Soziale Gruppen', 'Stellung der Frau'],
                 ],
                 parties: [
@@ -215,8 +223,16 @@ export const terms = [
                 categories: [
                     // "Sozialversicherungen",
                     // "Steuerwesen",
-                    ['Sozialpolitik', 'Sozialversicherungen', 'Alters- und Hinterbliebenenversicherung'],
-                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
+                    [
+                        'Sozialpolitik',
+                        'Sozialversicherungen',
+                        'Alters- und Hinterbliebenenversicherung',
+                    ],
+                    [
+                        'Öffentliche Finanzen',
+                        'Steuerwesen',
+                        'Indirekte Steuern',
+                    ],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -318,7 +334,11 @@ export const terms = [
                     // "Medien und Kommunikation",
                     // "Wirtschaftspolitik"
                     ['Kultur, Religion, Medien', 'Kulturpolitik'],
-                    ['Kultur, Religion, Medien', 'Medien und Kommunikation', 'Radio, Fernsehen, Elektronische Medien'],
+                    [
+                        'Kultur, Religion, Medien',
+                        'Medien und Kommunikation',
+                        'Radio, Fernsehen, Elektronische Medien',
+                    ],
                     ['Wirtschaft', 'Wirtschaftspolitik', 'Strukturpolitik'],
                 ],
                 parties: [
@@ -366,8 +386,16 @@ export const terms = [
                 // Öffentliche Finanzen > Steuerwesen > Indirekte Steuern
                 // Wirtschaft > Finanzwesen > Banken, Börsen, Versicherungen
                 categories: [
-                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
-                    ['Wirtschaft', 'Finanzwesen', 'Banken, Börsen, Versicherungen'],
+                    [
+                        'Öffentliche Finanzen',
+                        'Steuerwesen',
+                        'Indirekte Steuern',
+                    ],
+                    [
+                        'Wirtschaft',
+                        'Finanzwesen',
+                        'Banken, Börsen, Versicherungen',
+                    ],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -394,7 +422,11 @@ export const terms = [
                     // "Soziale Gruppen",
                     // "Wirtschaftspolitik"
                     ['Sozialpolitik', 'Gesundheit', 'Suchtmittel'],
-                    ['Sozialpolitik', 'Soziale Gruppen', 'Kinder und Jugendliche'],
+                    [
+                        'Sozialpolitik',
+                        'Soziale Gruppen',
+                        'Kinder und Jugendliche',
+                    ],
                     ['Wirtschaft', 'Wirtschaftspolitik', 'Wettbewerbspolitik'],
                 ],
                 parties: [
@@ -421,7 +453,11 @@ export const terms = [
                     // "Bildung und Forschung",  // top level
                     // "Gesundheit",
                     ['Bildung und Forschung', 'Forschung', 'Tierversuche'],
-                    ['Sozialpolitik', 'Gesundheit', 'Medizinforschung und -technik'],
+                    [
+                        'Sozialpolitik',
+                        'Gesundheit',
+                        'Medizinforschung und -technik',
+                    ],
                     ['Sozialpolitik', 'Gesundheit', 'Medikamente'],
                 ],
                 parties: [
@@ -501,8 +537,16 @@ export const terms = [
                     // "Sozialversicherungen",
                     // "Arbeit und Beschäftigung"
                     ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
-                    ['Sozialpolitik', 'Sozialversicherungen', 'Kranken- und Unfallversicherung'],
-                    ['Wirtschaft', 'Arbeit und Beschäftigung', 'Arbeitsbedingungen'],
+                    [
+                        'Sozialpolitik',
+                        'Sozialversicherungen',
+                        'Kranken- und Unfallversicherung',
+                    ],
+                    [
+                        'Wirtschaft',
+                        'Arbeit und Beschäftigung',
+                        'Arbeitsbedingungen',
+                    ],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -543,7 +587,13 @@ export const terms = [
                 name: 'Löhne entlasten, Kapital gerecht besteuern',
                 hash: '2021-09_646',
                 outcome: Answer.No,
-                categories: [['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern Sozialpolitik']],
+                categories: [
+                    [
+                        'Öffentliche Finanzen',
+                        'Steuerwesen',
+                        'Direkte Steuern Sozialpolitik',
+                    ],
+                ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
                     { id: 'GP', answer: Answer.Yes },
@@ -562,7 +612,11 @@ export const terms = [
                 hash: '2021-06_645',
                 outcome: Answer.Yes,
                 categories: [
-                    ['Sicherheitspolitik', 'Öffentliche Sicherheit', 'Staatsschutz'],
+                    [
+                        'Sicherheitspolitik',
+                        'Öffentliche Sicherheit',
+                        'Staatsschutz',
+                    ],
                     ['Staatsordnung', 'Rechtsordnung', 'Grundrechte'],
                     ['Sicherheitspolitik', 'Öffentliche Sicherheit', 'Polizei'],
                 ],
@@ -586,7 +640,11 @@ export const terms = [
                 categories: [
                     ['Umwelt und Lebensraum', 'Umwelt', 'Umweltpolitik'],
                     ['Energie', 'Erdöl – Gas'],
-                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
+                    [
+                        'Öffentliche Finanzen',
+                        'Steuerwesen',
+                        'Indirekte Steuern',
+                    ],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -779,7 +837,10 @@ export const terms = [
                 name: 'Kampfjetbeschaffung',
                 hash: '2020-09_635',
                 outcome: Answer.Yes,
-                categories: [['Sicherheitspolitik', 'Armee', 'Rüstung'], ['Öffentliche Finanzen']],
+                categories: [
+                    ['Sicherheitspolitik', 'Armee', 'Rüstung'],
+                    ['Öffentliche Finanzen'],
+                ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },

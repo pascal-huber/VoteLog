@@ -3,7 +3,9 @@
         <div class="col-12 col-lg-6">
             <div class="d-flex">
                 <div class="order-lg-2 me-auto p-0 px-lg-2">
-                    <span :class="{ 'text-secondary': userVote?.importance == 0 }">
+                    <span
+                        :class="{ 'text-secondary': userVote?.importance == 0 }"
+                    >
                         {{ subject.name }}
                     </span>
                 </div>
@@ -12,7 +14,9 @@
                 </div>
                 <div class="date-cell">
                     <small class="datetext"
-                        >&nbsp;{{ ('0' + (subject.date.getMonth() + 1)).slice(-2) }}/{{
+                        >&nbsp;{{
+                            ('0' + (subject.date.getMonth() + 1)).slice(-2)
+                        }}/{{
                             subject.date.getFullYear().toString().substring(2)
                         }}</small
                     >
@@ -23,18 +27,50 @@
             <div class="row g-0">
                 <!-- Switzerland -->
                 <div class="col svg-col" align="center" :class="classSwiss">
-                    <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
-                    <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
-                    <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+                    <img
+                        v-if="subject.outcome == Answer.Yes"
+                        :src="Ja"
+                        class="svg-logo"
+                    />
+                    <img
+                        v-else-if="subject.outcome == Answer.No"
+                        :src="Nein"
+                        class="svg-logo"
+                    />
+                    <font-awesome-icon
+                        v-else
+                        class="neutral"
+                        :icon="['fas', 'question']"
+                    />
                 </div>
 
                 <!-- Me -->
                 <div class="col svg-col" align="center">
-                    <font-awesome-icon v-if="userVote == undefined" class="neutral" :icon="['fas', 'question']" />
-                    <img v-else-if="userVote.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-                    <img v-else-if="userVote.answer == Answer.No" :src="Nein" class="svg-logo" />
-                    <img v-else-if="userVote.answer == Answer.Abstention" :src="Abstention" class="svg-logo" />
-                    <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+                    <font-awesome-icon
+                        v-if="userVote == undefined"
+                        class="neutral"
+                        :icon="['fas', 'question']"
+                    />
+                    <img
+                        v-else-if="userVote.answer == Answer.Yes"
+                        :src="Ja"
+                        class="svg-logo"
+                    />
+                    <img
+                        v-else-if="userVote.answer == Answer.No"
+                        :src="Nein"
+                        class="svg-logo"
+                    />
+                    <img
+                        v-else-if="userVote.answer == Answer.Abstention"
+                        :src="Abstention"
+                        class="svg-logo"
+                    />
+                    <font-awesome-icon
+                        v-else
+                        class="neutral"
+                        :icon="['fas', 'question']"
+                    />
                 </div>
 
                 <!-- Parties -->
@@ -45,9 +81,21 @@
                     align="center"
                     :class="partyAnswers[i].answerClass"
                 >
-                    <img v-if="partyAnswers[i].answer == Answer.Yes" :src="Ja" class="svg-logo" />
-                    <img v-else-if="partyAnswers[i].answer == Answer.No" :src="Nein" class="svg-logo" />
-                    <img v-else-if="partyAnswers[i].answer == Answer.Abstention" :src="Abstention" class="svg-logo" />
+                    <img
+                        v-if="partyAnswers[i].answer == Answer.Yes"
+                        :src="Ja"
+                        class="svg-logo"
+                    />
+                    <img
+                        v-else-if="partyAnswers[i].answer == Answer.No"
+                        :src="Nein"
+                        class="svg-logo"
+                    />
+                    <img
+                        v-else-if="partyAnswers[i].answer == Answer.Abstention"
+                        :src="Abstention"
+                        class="svg-logo"
+                    />
                     <font-awesome-icon
                         v-else-if="partyAnswers[i].answer == Answer.Novote"
                         class="neutral"
@@ -95,12 +143,18 @@ export default {
     },
     computed: {
         classSwiss() {
-            return this.classAgreement(this.userVote?.answer, this.subject.outcome);
+            return this.classAgreement(
+                this.userVote?.answer,
+                this.subject.outcome
+            );
         },
         partyAnswers() {
             var answers = [];
             for (let vote of this.subject.parties) {
-                var voteClass = this.classAgreement(this.userVote?.answer, vote.answer);
+                var voteClass = this.classAgreement(
+                    this.userVote?.answer,
+                    vote.answer
+                );
                 answers.push({ answer: vote?.answer, answerClass: voteClass });
             }
             return answers;
@@ -123,7 +177,10 @@ export default {
                 return 'neutral';
             } else if (otherVote == userVote) {
                 return 'agree';
-            } else if (otherVote == Answer.Abstention || userVote == Answer.Abstention) {
+            } else if (
+                otherVote == Answer.Abstention ||
+                userVote == Answer.Abstention
+            ) {
                 return 'semiagree';
             } else {
                 return 'disagree';

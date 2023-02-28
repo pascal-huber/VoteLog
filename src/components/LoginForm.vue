@@ -3,17 +3,23 @@
         <div class="row">
             <div class="col-12">
                 <h2>Anmelden</h2>
-                <div v-if="loginFailed" class="alert alert-danger">Anmeldung fehlgeschlagen</div>
+                <div v-if="loginFailed" class="alert alert-danger">
+                    Anmeldung fehlgeschlagen
+                </div>
                 <form>
                     <div v-if="!customWebDav">
                         <span>server: {{ defaultWebDav }}&nbsp;</span><br />
                         <small>
-                            <a class="link-primary" @click="toggleWebDav">use different server</a>
+                            <a class="link-primary" @click="toggleWebDav"
+                                >use different server</a
+                            >
                         </small>
                     </div>
                     <div v-else>
                         <small>
-                            <a class="link-primary" @click="toggleWebDav">use default server</a>
+                            <a class="link-primary" @click="toggleWebDav"
+                                >use default server</a
+                            >
                         </small>
                     </div>
                     <div v-if="customWebDav" class="form-group">
@@ -25,7 +31,12 @@
                         />
                     </div>
                     <div class="form-group">
-                        <input id="userName" v-model="userName" class="form-control" placeholder="Benutzername" />
+                        <input
+                            id="userName"
+                            v-model="userName"
+                            class="form-control"
+                            placeholder="Benutzername"
+                        />
                     </div>
                     <div class="form-group">
                         <input
@@ -37,7 +48,13 @@
                         />
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary" @click="login">Anmelden</button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="login"
+                        >
+                            Anmelden
+                        </button>
                     </div>
                 </form>
             </div>

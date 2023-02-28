@@ -12,7 +12,10 @@
                             params: { term_hash: termHash() },
                         }"
                         type="a"
-                        :class="{ 'nav-link': true, active: $route.name == 'votesTable' }"
+                        :class="{
+                            'nav-link': true,
+                            active: $route.name == 'votesTable',
+                        }"
                         href=""
                     >
                         VoteLog
@@ -37,16 +40,26 @@
             </ul>
             <div v-if="!loggedIn">
                 <div>
-                    <router-link type="button" class="btn" to="/login">Anmelden</router-link>
+                    <router-link type="button" class="btn" to="/login"
+                        >Anmelden</router-link
+                    >
                 </div>
             </div>
             <div v-if="loggedIn">
                 <div>
-                    <a v-if="unsavedChanges" type="buton" class="btn" @click="saveChanges">
+                    <a
+                        v-if="unsavedChanges"
+                        type="buton"
+                        class="btn"
+                        @click="saveChanges"
+                    >
                         <font-awesome-icon class="fa" :icon="['fas', 'save']" />
                     </a>
                     <a type="buton" class="btn" @click="logout">
-                        <font-awesome-icon class="fa" :icon="['fas', 'power-off']" />
+                        <font-awesome-icon
+                            class="fa"
+                            :icon="['fas', 'power-off']"
+                        />
                     </a>
                 </div>
             </div>

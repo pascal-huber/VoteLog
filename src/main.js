@@ -37,7 +37,10 @@ const store = createStore({
 
 router.beforeEach((to, from, next) => {
     store.dispatch('init').then(() => {
-        if (to.matched.some((record) => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
+        if (
+            to.matched.some((record) => record.meta.requiresAuth) &&
+            !store.getters.isLoggedIn()
+        ) {
             next({ name: 'login' });
         } else {
             next();

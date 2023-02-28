@@ -8,17 +8,34 @@
                 :aria-controls="categoryId"
             >
                 <div class="row g-0">
-                    <div class="col-12 col-lg-6">{{ category }}&nbsp;({{ agreement['subjects'].length }})</div>
+                    <div class="col-12 col-lg-6">
+                        {{ category }}&nbsp;({{ agreement['subjects'].length }})
+                    </div>
                     <div class="col-12 col-lg-6">
                         <div class="row g-0">
                             <div class="col svg-col">
-                                <PercentageValue :percentage="agreement['swiss']" :color="true" />
+                                <PercentageValue
+                                    :percentage="agreement['swiss']"
+                                    :color="true"
+                                />
                             </div>
                             <div class="col svg-col">
-                                <PercentageValue :percentage="'-'" :color="false" />
+                                <PercentageValue
+                                    :percentage="'-'"
+                                    :color="false"
+                                />
                             </div>
-                            <div v-for="party in parties" :key="party" class="col svg-col">
-                                <PercentageValue :percentage="agreement['parties'][party.name]" :color="true" />
+                            <div
+                                v-for="party in parties"
+                                :key="party"
+                                class="col svg-col"
+                            >
+                                <PercentageValue
+                                    :percentage="
+                                        agreement['parties'][party.name]
+                                    "
+                                    :color="true"
+                                />
                             </div>
                         </div>
                     </div>
@@ -76,12 +93,18 @@ export default {
             return this.category.replace(regex, '');
         },
         classSwiss() {
-            return this.classAgreement(this.userVote?.answer, this.subject.outcome);
+            return this.classAgreement(
+                this.userVote?.answer,
+                this.subject.outcome
+            );
         },
         partyAnswers() {
             var answers = [];
             for (let vote of this.subject.parties) {
-                var voteClass = this.classAgreement(this.userVote?.answer, vote.answer);
+                var voteClass = this.classAgreement(
+                    this.userVote?.answer,
+                    vote.answer
+                );
                 answers.push({ answer: vote?.answer, answerClass: voteClass });
             }
             return answers;
@@ -108,7 +131,10 @@ export default {
                 return 'neutral';
             } else if (otherVote == userVote) {
                 return 'agree';
-            } else if (otherVote == Answer.Abstention || userVote == Answer.Abstention) {
+            } else if (
+                otherVote == Answer.Abstention ||
+                userVote == Answer.Abstention
+            ) {
                 return 'semiagree';
             } else {
                 return 'disagree';

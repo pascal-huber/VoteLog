@@ -1,6 +1,11 @@
 <template>
     <div>
-        <NavBar :key="term_hash" :logged-in="loggedIn" :term_hash="term_hash" :unsaved-changes="unsavedChanges" />
+        <NavBar
+            :key="term_hash"
+            :logged-in="loggedIn"
+            :term_hash="term_hash"
+            :unsaved-changes="unsavedChanges"
+        />
         <router-view :key="$route.fullPath" :term="term"></router-view>
     </div>
 </template>

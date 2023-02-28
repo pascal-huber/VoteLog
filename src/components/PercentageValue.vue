@@ -1,7 +1,15 @@
 <template>
     <div class="col" :style="{ 'background-color': colorHex }" align="center">
-        <font-awesome-icon v-if="percentage == '-'" class="neutral" :icon="['fas', 'grip-lines-vertical']" />
-        <font-awesome-icon v-else-if="isNaN(percentage)" class="neutral" :icon="['fas', 'question']" />
+        <font-awesome-icon
+            v-if="percentage == '-'"
+            class="neutral"
+            :icon="['fas', 'grip-lines-vertical']"
+        />
+        <font-awesome-icon
+            v-else-if="isNaN(percentage)"
+            class="neutral"
+            :icon="['fas', 'question']"
+        />
         <span v-else> {{ percentage }}% </span>
     </div>
 </template>

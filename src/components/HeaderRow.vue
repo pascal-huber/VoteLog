@@ -8,15 +8,47 @@
                         <img :src="Switzerland" class="svg-logo-swiss" />
                     </div>
                     <div class="col svg-col" align="center">
-                        <font-awesome-icon class="fa-2x" :icon="['fas', 'user']" />
+                        <font-awesome-icon
+                            class="fa-2x"
+                            :icon="['fas', 'user']"
+                        />
                     </div>
-                    <div v-for="party in parties" :key="party.name" class="col svg-col" align="center">
-                        <img v-if="party.name == 'CVP'" :src="DieMitte" class="svg-party-logo" />
-                        <img v-else-if="party.name == 'SVP'" :src="SVP" class="svg-party-logo" />
-                        <img v-else-if="party.name == 'FDP'" :src="FDP" class="svg-party-logo" />
-                        <img v-else-if="party.name == 'GLP'" :src="GLP" class="svg-party-logo" />
-                        <img v-else-if="party.name == 'GP'" :src="GP" class="svg-party-logo" />
-                        <img v-else-if="party.name == 'SP'" :src="SP" class="svg-party-logo" />
+                    <div
+                        v-for="party in parties"
+                        :key="party.name"
+                        class="col svg-col"
+                        align="center"
+                    >
+                        <img
+                            v-if="party.name == 'CVP'"
+                            :src="DieMitte"
+                            class="svg-party-logo"
+                        />
+                        <img
+                            v-else-if="party.name == 'SVP'"
+                            :src="SVP"
+                            class="svg-party-logo"
+                        />
+                        <img
+                            v-else-if="party.name == 'FDP'"
+                            :src="FDP"
+                            class="svg-party-logo"
+                        />
+                        <img
+                            v-else-if="party.name == 'GLP'"
+                            :src="GLP"
+                            class="svg-party-logo"
+                        />
+                        <img
+                            v-else-if="party.name == 'GP'"
+                            :src="GP"
+                            class="svg-party-logo"
+                        />
+                        <img
+                            v-else-if="party.name == 'SP'"
+                            :src="SP"
+                            class="svg-party-logo"
+                        />
                     </div>
                 </div>
             </div>

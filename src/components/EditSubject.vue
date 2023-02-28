@@ -24,7 +24,9 @@
                     <img
                         :src="Abstention"
                         class="svg-logo-huge"
-                        :class="{ active: userVote.answer == Answer.Abstention }"
+                        :class="{
+                            active: userVote.answer == Answer.Abstention,
+                        }"
                         @click="setAnswer(Answer.Abstention)"
                     />
                     <img
@@ -39,7 +41,12 @@
             <div class="col-12">
                 <div class="form-group">
                     <label>Begründung:</label><br />
-                    <textarea id="reasoning" v-model="userVote.reasoning" class="form-control" rows="4"></textarea>
+                    <textarea
+                        id="reasoning"
+                        v-model="userVote.reasoning"
+                        class="form-control"
+                        rows="4"
+                    ></textarea>
                 </div>
             </div>
 
@@ -75,9 +82,17 @@
             </div>
 
             <div class="col-12">
-                <button type="button" class="btn btn-primary" @click="goBack">Abbrechen</button>
+                <button type="button" class="btn btn-primary" @click="goBack">
+                    Abbrechen
+                </button>
                 &nbsp;
-                <button type="button" class="btn btn-primary" @click="changeVote">Fertig</button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="changeVote"
+                >
+                    Fertig
+                </button>
             </div>
         </div>
     </div>
@@ -112,7 +127,10 @@ export default {
     },
     data: function () {
         return {
-            subject: this.$store.getters.getSubjectByHash(this.term_hash, this.subject_id),
+            subject: this.$store.getters.getSubjectByHash(
+                this.term_hash,
+                this.subject_id
+            ),
             userVote: this.$store.getters.getUserVote(this.subject_id) || {},
         };
     },
@@ -146,10 +164,16 @@ export default {
             var vote = {
                 id: this.subject.id,
                 answer: this.userVote.answer,
-                reasoning: this.userVote.reasoning ? this.userVote.reasoning : undefined,
+                reasoning: this.userVote.reasoning
+                    ? this.userVote.reasoning
+                    : undefined,
                 importance: this.userVote.importance,
             };
-            if (this.userVote.answer != undefined || this.userVote.reasoning || this.userVote.importance != undefined) {
+            if (
+                this.userVote.answer != undefined ||
+                this.userVote.reasoning ||
+                this.userVote.importance != undefined
+            ) {
                 this.$store.dispatch('setVote', vote);
             }
             this.$router.go(-1);

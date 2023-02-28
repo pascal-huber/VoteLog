@@ -17,7 +17,9 @@
                 {{ subject.date.toLocaleDateString('de-CH') }}
             </div>
 
-            <div v-if="subject.categories?.length" class="col-2">Kategorien:</div>
+            <div v-if="subject.categories?.length" class="col-2">
+                Kategorien:
+            </div>
             <div v-if="subject.categories?.length" class="col-10">
                 <ul>
                     <li v-for="category in uniqueCategories" :key="category">
@@ -35,7 +37,10 @@
                 <router-link
                     :to="{
                         name: 'editSubject',
-                        params: { term_hash: term_hash, subject_id: subject_id },
+                        params: {
+                            term_hash: term_hash,
+                            subject_id: subject_id,
+                        },
                     }"
                     type="button"
                     class="btn btn-primary"
@@ -46,11 +51,31 @@
 
             <div class="col-3">Stimme:</div>
             <div class="col-9">
-                <font-awesome-icon v-if="userVote == undefined" class="neutral" :icon="['fas', 'question']" />
-                <img v-else-if="userVote?.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-                <img v-else-if="userVote?.answer == Answer.No" :src="Nein" class="svg-logo" />
-                <img v-else-if="userVote?.answer == Answer.Abstention" :src="Abstention" class="svg-logo" />
-                <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+                <font-awesome-icon
+                    v-if="userVote == undefined"
+                    class="neutral"
+                    :icon="['fas', 'question']"
+                />
+                <img
+                    v-else-if="userVote?.answer == Answer.Yes"
+                    :src="Ja"
+                    class="svg-logo"
+                />
+                <img
+                    v-else-if="userVote?.answer == Answer.No"
+                    :src="Nein"
+                    class="svg-logo"
+                />
+                <img
+                    v-else-if="userVote?.answer == Answer.Abstention"
+                    :src="Abstention"
+                    class="svg-logo"
+                />
+                <font-awesome-icon
+                    v-else
+                    class="neutral"
+                    :icon="['fas', 'question']"
+                />
             </div>
 
             <div class="col-3">Gewichtung:</div>
@@ -67,10 +92,14 @@
                 <h4>Weitere Resourcen</h4>
                 <ul>
                     <li>
-                        <a :href="swissvotesURL" target="_blank">Vorlage auf swissvotes.ch</a>
+                        <a :href="swissvotesURL" target="_blank"
+                            >Vorlage auf swissvotes.ch</a
+                        >
                     </li>
                     <li>
-                        <a :href="adminCantonResultsURL" target="_blank">Resultate auf admin.ch</a>
+                        <a :href="adminCantonResultsURL" target="_blank"
+                            >Resultate auf admin.ch</a
+                        >
                     </li>
                 </ul>
             </div>
@@ -102,7 +131,10 @@ export default {
     },
     data: function () {
         return {
-            subject: this.$store.getters.getSubjectByHash(this.term_hash, this.subject_id),
+            subject: this.$store.getters.getSubjectByHash(
+                this.term_hash,
+                this.subject_id
+            ),
             userVote: this.$store.getters.getUserVote(this.subject_id),
         };
     },

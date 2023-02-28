@@ -1,5 +1,9 @@
 module.exports = {
-    extends: ['plugin:vue/vue3-essential', 'plugin:vue/recommended', 'plugin:prettier-vue/recommended'],
+    extends: [
+        'plugin:vue/vue3-essential',
+        'plugin:vue/recommended',
+        'plugin:prettier-vue/recommended',
+    ],
 
     plugins: ['prettier'],
 
@@ -82,7 +86,7 @@ module.exports = {
             {
                 // Override all options of `prettier` here
                 // @see https://prettier.io/docs/en/options.html
-                printWidth: 120,
+                printWidth: 80,
                 tabWidth: 4,
                 singleQuote: true,
             },

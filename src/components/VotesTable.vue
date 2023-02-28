@@ -12,29 +12,57 @@
             <div class="col col-6 d-flex justify-content-end">
                 <div class="align-self-center p-2">
                     <span v-if="prevTermHash">
-                        <router-link :to="{ params: { term_hash: prevTermHash } }" href="">
-                            <font-awesome-icon class="fa-2x" :icon="['fas', 'angle-left']" />
+                        <router-link
+                            :to="{ params: { term_hash: prevTermHash } }"
+                            href=""
+                        >
+                            <font-awesome-icon
+                                class="fa-2x"
+                                :icon="['fas', 'angle-left']"
+                            />
                         </router-link>
                     </span>
-                    <font-awesome-icon v-else class="fa-2x" :icon="['fas', 'angle-left']" />
+                    <font-awesome-icon
+                        v-else
+                        class="fa-2x"
+                        :icon="['fas', 'angle-left']"
+                    />
                 </div>
                 <div class="align-self-center p-2">
                     <span class="term_name">{{ term.hash }}</span>
                 </div>
                 <div class="align-self-center p-2">
                     <span v-if="nextTermHash">
-                        <router-link :to="{ params: { term_hash: nextTermHash } }" href="">
-                            <font-awesome-icon class="fa-2x" :icon="['fas', 'angle-right']" />
+                        <router-link
+                            :to="{ params: { term_hash: nextTermHash } }"
+                            href=""
+                        >
+                            <font-awesome-icon
+                                class="fa-2x"
+                                :icon="['fas', 'angle-right']"
+                            />
                         </router-link>
                     </span>
-                    <font-awesome-icon v-else class="fa-2x" :icon="['fas', 'angle-right']" />
+                    <font-awesome-icon
+                        v-else
+                        class="fa-2x"
+                        :icon="['fas', 'angle-right']"
+                    />
                 </div>
             </div>
 
             <div class="col col-6 my-4">
-                <select v-model="filter" class="form-select" aria-label="Default select example">
+                <select
+                    v-model="filter"
+                    class="form-select"
+                    aria-label="Default select example"
+                >
                     <option value="all" selected>Alle</option>
-                    <option v-for="category in categories" :key="category" :value="category">
+                    <option
+                        v-for="category in categories"
+                        :key="category"
+                        :value="category"
+                    >
                         {{ formatCategory(category) }}
                     </option>
                 </select>
@@ -43,7 +71,11 @@
             <HeaderRow :parties="term.parties" />
             <div class="container vote-list">
                 <div>
-                    <StatsRow :parties="term.parties" :subjects="filteredSubjects" :category="filter" />
+                    <StatsRow
+                        :parties="term.parties"
+                        :subjects="filteredSubjects"
+                        :category="filter"
+                    />
                 </div>
                 <div v-for="subject in filteredSubjects" :key="subject.id">
                     <VotesTableSubject
