@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import App from '@/components/App.vue'
 import VotesTable from '@/components/VotesTable.vue'
+import VotesTableCategories from '@/components/VotesTableCategories.vue'
 import Login from '@/components/LoginForm.vue'
 import NotFound from '@/components/NotFound.vue'
 import ShowSubject from '@/components/ShowSubject.vue'
@@ -27,11 +28,8 @@ const routes = [
             }, {
                 path: 'categories',
                 name: 'votesTableCategory',
-                // props: true,
-                props: {
-                    category: true,
-                },
-                component: VotesTable,
+                props: true,
+                component: VotesTableCategories,
             }, {
                 path: ':subject_id',
                 name: 'showSubject',
@@ -59,9 +57,9 @@ const routes = [
     }
 ];
 
-    const router = new createRouter({
-        history: createWebHashHistory(),
-        routes
-    });
+const router = new createRouter({
+    history: createWebHashHistory(),
+    routes
+});
 
-    export default router;
+export default router;

@@ -1,9 +1,9 @@
 <template>
   <div id="headerrow" class="container">
-    <div class="row">
+    <div class="row g-0">
       <div class="col-lg-6 d-none d-lg-block"></div>
       <div class="col-lg-6 fixed-header">
-        <div class="row">
+        <div class="row g-0">
           <div class="col svg-col" align="center">
             <img :src="Switzerland" class="svg-logo-swiss" />
           </div>
@@ -64,7 +64,7 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     this.header = document.getElementById("headerrow");
-    this.sticky = this.header.offsetTop;
+    this.sticky = this.header?.offsetTop; // FIXME: why ?
   },
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);

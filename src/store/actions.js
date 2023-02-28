@@ -1,5 +1,4 @@
 import { createClient } from "webdav";
-
 import { Answer } from '@/Answer.js'
 import router from '@/router.js'
 
@@ -10,11 +9,16 @@ const actions = {
             let userName = sessionStorage.getItem("userName");
             let password = sessionStorage.getItem("password");
             if (webDav != "null" && webDav != undefined) {
-                await context.dispatch("login", {
-                    webDav: webDav,
-                    userName: userName,
-                    password: password,
-                });
+                try {
+                    await context.dispatch("login", {
+                        webDav: webDav,
+                        userName: userName,
+                        password: password,
+                    });
+                    context.dispatch("getData");
+                } catch(e) {
+                    sessionStorage.clear();
+                }
             }
         }
         if (this.getters.isLoggedIn() && !this.getters.hasFetchedData()) {
@@ -28,16 +32,18 @@ const actions = {
             password: connection.password
         });
         await client.getDirectoryContents("/");
-        context.commit('SET_CONNECTION', connection); // TODO: remove username etc from vuex
-        context.commit('SET_CLIENT', client); // TODO: remove username etc from vuex
+        context.commit("SET_CLIENT", client);
+        context.commit("SET_CONNECTION", connection);
         sessionStorage.setItem("webDav", connection.webDav);
         if (connection.userName) {
             sessionStorage.setItem("userName", connection.userName);
         }
+
         if (connection.password) {
             sessionStorage.setItem("password", connection.password);
         }
         context.dispatch("getData");
+
     },
     async getData(context) {
         if (context.getters.isLoggedIn()) {

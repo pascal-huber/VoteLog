@@ -11,6 +11,9 @@ Test it:
 
 ``` sh
 ❯ cadaver http://localhost:8080/
+Authentication required for Restricted on server `localhost':
+Username: cat
+Password: dog
 dav:/> put justafile.txt
 Uploading justafile.txt to `/justafile.txt':
 Progress: [=============================>] 100.0% of 3 bytes succeeded.

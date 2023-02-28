@@ -15,6 +15,7 @@ import getters from '@/store/getters.js'
 import actions from '@/store/actions.js'
 import mutations from '@/store/mutations.js'
 
+
 addFontAwesomeIcons();
 const app = createApp(Index)
 

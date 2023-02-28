@@ -7,7 +7,7 @@
     </div>
     <div class="row" v-else>
       <div class="col col-6 col-md-6">
-        <h2>Abstimmungen</h2>
+        <h2>Kategorien</h2>
       </div>
       <div class="col col-6 d-flex justify-content-end">
         <div class="align-self-center p-2">
@@ -31,30 +31,15 @@
         </div>
       </div>
 
-      <div class="col col-6 my-4">
-        <select v-model="filter" class="form-select" aria-label="Default select example">
-          <option value="all" selected>Alle</option>
-          <option v-for="category in categories" v-bind:key="category" :value="category">
-            {{ formatCategory(category) }}
-          </option>
-        </select>
-      </div>
-
       <HeaderRow v-bind:parties="term.parties" />
-      <div class="container vote-list">
-        <div>
-          <StatsRow
+      <div class="category-list">
+        <div v-for="(agreement, category) in agreement" v-bind:key="category">
+          <VotesTableCategory
+            v-bind:category="category"
+            v-bind:agreement="agreement"
             v-bind:parties="term.parties"
-            v-bind:subjects="filteredSubjects"
-            v-bind:category="filter"
-          />
-        </div>
-        <div v-for="subject in filteredSubjects" v-bind:key="subject.id">
-          <VotesTableSubject
             v-bind:term_hash="this.term.hash"
             v-bind:loggedIn="this.loggedIn"
-            v-bind:userVote="userVote(subject.id)"
-            v-bind:subject="subject"
           />
         </div>
       </div>
@@ -63,14 +48,14 @@
 </template>
 
 <script>
-import VotesTableSubject from "@/components/VotesTableSubject.vue";
+import { categoryAgreement } from "@/Answer.js";
+import VotesTableCategory from "@/components/VotesTableCategory.vue";
 import HeaderRow from "@/components/HeaderRow.vue";
-import StatsRow from "@/components/StatsRow.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 export default {
   name: "VotesTable",
-  props: ["term", "category"],
+  props: ["term"],
   data: function () {
     return {
       editSubject: undefined,
@@ -79,12 +64,22 @@ export default {
     };
   },
   components: {
-    VotesTableSubject,
+    VotesTableCategory,
     HeaderRow,
-    StatsRow,
     FontAwesomeIcon,
   },
   computed: {
+    agreement() {
+      const userVotes = this.$store.getters.getUserVotes();
+      const agreement = categoryAgreement(userVotes, this.term.subjects);
+      const ordered = Object.keys(agreement)
+        .sort()
+        .reduce((obj, key) => {
+          obj[key] = agreement[key];
+          return obj;
+        }, {});
+      return ordered;
+    },
     categories() {
       let categories = new Set();
       for (var i = 0; i < this.term.subjects.length; i++) {

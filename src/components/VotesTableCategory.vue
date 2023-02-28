@@ -1,19 +1,21 @@
 <template>
-  <div :id="accordionId">
-    <span :id="headerCategory">
-      <span
+  <div :id="accordionId" class="category">
+    <div :id="headerCategory">
+      <div
         data-bs-toggle="collapse"
         :data-bs-target="htCategory"
         aria-expanded="false"
         :aria-controls="categoryId"
       >
-        <div class="row">
-          <div class="col-12 col-lg-6">{{ category }}</div>
+        <div class="row g-0">
           <div class="col-12 col-lg-6">
-            <div class="row">
+            {{ category }}&nbsp;({{ agreement["subjects"].length }})
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="row g-0">
               <div class="col svg-col">
                 <PercentageValue
-                  v-bind:percentage="swissAgreementCategory(category)"
+                  v-bind:percentage="agreement['swiss']"
                   v-bind:color="true"
                 />
               </div>
@@ -22,15 +24,15 @@
               </div>
               <div class="col svg-col" v-for="party in this.parties" v-bind:key="party">
                 <PercentageValue
-                  v-bind:percentage="partyAgreementCategory(party.name, category)"
+                  v-bind:percentage="agreement['parties'][party.name]"
                   v-bind:color="true"
                 />
               </div>
             </div>
           </div>
         </div>
-      </span>
-    </span>
+      </div>
+    </div>
     <div
       :id="categoryId"
       class="accordion-collapse collapse"
@@ -38,7 +40,7 @@
       :data-bs-parent="htAccordionId"
     >
       <div class="vote-list">
-        <div v-for="subject in subjects" v-bind:key="subject.id">
+        <div v-for="subject in agreement['subjects']" v-bind:key="subject.id">
           <VotesTableSubject
             v-bind:term_hash="term_hash"
             v-bind:loggedIn="this.loggedIn"
@@ -52,7 +54,7 @@
 </template>
 
 <script>
-import { Answer, swissAgreement, partyAgreement } from "@/Answer.js";
+import { Answer } from "@/Answer.js";
 import PercentageValue from "@/components/PercentageValue.vue";
 import VotesTableSubject from "@/components/VotesTableSubject.vue";
 
@@ -60,7 +62,7 @@ const regex = /[^A-Za-z0-9]/g;
 
 export default {
   name: "VotesTableCategory",
-  props: ["category", "parties", "subjects", "term_hash", "loggedIn"],
+  props: ["category", "agreement", "parties", "term_hash", "loggedIn"],
   components: {
     PercentageValue,
     VotesTableSubject,
@@ -94,20 +96,6 @@ export default {
     },
   },
   methods: {
-    partyAgreementCategory(party, category) {
-      let userVotes = this.$store.getters.getUserVotes();
-      let subjects = this.subjects.filter((s) =>
-        s.categories?.find((cat) => cat[0] == category)
-      );
-      return partyAgreement(party, userVotes, subjects);
-    },
-    swissAgreementCategory(category) {
-      let userVotes = this.$store.getters.getUserVotes();
-      let subjects = this.subjects.filter((s) =>
-        s.categories?.find((cat) => cat[0] == category)
-      );
-      return swissAgreement(subjects, userVotes);
-    },
     userVote(subject_id) {
       return this.$store.getters.getUserVote(subject_id);
     },
@@ -122,6 +110,7 @@ export default {
         });
       }
     },
+    // TODO: move this to Answer.js
     classAgreement(userVote, otherVote) {
       if (otherVote == undefined || userVote == undefined) {
         return "neutral";
@@ -138,9 +127,14 @@ export default {
 </script>
 
 <style>
+/* ?? where */
 .votecard-category:hover {
   cursor: pointer;
 }
+
+/* .category {
+  border: 1px solid red;
+} */
 
 .datetext {
   color: gray;

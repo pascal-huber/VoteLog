@@ -1,11 +1,13 @@
 <template>
-  <NavBar
-    v-bind:key="term_hash"
-    v-bind:loggedIn="loggedIn"
-    v-bind:term_hash="term_hash"
-    v-bind:unsavedChanges="unsavedChanges"
-  />
-  <router-view :key="$route.fullPath" v-bind:term="term"></router-view>
+  <div>
+    <NavBar
+      v-bind:key="term_hash"
+      v-bind:loggedIn="loggedIn"
+      v-bind:term_hash="term_hash"
+      v-bind:unsavedChanges="unsavedChanges"
+    />
+    <router-view :key="$route.fullPath" v-bind:term="term"></router-view>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,7 @@ import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "App",
-  props: ["term_hash"],
+  props: ["term_hash", "subject_id"],
   components: {
     NavBar,
   },
@@ -34,9 +36,6 @@ export default {
 </script>
 
 <style>
-body {
-  margin: 4px;
-}
 
 @include media-breakpoint-up(md) {
   body {

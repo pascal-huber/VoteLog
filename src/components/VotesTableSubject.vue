@@ -1,5 +1,5 @@
 <template>
-  <div class="row" @click="showDetails">
+  <div class="row g-0" @click="showDetails">
     <div class="col-12 col-lg-6">
       <div class="d-flex">
         <div class="order-lg-2 me-auto p-0 px-lg-2">
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="col-12 col-lg-6 order-3">
-      <div class="row">
+      <div class="row g-0">
         <!-- Switzerland -->
         <div class="col svg-col" align="center" v-bind:class="classSwiss">
           <img :src="Ja" v-if="subject.outcome == Answer.Yes" class="svg-logo" />

@@ -1,8 +1,8 @@
 <template>
-  <div class="row">
+  <div class="row g-0">
     <div class="col-12 col-lg-6">Übereinstimmung</div>
     <div class="col-12 col-lg-6">
-      <div class="row">
+      <div class="row g-0">
         <div class="col svg-col">
           <PercentageValue v-bind:percentage="swissAgreementX" v-bind:color="true" />
         </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { partyAgreement, swissAgreement } from "@/Answer.js";
+import { agreement } from "@/Answer.js";
 import PercentageValue from "@/components/PercentageValue.vue";
 
 export default {
@@ -34,14 +34,14 @@ export default {
     // TODO: if possible, get rid of this function
     swissAgreementX() {
       let userVotes = this.$store.getters.getUserVotes();
-      return swissAgreement(this.subjects, userVotes);
+      return agreement(this.subjects, userVotes);
     },
   },
   methods: {
     // TODO: if possible, get rid of this function
     partyAgreementX(party) {
       let userVotes = this.$store.getters.getUserVotes();
-      return partyAgreement(party, userVotes, this.subjects);
+      return agreement(this.subjects, userVotes, party);
     },
   },
 };
