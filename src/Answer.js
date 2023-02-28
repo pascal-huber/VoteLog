@@ -5,10 +5,10 @@ export const Answer = Object.freeze({
     Novote: 3,
 });
 
-function agreementValue(otherAnswer, userAnswer, factor) {
-    if (userAnswer == otherAnswer) return factor;
-    if (userAnswer == Answer.Abstention || otherAnswer == Answer.Abstention)
-        return 0.5 * factor;
+export function agreementValue(otherAnswer, userAnswer, factor) {
+    if (userAnswer == otherAnswer || userAnswer == Answer.Abstention)
+        return factor;
+    if (otherAnswer == Answer.Abstention) return 0.5 * factor;
     return 0.0;
 }
 
@@ -69,8 +69,8 @@ export function categoryAgreement(userVotes, subjects) {
         }
         agreement[category]['swiss'] ??= 0;
         agreement[category]['swiss'] += agreementValue(
-            userVote?.answer,
             subjects[i].outcome,
+            userVote?.answer,
             importance
         );
     }

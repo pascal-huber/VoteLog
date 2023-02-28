@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { Answer } from '@/Answer.js';
+// import { agreementValue } from '@/Answer.js';
 import PercentageValue from '@/components/PercentageValue.vue';
 import VotesTableSubject from '@/components/VotesTableSubject.vue';
 
@@ -113,32 +113,6 @@ export default {
     methods: {
         userVote(subject_id) {
             return this.$store.getters.getUserVote(subject_id);
-        },
-        showDetails() {
-            if (this.loggedIn) {
-                this.$router.push({
-                    name: 'showSubject',
-                    params: {
-                        term_hash: this.term_hash,
-                        subject_id: this.subject.id,
-                    },
-                });
-            }
-        },
-        // TODO: move this to Answer.js
-        classAgreement(userVote, otherVote) {
-            if (otherVote == undefined || userVote == undefined) {
-                return 'neutral';
-            } else if (otherVote == userVote) {
-                return 'agree';
-            } else if (
-                otherVote == Answer.Abstention ||
-                userVote == Answer.Abstention
-            ) {
-                return 'semiagree';
-            } else {
-                return 'disagree';
-            }
         },
     },
 };

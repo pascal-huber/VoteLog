@@ -110,7 +110,7 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { Answer } from '../Answer.js';
+import { agreementValue, Answer } from '../Answer.js';
 import Novote from '@/assets/novote.svg';
 import Ja from '@/assets/ja.svg';
 import Abstention from '@/assets/abstention.svg';
@@ -175,12 +175,11 @@ export default {
         classAgreement(userVote, otherVote) {
             if (otherVote == undefined || userVote == undefined) {
                 return 'neutral';
-            } else if (otherVote == userVote) {
+            }
+            let agreement = agreementValue(otherVote, userVote, 1);
+            if (agreement >= 1.0) {
                 return 'agree';
-            } else if (
-                otherVote == Answer.Abstention ||
-                userVote == Answer.Abstention
-            ) {
+            } else if (agreement >= 0.5) {
                 return 'semiagree';
             } else {
                 return 'disagree';
