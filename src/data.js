@@ -2,19 +2,19 @@ import { Answer } from './Answer.js';
 
 export const terms = [
     // {
-    //   id: 52,
-    //   hash: "2023_27",
-    //   end_date: new Date("2027-12-02"),
-    //   start_date: new Date("2023-12-04"),
-    //   parties: [
-    //     { id: 0, name: "SP" },
-    //     { id: 1, name: "GP" },
-    //     { id: 2, name: "GLP" },
-    //     { id: 3, name: "CVP" },
-    //     { id: 4, name: "FDP" },
-    //     { id: 5, name: "SVP" },
-    //   ],
-    //   subjects: [],
+    //     id: 52,
+    //     hash: '2023_27',
+    //     end_date: new Date('2027-12-02'),
+    //     start_date: new Date('2023-12-04'),
+    //     parties: [
+    //         { id: 0, name: 'SP' },
+    //         { id: 1, name: 'GP' },
+    //         { id: 2, name: 'GLP' },
+    //         { id: 3, name: 'CVP' },
+    //         { id: 4, name: 'FDP' },
+    //         { id: 5, name: 'SVP' },
+    //     ],
+    //     subjects: [],
     // },
     {
         id: 50,

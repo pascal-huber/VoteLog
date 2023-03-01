@@ -5,6 +5,7 @@ const getters = {
         let term = state.terms.find((term) => term.hash == term_hash);
         return term?.subjects.find((subject) => subject.id == subject_id);
     },
+    getTerms: (state) => () => state.terms,
     getTerm: (state) => (term_hash) => {
         let thash = term_hash;
         if (!thash) {
