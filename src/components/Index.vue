@@ -16,14 +16,6 @@
 export default {
     name: 'App',
     props: ['term_hash'],
-    computed: {
-        loggedIn() {
-            return this.$store.getters.isLoggedIn();
-        },
-        unsavedChanges() {
-            return this.$store.getters.unsavedChanges();
-        },
-    },
 };
 </script>
 
