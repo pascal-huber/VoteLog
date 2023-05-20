@@ -155,6 +155,75 @@ export const terms = [
         ],
         subjects: [
             {
+                id: 664,
+                date: new Date('2023-06-18'),
+                name: 'Covid-19-Gesetz #3',
+                hash: '2023-06_664',
+                outcome: Answer.Novote,
+                categories: [
+                    ['Sozialpolitik', 'Gesundheit'],
+                    ['Staatsordnung', 'Rechtsordnung', 'Grundrechte'],
+                ],
+                parties: [
+                    { id: 'SP', answer: Answer.Yes },
+                    { id: 'GP', answer: Answer.Yes },
+                    { id: 'GLP', answer: Answer.Yes },
+                    { id: 'CVP', answer: Answer.Yes },
+                    // { id: 'EVP', answer: Answer.Yes },
+                    { id: 'FDP', answer: Answer.Yes },
+                    // { id: 'EDU', answer: Answer.No },
+                    { id: 'SVP', answer: Answer.No },
+                ],
+            },
+            {
+                id: 663,
+                date: new Date('2023-06-18'),
+                name: 'Klimagesetz',
+                hash: '2023-06_663',
+                outcome: Answer.Novote,
+                categories: [
+                    [
+                        'Umwelt und Lebensraum',
+                        'Umwelt',
+                        'Umweltpolitik Energie',
+                    ],
+                    ['Wirtschaft', 'Wirtschaftspolitik', 'Strukturpolitik'],
+                ],
+                parties: [
+                    { id: 'SP', answer: Answer.Yes },
+                    { id: 'GP', answer: Answer.Yes },
+                    { id: 'GLP', answer: Answer.Yes },
+                    { id: 'CVP', answer: Answer.Yes },
+                    // { id: 'EVP', answer: Answer.Yes },
+                    { id: 'FDP', answer: Answer.Yes },
+                    // { id: 'EDU', answer: Answer.No },
+                    { id: 'SVP', answer: Answer.No },
+                ],
+            },
+            {
+                id: 662,
+                date: new Date('2023-06-18'),
+                name: 'OECD-Mindeststeuer für Unternehmen',
+                hash: '2023-06_662',
+                outcome: Answer.Novote,
+                //  	Öffentliche Finanzen > Steuerwesen > Direkte Steuern
+                // Wirtschaft > Wirtschaftspolitik
+                categories: [
+                    ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern'],
+                    ['Wirtschaft', 'Wirtschaftspolitik'],
+                ],
+                parties: [
+                    { id: 'SP', answer: Answer.No },
+                    { id: 'GP', answer: Answer.Abstention },
+                    { id: 'GLP', answer: Answer.Yes },
+                    { id: 'CVP', answer: Answer.Yes },
+                    // { id: 'EVP', answer: Answer.Yes },
+                    { id: 'FDP', answer: Answer.Yes },
+                    // { id: 'EDU', answer: Answer.Absention },
+                    { id: 'SVP', answer: Answer.Yes },
+                ],
+            },
+            {
                 id: 661,
                 date: new Date('2022-09-25'),
                 name: 'Verrechnungssteuer',
