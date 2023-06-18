@@ -159,7 +159,7 @@ export const terms = [
                 date: new Date('2023-06-18'),
                 name: 'Covid-19-Gesetz #3',
                 hash: '2023-06_664',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     ['Sozialpolitik', 'Gesundheit'],
                     ['Staatsordnung', 'Rechtsordnung', 'Grundrechte'],
@@ -180,7 +180,7 @@ export const terms = [
                 date: new Date('2023-06-18'),
                 name: 'Klimagesetz',
                 hash: '2023-06_663',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     [
                         'Umwelt und Lebensraum',
@@ -205,7 +205,7 @@ export const terms = [
                 date: new Date('2023-06-18'),
                 name: 'OECD-Mindeststeuer für Unternehmen',
                 hash: '2023-06_662',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 //  	Öffentliche Finanzen > Steuerwesen > Direkte Steuern
                 // Wirtschaft > Wirtschaftspolitik
                 categories: [
