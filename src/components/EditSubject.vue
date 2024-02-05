@@ -129,7 +129,7 @@ export default {
         return {
             subject: this.$store.getters.getSubjectByHash(
                 this.term_hash,
-                this.subject_id,
+                this.subject_id
             ),
             userVote: this.$store.getters.getUserVote(this.subject_id) || {},
         };

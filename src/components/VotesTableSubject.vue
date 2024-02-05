@@ -145,7 +145,7 @@ export default {
         classSwiss() {
             return this.classAgreement(
                 this.userVote?.answer,
-                this.subject.outcome,
+                this.subject.outcome
             );
         },
         partyAnswers() {
@@ -153,7 +153,7 @@ export default {
             for (let vote of this.subject.parties) {
                 var voteClass = this.classAgreement(
                     this.userVote?.answer,
-                    vote.answer,
+                    vote.answer
                 );
                 answers.push({ answer: vote?.answer, answerClass: voteClass });
             }
