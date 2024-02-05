@@ -35,11 +35,11 @@ export function categoryAgreement(userVotes, subjects) {
             for (var party in agreement[category]['parties']) {
                 agreement[category]['parties'][party] = Math.round(
                     100 *
-                        (agreement[category]['parties'][party] / ctr[category])
+                        (agreement[category]['parties'][party] / ctr[category]),
                 );
             }
             agreement[category]['swiss'] = Math.round(
-                100 * (agreement[category]['swiss'] / ctr[category])
+                100 * (agreement[category]['swiss'] / ctr[category]),
             );
         }
     }
@@ -63,7 +63,7 @@ export function categoryAgreement(userVotes, subjects) {
                     ? agreementValue(
                           partyVote.answer,
                           userVote?.answer,
-                          importance
+                          importance,
                       )
                     : 0;
         }
@@ -71,7 +71,7 @@ export function categoryAgreement(userVotes, subjects) {
         agreement[category]['swiss'] += agreementValue(
             subjects[i].outcome,
             userVote?.answer,
-            importance
+            importance,
         );
     }
 }
@@ -84,7 +84,7 @@ export function agreement(subjects, userVotes, party = undefined) {
         const [sctr, sagreement] = agreementChange(
             subjects[i],
             userVotes,
-            party
+            party,
         );
         agreement += sagreement;
         ctr += sctr;
