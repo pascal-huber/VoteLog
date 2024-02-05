@@ -1,21 +1,6 @@
 import { Answer } from './Answer.js';
 
 export const terms = [
-    // {
-    //     id: 52,
-    //     hash: '2023_27',
-    //     end_date: new Date('2027-12-02'),
-    //     start_date: new Date('2023-12-04'),
-    //     parties: [
-    //         { id: 0, name: 'SP' },
-    //         { id: 1, name: 'GP' },
-    //         { id: 2, name: 'GLP' },
-    //         { id: 3, name: 'CVP' },
-    //         { id: 4, name: 'FDP' },
-    //         { id: 5, name: 'SVP' },
-    //     ],
-    //     subjects: [],
-    // },
     {
         id: 50,
         hash: '2015_19',
@@ -1050,6 +1035,60 @@ export const terms = [
                     // { id:"EDU", answer: Answer.No },
                     // { id:"BDP", answer: Answer.No },
                     { id: 'SVP', answer: Answer.No },
+                ],
+            },
+        ],
+    },
+    {
+        id: 52,
+        hash: '2023_27',
+        start_date: new Date('2023-12-04'),
+        end_date: new Date('2027-12-01'), // TODO: set end_date for period 52
+        parties: [
+            { id: 0, name: 'SP' },
+            { id: 1, name: 'GP' },
+            { id: 2, name: 'GLP' },
+            { id: 3, name: 'CVP' },
+            { id: 4, name: 'FDP' },
+            { id: 5, name: 'SVP' },
+        ],
+        subjects: [
+            {
+                id: 665,
+                date: new Date('2024-03-03'),
+                name: '13. AHV-Rente',
+                hash: '2023-03_665',
+                outcome: Answer.Novote,
+                categories: [['Sozialpolitik', 'Sozialversicherungen']],
+                parties: [
+                    { id: 'SP', answer: Answer.Yes },
+                    { id: 'GP', answer: Answer.Yes },
+                    { id: 'GLP', answer: Answer.No },
+                    { id: 'CVP', answer: Answer.No },
+                    // { id: 'EVP', answer: Answer.No },
+                    { id: 'FDP', answer: Answer.No },
+                    // { id: 'EDU', answer: Answer.No },
+                    { id: 'SVP', answer: Answer.No },
+                    // { id: 'MCG', answer: Answer.No },
+                ],
+            },
+            {
+                id: 666,
+                date: new Date('2024-03-03'),
+                name: 'Renteninitiative',
+                hash: '2023-03_666',
+                outcome: Answer.Novote,
+                categories: [['Sozialpolitik', 'Sozialversicherungen']],
+                parties: [
+                    { id: 'SP', answer: Answer.No },
+                    { id: 'GP', answer: Answer.No },
+                    { id: 'GLP', answer: Answer.No },
+                    { id: 'CVP', answer: Answer.No },
+                    // { id: 'EVP', answer: Answer.No },
+                    { id: 'FDP', answer: Answer.Yes },
+                    // { id: 'EDU', answer: Answer.Yes },
+                    { id: 'SVP', answer: Answer.Yes },
+                    // { id: 'MCG', answer: Answer.No },
                 ],
             },
         ],
