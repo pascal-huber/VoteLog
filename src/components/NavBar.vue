@@ -18,7 +18,7 @@
                         }"
                         href=""
                     >
-                        VoteLog
+                        Abstimmungen
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -38,11 +38,25 @@
                     </router-link>
                 </li>
             </ul>
-            <div v-if="!loggedIn">
+            <div>
                 <div>
-                    <router-link type="button" class="btn" to="/login"
-                        >Anmelden</router-link
+                    <router-link type="button" class="btn" to="/about">
+                        <font-awesome-icon
+                            class="fa"
+                            :icon="['fas', 'circle-info']"
+                        />
+                    </router-link>
+                    <router-link
+                        v-if="!loggedIn"
+                        type="button"
+                        class="btn"
+                        to="/login"
                     >
+                        <font-awesome-icon
+                            class="fa"
+                            :icon="['fas', 'right-to-bracket']"
+                        />
+                    </router-link>
                 </div>
             </div>
             <div v-if="loggedIn">

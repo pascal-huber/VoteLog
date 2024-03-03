@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex align-items-center m-auto">
+    <div class="container">
         <div class="row">
             <div class="col-12">
                 <h2>Anmelden</h2>

@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
+import AboutPage from '@/components/AboutPage.vue';
 import App from '@/components/App.vue';
 import VotesTable from '@/components/VotesTable.vue';
 import VotesTableCategories from '@/components/VotesTableCategories.vue';
@@ -10,6 +11,16 @@ import EditSubject from '@/components/EditSubject.vue';
 import store from '@/store/';
 
 const routes = [
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: AboutPage,
+    },
     {
         path: '/:term_hash',
         name: 'home',
@@ -33,9 +44,6 @@ const routes = [
                 name: 'showSubject',
                 props: true,
                 component: ShowSubject,
-                meta: {
-                    requiresAuth: true,
-                },
             },
             {
                 path: ':subject_id/edit',
@@ -47,11 +55,6 @@ const routes = [
                 },
             },
         ],
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: Login,
     },
     {
         path: '/:pathMatch(.*)*',
@@ -76,16 +79,11 @@ let defaultTerm = () => {
 };
 
 router.beforeEach((to, from, next) => {
-    if (to.path == '/') {
-        next('/' + defaultTerm());
-    } else {
-        next();
-    }
-});
-
-router.beforeEach((to, from, next) => {
     store.dispatch('init').then(() => {
-        if (
+        if (to.name == 'login' && store.getters.isLoggedIn()) {
+            console.log('you are already logged in, silly!');
+            next({ name: from.name });
+        } else if (
             to.matched.some((record) => record.meta.requiresAuth) &&
             !store.getters.isLoggedIn()
         ) {
@@ -94,6 +92,14 @@ router.beforeEach((to, from, next) => {
             next();
         }
     });
+});
+
+router.beforeEach((to, _, next) => {
+    if (to.path == '/') {
+        next('/' + defaultTerm());
+    } else {
+        next();
+    }
 });
 
 export default router;

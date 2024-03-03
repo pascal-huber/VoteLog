@@ -5,6 +5,7 @@ import {
     faCircle,
     faEye,
     faCog,
+    faCircleInfo,
     faTimes,
     faQuestion,
     faHandshake,
@@ -24,6 +25,8 @@ import {
     faAngleDown,
     faAngleUp,
     faAngleDoubleUp,
+    faRightToBracket,
+    faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faDiceThree);
@@ -31,6 +34,7 @@ library.add(faCheck);
 library.add(faCircle);
 library.add(faEye);
 library.add(faCog);
+library.add(faCircleInfo);
 library.add(faTimes);
 library.add(faQuestion);
 library.add(faHandshake);
@@ -50,3 +54,5 @@ library.add(faGripLinesVertical);
 library.add(faAngleDown);
 library.add(faAngleUp);
 library.add(faAngleDoubleUp);
+library.add(faRightToBracket);
+library.add(faRightFromBracket);

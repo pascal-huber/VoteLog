@@ -162,7 +162,7 @@ export default {
     },
     methods: {
         showDetails() {
-            if (this.loggedIn) {
+            if (true) {
                 this.$router.push({
                     name: 'showSubject',
                     params: {
