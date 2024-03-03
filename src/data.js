@@ -1058,7 +1058,7 @@ export const terms = [
                 date: new Date('2024-03-03'),
                 name: '13. AHV-Rente',
                 hash: '2023-03_665',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [['Sozialpolitik', 'Sozialversicherungen']],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -1077,7 +1077,7 @@ export const terms = [
                 date: new Date('2024-03-03'),
                 name: 'Renteninitiative',
                 hash: '2023-03_666',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [['Sozialpolitik', 'Sozialversicherungen']],
                 parties: [
                     { id: 'SP', answer: Answer.No },
