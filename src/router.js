@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import AboutPage from '@/components/AboutPage.vue';
 import App from '@/components/App.vue';
 import VotesTable from '@/components/VotesTable.vue';
 import VotesTableCategories from '@/components/VotesTableCategories.vue';
@@ -14,16 +13,12 @@ const routes = [
     {
         path: '/login',
         name: 'login',
+        props: true,
         component: Login,
     },
     {
-        path: '/about',
-        name: 'about',
-        component: AboutPage,
-    },
-    {
-        path: '/:term_hash',
-        name: 'home',
+        path: '/terms/:term_hash',
+        name: 'term',
         props: true,
         component: App,
         children: [
@@ -40,13 +35,13 @@ const routes = [
                 component: VotesTableCategories,
             },
             {
-                path: ':subject_id',
+                path: 'votes/:subject_id',
                 name: 'showSubject',
                 props: true,
                 component: ShowSubject,
             },
             {
-                path: ':subject_id/edit',
+                path: 'votes/:subject_id/edit',
                 name: 'editSubject',
                 props: true,
                 component: EditSubject,
@@ -57,8 +52,17 @@ const routes = [
         ],
     },
     {
+        // redirect to default Term
         path: '/:pathMatch(.*)*',
-        component: NotFound,
+        redirect: (to) => {
+            const defaultTermHash = store.getters.getDefaultTerm().hash;
+            return {
+                name: 'votesTable',
+                params: {
+                    term_hash: defaultTermHash,
+                },
+            };
+        },
     },
 ];
 
@@ -67,21 +71,10 @@ const router = new createRouter({
     routes,
 });
 
-let defaultTerm = () => {
-    const now = new Date();
-    let terms = store.getters.getTerms();
-    terms.sort((a, b) => a.start_date > b.start_date);
-    let i = 0;
-    let currentTerm = terms[i];
-    while (i + 1 < terms.length && currentTerm.end_date < now)
-        currentTerm = terms[++i];
-    return currentTerm?.hash;
-};
-
+// Login redirection
 router.beforeEach((to, from, next) => {
     store.dispatch('init').then(() => {
         if (to.name == 'login' && store.getters.isLoggedIn()) {
-            console.log('you are already logged in, silly!');
             next({ name: from.name });
         } else if (
             to.matched.some((record) => record.meta.requiresAuth) &&
@@ -92,14 +85,6 @@ router.beforeEach((to, from, next) => {
             next();
         }
     });
-});
-
-router.beforeEach((to, _, next) => {
-    if (to.path == '/') {
-        next('/' + defaultTerm());
-    } else {
-        next();
-    }
 });
 
 export default router;

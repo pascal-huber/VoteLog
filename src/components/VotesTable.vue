@@ -51,33 +51,15 @@
                 </div>
             </div>
 
-            <div class="col col-6 my-4">
-                <select
-                    v-model="filter"
-                    class="form-select"
-                    aria-label="Default select example"
-                >
-                    <option value="all" selected>Alle</option>
-                    <option
-                        v-for="category in categories"
-                        :key="category"
-                        :value="category"
-                    >
-                        {{ formatCategory(category) }}
-                    </option>
-                </select>
-            </div>
-
             <HeaderRow :parties="term.parties" />
             <div class="container vote-list">
                 <div>
                     <StatsRow
                         :parties="term.parties"
-                        :subjects="filteredSubjects"
-                        :category="filter"
+                        :subjects="term.subjects"
                     />
                 </div>
-                <div v-for="subject in filteredSubjects" :key="subject.id">
+                <div v-for="subject in term.subjects" :key="subject.id">
                     <VotesTableSubject
                         :term_hash="term.hash"
                         :logged-in="loggedIn"
@@ -105,53 +87,10 @@ export default {
         FontAwesomeIcon,
     },
     props: ['term'],
-    data: function () {
-        return {
-            editSubject: undefined,
-            editUserVote: undefined,
-            filter: 'all',
-        };
-    },
+    // data: function () {},
     computed: {
-        categories() {
-            let categories = new Set();
-            for (var i = 0; i < this.term.subjects.length; i++) {
-                let vote = this.term.subjects[i];
-                if (vote.categories) {
-                    for (var ii = 0; ii < vote.categories.length; ii++) {
-                        categories.add(vote.categories[ii][0]);
-                    }
-                }
-            }
-            return Array.from(categories).sort();
-        },
-        filteredSubjects() {
-            if (this.filter == 'all') {
-                return this.term.subjects;
-            }
-            return this.term.subjects.filter((subject) => {
-                if (!subject.categories) {
-                    return false;
-                }
-                for (var i = 0; i < subject.categories.length; i++) {
-                    let subject_str = subject.categories[i].join('###');
-                    if (subject_str.startsWith(this.filter)) {
-                        return true;
-                    }
-                }
-                return false;
-            });
-        },
         loggedIn() {
             return this.$store.getters.isLoggedIn();
-        },
-        orderedSubjects() {
-            return [...this.subjects].sort((a, b) => {
-                if (a.date.getTime() == b.date.getTime()) {
-                    return a.name > b.name;
-                }
-                a.date < b.date;
-            });
         },
         votesChanged() {
             return this.$store.state.votesChanged;
@@ -177,28 +116,8 @@ export default {
             }
             return subjects;
         },
-        toggleCategory() {
-            if (this.category) {
-                this.$router.push({ name: 'votesTable' });
-            } else {
-                this.$router.push({ name: 'votesTableCategory' });
-            }
-        },
-        formatCategory(category) {
-            let arr = category.split('###');
-            let prefix = '\xa0'.repeat((arr.length - 1) * 5);
-            return prefix + arr[arr.length - 1];
-        },
         userVote(subject_id) {
             return this.$store.getters.getUserVote(subject_id);
-        },
-        edit(subject) {
-            this.editSubject = subject;
-            this.editUserVote = this.userVote(subject.id);
-        },
-        finishEdit() {
-            this.editSubject = undefined;
-            this.editUserVote = undefined;
         },
     },
 };

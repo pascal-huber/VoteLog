@@ -27,6 +27,7 @@ import {
     faAngleDoubleUp,
     faRightToBracket,
     faRightFromBracket,
+    faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faDiceThree);
@@ -56,3 +57,4 @@ library.add(faAngleUp);
 library.add(faAngleDoubleUp);
 library.add(faRightToBracket);
 library.add(faRightFromBracket);
+library.add(faPenToSquare);

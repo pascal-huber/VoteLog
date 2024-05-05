@@ -4,12 +4,12 @@
             <router-link to="/" class="navbar-brand" href="">
                 <img :src="Switzerland" class="swiss-logo" />
             </router-link>
-            <ul v-if="termHash()" class="navbar-nav me-auto">
+            <ul v-if="term_hash" class="navbar-nav me-auto">
                 <li class="nav-item">
                     <router-link
                         :to="{
                             name: 'votesTable',
-                            params: { term_hash: termHash() },
+                            params: { term_hash: term_hash },
                         }"
                         type="a"
                         :class="{
@@ -25,7 +25,7 @@
                     <router-link
                         :to="{
                             name: 'votesTableCategory',
-                            params: { term_hash: termHash() },
+                            params: { term_hash: term_hash },
                         }"
                         type="a"
                         :class="{
@@ -39,25 +39,17 @@
                 </li>
             </ul>
             <div>
-                <div>
-                    <router-link type="button" class="btn" to="/about">
-                        <font-awesome-icon
-                            class="fa"
-                            :icon="['fas', 'circle-info']"
-                        />
-                    </router-link>
-                    <router-link
-                        v-if="!loggedIn"
-                        type="button"
-                        class="btn"
-                        to="/login"
-                    >
-                        <font-awesome-icon
-                            class="fa"
-                            :icon="['fas', 'right-to-bracket']"
-                        />
-                    </router-link>
-                </div>
+                <router-link
+                    v-if="!loggedIn"
+                    type="button"
+                    class="btn"
+                    to="/login"
+                >
+                    <font-awesome-icon
+                        class="fa"
+                        :icon="['fas', 'right-to-bracket']"
+                    />
+                </router-link>
             </div>
             <div v-if="loggedIn">
                 <div>
@@ -96,11 +88,7 @@ export default {
             Switzerland,
         };
     },
-    computed: {},
     methods: {
-        termHash() {
-            return this.$store.getters.getTerm(this.term_hash)?.hash;
-        },
         logout() {
             this.$store.dispatch('logout');
         },

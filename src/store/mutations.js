@@ -23,9 +23,6 @@ const mutations = {
         state.userVotes = [...state.userVotes, vote];
         state.unsavedChanges = true;
     },
-    // SET_PERIOD(state, i){
-    //   state.period.setFullYear(state.period.getFullYear() + i);
-    // },
     DELETE_VOTE(state, index) {
         state.userVotes.splice(index, 1);
         state.unsavedChanges = true;
@@ -34,6 +31,7 @@ const mutations = {
         state.client = undefined;
         state.userVotes = undefined;
         state.connection = undefined;
+        state.unsavedChanges = false;
     },
 };
 

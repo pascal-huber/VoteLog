@@ -17,6 +17,7 @@ const store = createStore({
             userVotes: undefined,
             unsavedChanges: false,
             terms: terms,
+            termHash: terms.sort((a, b) => a.hash < b.hash)[0].hash,
         };
     },
     getters: getters,

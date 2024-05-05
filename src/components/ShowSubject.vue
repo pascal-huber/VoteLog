@@ -7,14 +7,15 @@
             </div>
             <div class="col-sm-12 col-md-2 md-text-end"></div>
 
-            <div class="col-2">ID:</div>
-            <div class="col-10">
-                {{ subject.id }}
-            </div>
-
             <div class="col-2">Datum:</div>
             <div class="col-10">
                 {{ subject.date.toLocaleDateString('de-CH') }}
+            </div>
+
+            <div class="col-2">Resultat:</div>
+
+            <div class="col-10">
+                <AnswerCard :answer="subject.outcome"></AnswerCard>
             </div>
 
             <div v-if="subject.categories?.length" class="col-2">
@@ -30,60 +31,44 @@
                 </ul>
             </div>
 
-            <div class="col-12 col-md-6 mt-4">
-                <h4>Deine Stimme</h4>
-            </div>
-            <div class="col-12 col-md-6 mt-4">
-                <router-link
-                    :to="{
-                        name: 'editSubject',
-                        params: {
-                            term_hash: term_hash,
-                            subject_id: subject_id,
-                        },
-                    }"
-                    type="button"
-                    class="btn btn-primary"
-                >
-                    Bearbeiten
-                </router-link>
+            <div class="col-12">
+                <h4>
+                    Deine Stimme
+                    <router-link
+                        :to="{
+                            name: 'editSubject',
+                            params: {
+                                term_hash: term_hash,
+                                subject_id: subject_id,
+                            },
+                        }"
+                    >
+                        <font-awesome-icon
+                            class="inlinebutton"
+                            :icon="['fas', 'pen-to-square']"
+                        />
+                    </router-link>
+                </h4>
             </div>
 
-            <div class="col-3">Stimme:</div>
-            <div class="col-9">
+            <div class="col-2">Stimme:</div>
+            <div class="col-10">
                 <font-awesome-icon
-                    v-if="userVote == undefined"
+                    v-if="userVote?.answer == undefined"
                     class="neutral"
                     :icon="['fas', 'question']"
                 />
-                <img
-                    v-else-if="userVote?.answer == Answer.Yes"
-                    :src="Ja"
-                    class="svg-logo"
-                />
-                <img
-                    v-else-if="userVote?.answer == Answer.No"
-                    :src="Nein"
-                    class="svg-logo"
-                />
-                <img
-                    v-else-if="userVote?.answer == Answer.Abstention"
-                    :src="Abstention"
-                    class="svg-logo"
-                />
-                <font-awesome-icon
-                    v-else
-                    class="neutral"
-                    :icon="['fas', 'question']"
-                />
+                <AnswerCard v-else :answer="userVote.answer" />
             </div>
 
-            <div class="col-3">Gewichtung:</div>
+            <div class="col-2">Gewichtung:</div>
             <div v-if="userVote?.importance == 0" class="col-9">0</div>
-            <div v-else class="col-9">{{ userVote?.importance || 1 }}x</div>
+            <div v-else class="col-10">
+                <ImportanceCard :importance="userVote?.importance || 1" />
+            </div>
 
-            <div class="col-3">Begründung:</div>
-            <div class="col-9">
+            <div class="col-2">Begründung:</div>
+            <div class="col-10">
                 <span class="text-wrap" style="white-space: pre">
                     {{ userVote?.reasoning }}
                 </span>
@@ -110,15 +95,19 @@
 <script>
 import { Answer } from '../Answer.js';
 
-import Ja from '@/assets/ja.svg';
-import Nein from '@/assets/nein.svg';
+import Ja from '@/assets/yes.svg';
+import Nein from '@/assets/no.svg';
 import Abstention from '@/assets/abstention.svg';
+import AnswerCard from '@/components/AnswerCard.vue';
+import ImportanceCard from '@/components/ImportanceCard.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
     name: 'ShowSubject',
     components: {
+        AnswerCard,
         FontAwesomeIcon,
+        ImportanceCard,
     },
     props: ['term_hash', 'subject_id'],
     setup() {
@@ -161,3 +150,15 @@ export default {
     },
 };
 </script>
+
+<style>
+ul {
+    list-style-type: '- ';
+    list-style-position: inside;
+    padding-left: 0;
+}
+.inlinebutton {
+    color: black;
+    padding-left: 1rem;
+}
+</style>

@@ -112,10 +112,10 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { agreementValue, Answer } from '../Answer.js';
 import Novote from '@/assets/novote.svg';
-import Ja from '@/assets/ja.svg';
+import Ja from '@/assets/yes.svg';
 import Abstention from '@/assets/abstention.svg';
 import ImportanceSymbol from '@/components/ImportanceSymbol.vue';
-import Nein from '@/assets/nein.svg';
+import Nein from '@/assets/no.svg';
 import T0x from '@/assets/0x.svg';
 import T1x from '@/assets/1x.svg';
 import T2x from '@/assets/2x.svg';
@@ -162,15 +162,14 @@ export default {
     },
     methods: {
         showDetails() {
-            if (true) {
-                this.$router.push({
-                    name: 'showSubject',
-                    params: {
-                        term_hash: this.term_hash,
-                        subject_id: this.subject.id,
-                    },
-                });
-            }
+            console.log('showDatails');
+            this.$router.push({
+                name: 'showSubject',
+                params: {
+                    term_hash: this.term_hash,
+                    subject_id: this.subject.id,
+                },
+            });
         },
         classAgreement(userVote, otherVote) {
             if (otherVote == undefined || userVote == undefined) {
