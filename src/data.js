@@ -1097,7 +1097,14 @@ export const terms = [
                 name: 'Prämien-Entlastungs-Initiative',
                 hash: '2024-06_667',
                 outcome: Answer.Novote,
-                categories: [['Sozialpolitik', 'Sozialversicherungen']],
+                categories: [
+                    [
+                        'Sozialpolitik',
+                        'Sozialversicherungen',
+                        'Kranken- und Unfallversicherung',
+                    ],
+                    ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
+                ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
                     { id: 'GP', answer: Answer.Yes },
@@ -1116,7 +1123,14 @@ export const terms = [
                 name: 'Kostenbremse im Gesundheitswesen',
                 hash: '2024-06_668',
                 outcome: Answer.Novote,
-                categories: [['Sozialpolitik', 'Sozialversicherungen']],
+                categories: [
+                    [
+                        'Sozialpolitik',
+                        'Sozialversicherungen',
+                        'Kranken- und Unfallversicherung',
+                    ],
+                    ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
+                ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },
@@ -1135,7 +1149,10 @@ export const terms = [
                 name: 'Für Freiheit und körperliche Unversehrtheit',
                 hash: '2024-06_669',
                 outcome: Answer.Novote,
-                categories: [['Sozialpolitik', 'Sozialversicherungen']],
+                categories: [
+                    ['Staatsordnung', 'Rechtsordnung', 'Grundrechte'],
+                    ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
+                ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },
