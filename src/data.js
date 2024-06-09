@@ -1096,7 +1096,7 @@ export const terms = [
                 date: new Date('2024-06-09'),
                 name: 'Prämien-Entlastungs-Initiative',
                 hash: '2024-06_667',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     [
                         'Sozialpolitik',
@@ -1122,7 +1122,7 @@ export const terms = [
                 date: new Date('2024-06-09'),
                 name: 'Kostenbremse im Gesundheitswesen',
                 hash: '2024-06_668',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     [
                         'Sozialpolitik',
@@ -1148,7 +1148,7 @@ export const terms = [
                 date: new Date('2024-06-09'),
                 name: 'Für Freiheit und körperliche Unversehrtheit',
                 hash: '2024-06_669',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     ['Staatsordnung', 'Rechtsordnung', 'Grundrechte'],
                     ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
@@ -1170,7 +1170,7 @@ export const terms = [
                 date: new Date('2024-06-09'),
                 name: 'Stromgesetz (Mantelerlass Energie)',
                 hash: '2024-06_670',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     ['Energie', 'Alternativenergien'],
                     [
