@@ -7,26 +7,12 @@
                     Anmeldung fehlgeschlagen
                 </div>
                 <form>
-                    <div v-if="!customWebDav">
-                        <span>server: {{ defaultWebDav }}&nbsp;</span><br />
-                        <small>
-                            <a class="link-primary" @click="toggleWebDav"
-                                >use different server</a
-                            >
-                        </small>
-                    </div>
-                    <div v-else>
-                        <small>
-                            <a class="link-primary" @click="toggleWebDav"
-                                >use default server</a
-                            >
-                        </small>
-                    </div>
-                    <div v-if="customWebDav" class="form-group">
+                    <div class="form-group">
                         <input
                             id="webDav"
                             v-model="webDav"
                             class="form-control"
+                            value="VUE_APP_WEBDAV_URI"
                             placeholder="https://your.dav.server.xyz"
                         />
                     </div>
@@ -66,12 +52,10 @@
 export default {
     data: function () {
         return {
-            webDav: undefined,
-            defaultWebDav: process.env.VUE_APP_WEBDAV_URI,
+            webDav: process.env.VUE_APP_WEBDAV_URI,
             userName: undefined,
             password: undefined,
             loginFailed: false,
-            customWebDav: false,
         };
     },
     computed: {
@@ -82,7 +66,7 @@ export default {
     methods: {
         async login() {
             const payload = {
-                webDav: this.customWebDav ? this.webDav : this.defaultWebDav,
+                webDav: this.webDav,
                 userName: this.userName,
                 password: this.password,
             };

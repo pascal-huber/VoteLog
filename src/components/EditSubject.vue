@@ -12,18 +12,25 @@
                     <img
                         :src="Novote"
                         class="svg-logo-huge"
-                        :class="{ active: userVote.answer == Answer.Novote }"
+                        role="button"
+                        :class="{
+                            active:
+                                userVote.answer == Answer.Novote ||
+                                userVote.answer == undefined,
+                        }"
                         @click="setAnswer(Answer.Novote)"
                     />
                     <img
                         :src="Ja"
                         class="svg-logo-huge"
+                        role="button"
                         :class="{ active: userVote.answer == Answer.Yes }"
                         @click="setAnswer(Answer.Yes)"
                     />
                     <img
                         :src="Abstention"
                         class="svg-logo-huge"
+                        role="button"
                         :class="{
                             active: userVote.answer == Answer.Abstention,
                         }"
@@ -32,6 +39,7 @@
                     <img
                         :src="Nein"
                         class="svg-logo-huge"
+                        role="button"
                         :class="{ active: userVote.answer == Answer.No }"
                         @click="setAnswer(Answer.No)"
                     />
@@ -56,12 +64,14 @@
                 <img
                     :src="T0x"
                     class="svg-logo-huge"
+                    role="button"
                     :class="{ active: userVote.importance == 0 }"
                     @click="setImportance(0)"
                 />
                 <img
                     :src="T1x"
                     class="svg-logo-huge"
+                    role="button"
                     :class="{
                         active: userVote.importance == undefined,
                     }"
@@ -70,12 +80,14 @@
                 <img
                     :src="T2x"
                     class="svg-logo-huge"
+                    role="button"
                     :class="{ active: userVote.importance == 2 }"
                     @click="setImportance(2)"
                 />
                 <img
                     :src="T4x"
                     class="svg-logo-huge"
+                    role="button"
                     :class="{ active: userVote.importance == 4 }"
                     @click="setImportance(4)"
                 />
@@ -101,9 +113,9 @@
 <script>
 import { Answer } from '../Answer.js';
 import Novote from '@/assets/novote.svg';
-import Ja from '@/assets/ja.svg';
+import Ja from '@/assets/yes.svg';
 import Abstention from '@/assets/abstention.svg';
-import Nein from '@/assets/nein.svg';
+import Nein from '@/assets/no.svg';
 import T0x from '@/assets/0x.svg';
 import T1x from '@/assets/1x.svg';
 import T2x from '@/assets/2x.svg';

@@ -4,18 +4,14 @@
         <!-- source: https://laracasts.com/discuss/channels/vue/vue-2-reload-component-when-same-route-is-requested?page=1 -->
         <router-view :key="$route.fullPath"></router-view>
         <footer id="footer" class="pb-2 pt-4 mt-auto text-center">
-            <a href="https://github.com/pascal-huber/VoteLog" target="_blank"
-                >VoteLog</a
-            >
-            by Pascal Huber
+            <a href="https://github.com/pascal-huber/votelog">VoteLog</a>
         </footer>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'App',
-    props: ['term_hash'],
+    name: 'TheIndex',
 };
 </script>
 

@@ -11,8 +11,14 @@ import store from '@/store/';
 
 const routes = [
     {
-        path: '/:term_hash',
-        name: 'home',
+        path: '/login',
+        name: 'login',
+        props: true,
+        component: Login,
+    },
+    {
+        path: '/terms/:term_hash',
+        name: 'term',
         props: true,
         component: App,
         children: [
@@ -29,16 +35,13 @@ const routes = [
                 component: VotesTableCategories,
             },
             {
-                path: ':subject_id',
+                path: 'votes/:subject_id',
                 name: 'showSubject',
                 props: true,
                 component: ShowSubject,
-                meta: {
-                    requiresAuth: true,
-                },
             },
             {
-                path: ':subject_id/edit',
+                path: 'votes/:subject_id/edit',
                 name: 'editSubject',
                 props: true,
                 component: EditSubject,
@@ -49,13 +52,17 @@ const routes = [
         ],
     },
     {
-        path: '/login',
-        name: 'login',
-        component: Login,
-    },
-    {
+        // redirect to default Term
         path: '/:pathMatch(.*)*',
-        component: NotFound,
+        redirect: (to) => {
+            const defaultTermHash = store.getters.getDefaultTerm().hash;
+            return {
+                name: 'votesTable',
+                params: {
+                    term_hash: defaultTermHash,
+                },
+            };
+        },
     },
 ];
 
@@ -64,28 +71,12 @@ const router = new createRouter({
     routes,
 });
 
-let defaultTerm = () => {
-    const now = new Date();
-    let terms = store.getters.getTerms();
-    terms.sort((a, b) => a.start_date > b.start_date);
-    let i = 0;
-    let currentTerm = terms[i];
-    while (i + 1 < terms.length && currentTerm.end_date < now)
-        currentTerm = terms[++i];
-    return currentTerm?.hash;
-};
-
-router.beforeEach((to, from, next) => {
-    if (to.path == '/') {
-        next('/' + defaultTerm());
-    } else {
-        next();
-    }
-});
-
+// Login redirection
 router.beforeEach((to, from, next) => {
     store.dispatch('init').then(() => {
-        if (
+        if (to.name == 'login' && store.getters.isLoggedIn()) {
+            next({ name: from.name });
+        } else if (
             to.matched.some((record) => record.meta.requiresAuth) &&
             !store.getters.isLoggedIn()
         ) {
