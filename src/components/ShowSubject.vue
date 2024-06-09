@@ -84,7 +84,7 @@
 
             <div class="col-3">Begründung:</div>
             <div class="col-9">
-                <span style="white-space: pre">
+                <span class="text-wrap" style="white-space: pre">
                     {{ userVote?.reasoning }}
                 </span>
             </div>
