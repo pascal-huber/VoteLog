@@ -1,6 +1,6 @@
 {
   "name": "VoteLog",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port 8001",
