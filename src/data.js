@@ -1358,7 +1358,7 @@ export const terms = [
                 date: new Date('2025-09-28'),
                 name: 'Kantonale Besteuerung von Zweitliegenschaften',
                 hash: '2025-09_678',
-                outcome: Answer.Abstention,
+                outcome: Answer.Yes,
                 categories: [
                     [
                         'Umwelt und Lebensraum',
@@ -1383,7 +1383,7 @@ export const terms = [
                 date: new Date('2025-09-28'),
                 name: 'E-ID-Gesetz',
                 hash: '2025-09_679',
-                outcome: Answer.Abstention,
+                outcome: Answer.Yes,
                 categories: [['Staatsordnung', 'Rechtsordnung', 'Datenschutz']],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
