@@ -3,6 +3,10 @@
 A small Webapp I use to keep track of my votes in Switzerland and see which
 parties agree with me.
 
+## Known Issues
+
+- Doesn't handle Gegenentwürfe very well (multiple entries, preferences and links)
+
 ## Features
 
 - Show and compare results of Swiss referendums and initiatives
