@@ -1444,7 +1444,7 @@ export const terms = [
                 date: new Date('2026-03-08'),
                 name: 'Bargeld-Initiative',
                 hash: '2026-03_683_10',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     ['Wirtschaft', 'Finanzwesen', 'Geld- und Währungspolitik'],
                     ['Staatsordnung', 'Rechtsordnung', 'Datenschutz'],
@@ -1465,7 +1465,7 @@ export const terms = [
                 date: new Date('2026-03-08'),
                 name: 'Bargeld-Initiative Gegenentwurf',
                 hash: '2026-03_683_20',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     ['Wirtschaft', 'Finanzwesen', 'Geld- und Währungspolitik'],
                     ['Staatsordnung', 'Rechtsordnung', 'Datenschutz'],
@@ -1486,7 +1486,7 @@ export const terms = [
                 date: new Date('2026-03-08'),
                 name: 'Bargeld-Initiative Präferenz Gegenentwurf',
                 hash: '2026-03_683_30',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     ['Wirtschaft', 'Finanzwesen', 'Geld- und Währungspolitik'],
                     ['Staatsordnung', 'Rechtsordnung', 'Datenschutz'],
@@ -1507,7 +1507,7 @@ export const terms = [
                 date: new Date('2026-03-08'),
                 name: 'SRG-Initiative «200 Franken sind genug!»',
                 hash: '2026-03_683',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     [
                         'Kultur, Religion, Medien',
@@ -1536,7 +1536,7 @@ export const terms = [
                 date: new Date('2026-03-08'),
                 name: 'Klimafonds-Initiative',
                 hash: '2026-03_684',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     ['Umwelt und Lebensraum', 'Umwelt', 'Umweltpolitik'],
                     ['Energie'],
@@ -1558,7 +1558,7 @@ export const terms = [
                 date: new Date('2026-03-08'),
                 name: 'Gesetz über die Individualbesteuerung',
                 hash: '2026-03_685',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern'],
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Steuersystem'],
