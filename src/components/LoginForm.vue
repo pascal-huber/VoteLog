@@ -67,7 +67,7 @@ export default {
     data: function () {
         return {
             webDav: undefined,
-            defaultWebDav: process.env.VUE_APP_WEBDAV_URI,
+            defaultWebDav: import.meta.env.VUE_APP_WEBDAV_URI,
             userName: undefined,
             password: undefined,
             loginFailed: false,
