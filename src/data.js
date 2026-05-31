@@ -1626,7 +1626,7 @@ export const terms = [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },
                     { id: 'GLP', answer: Answer.No },
-                   { id: 'CVP', answer: Answer.Yes },
+                    { id: 'CVP', answer: Answer.Yes },
                     // { id: 'EVP', answer: Answer.No },
                     { id: 'FDP', answer: Answer.Yes },
                     // { id: 'EDU', answer: Answer.Yes },
