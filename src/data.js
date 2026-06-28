@@ -1584,7 +1584,7 @@ export const terms = [
                 date: new Date('2026-06-14'),
                 name: 'Nachhaltigkeitsinitiative',
                 hash: '2026-06_686',
-                outcome: Answer.Novote,
+                outcome: Answer.No,
                 categories: [
                     [
                         'Sozial- und Gesellschaftspolitik',
@@ -1614,7 +1614,7 @@ export const terms = [
                 date: new Date('2026-06-14'),
                 name: 'Zivildienstgesetz',
                 hash: '2026-06_687',
-                outcome: Answer.Novote,
+                outcome: Answer.Yes,
                 categories: [
                     [
                         'Sicherheitspolitik',
