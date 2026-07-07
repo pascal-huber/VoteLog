@@ -3,27 +3,43 @@
 A small Webapp I use to keep track of my votes in Switzerland and see which
 parties agree with me.
 
-## Known Issues
-
-- Doesn't handle Gegenentwürfe very well (multiple entries, preferences and links)
-
-## Features
-
-- Show and compare results of Swiss referendums and initiatives
-- Provide reasoning for decision
-- Vote Category Overview
-- Load and store data to WebDAV (no backend)
-
 ![VoteLog Screenshot](screenshot.png)
 (those are not my votes, at least not all of them...)
 
+## Known Issues
+
+Functional:
+- Doesn't handle *Gegenentwürfe* very well.
+
+Technical:
+- Error handling for the WebDAV connection (fetching and storing data) could be
+  better.
+
+## Features
+
+Functional:
+- Show and compare results of Swiss referendums and initiatives
+- Provide reasoning for decision
+- Vote Category Overview
+
+Technical:
+- Built with Vue.js, Vuex, Vue Router
+- There is no (real) backend. Data is stored in WebDAV in
+  "bring-your-own-WebDAV manner. Note that if WebDAV and VoteLog are running on
+  different (sub)domains, CORS must be configured accordingly. Otherwise the
+  browser will block the connections. This disqualifies many managed solutions.
+  All the data is stored in a file called `votelog_<user-email>.json` (multiple
+  users can share a WebDAV server).
+- OpenID Connect is used for authentication. VoteLog stores the Token in
+  SessionStorage (which survives a refresh but is removed when the browser tab
+  is closed).
+
 ## Setup
 
-### Build and run Development WebDAV server
+### Build and run Development Apache2 (DAV, Proxy) and Dex (OIDC)
 
 ```
-docker build -t webdav-dev dev/webdav/
-docker-compose -f dev/webdav/docker-compose.yml up -d
+docker compose -f dev/webdav/docker-compose.yml up -d --build 
 ```
 
 ### Install dependencies

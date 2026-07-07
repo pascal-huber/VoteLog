@@ -7,6 +7,7 @@ import store from '@/store/';
 import router from '@/router.js';
 import '@/icons.js';
 
+await store.dispatch('restoreSession');
 const app = createApp(Index);
 app.use(store);
 app.use(router);

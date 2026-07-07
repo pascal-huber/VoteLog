@@ -50,7 +50,7 @@
                     <a
                         v-if="unsavedChanges"
                         type="buton"
-                        class="btn"
+                        class="btn unsaved-changes"
                         @click="saveChanges"
                     >
                         <font-awesome-icon class="fa" :icon="['fas', 'save']" />
@@ -100,5 +100,8 @@ export default {
 <style>
 .swiss-logo {
     height: 30px;
+}
+.unsaved-changes {
+    color: #dd2222;
 }
 </style>

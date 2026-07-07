@@ -1,10 +1,18 @@
+import { terms } from '@/data.js';
+
 const mutations = {
     SET_DATA(state, payload) {
         state.userVotes = payload.votes;
         state.fetchedData = true;
     },
-    SET_CONNECTION(state, payload) {
-        state.connection = payload;
+    SET_TOKEN_EXPIRES_AT(state, expiresAt) {
+        state.tokenExpiresAt = expiresAt;
+    },
+    SET_USER_NAME(state, payload) {
+        state.userName = payload;
+    },
+    SET_WEBDAV(state, payload) {
+        state.webDav = payload;
     },
     SET_CLIENT(state, client) {
         state.client = client;
@@ -23,17 +31,19 @@ const mutations = {
         state.userVotes = [...state.userVotes, vote];
         state.unsavedChanges = true;
     },
-    // SET_PERIOD(state, i){
-    //   state.period.setFullYear(state.period.getFullYear() + i);
-    // },
     DELETE_VOTE(state, index) {
         state.userVotes.splice(index, 1);
         state.unsavedChanges = true;
     },
     LOGOUT(state) {
+        console.log('LOGOUT');
         state.client = undefined;
+        state.webDav = undefined;
+        state.userName = undefined;
+        state.error = undefined;
+        state.fetchedData = false;
         state.userVotes = undefined;
-        state.connection = undefined;
+        state.unsavedChanges = false;
     },
 };
 

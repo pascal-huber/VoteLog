@@ -76,24 +76,16 @@ let defaultTerm = () => {
 };
 
 router.beforeEach((to, from, next) => {
-    if (to.path == '/') {
+    if (
+        to.matched.some((record) => record.meta.requiresAuth) &&
+        !store.getters.isLoggedIn()
+    ) {
+        next({ name: 'login' });
+    } else if (to.path == '/') {
         next('/' + defaultTerm());
     } else {
         next();
     }
-});
-
-router.beforeEach((to, from, next) => {
-    store.dispatch('init').then(() => {
-        if (
-            to.matched.some((record) => record.meta.requiresAuth) &&
-            !store.getters.isLoggedIn()
-        ) {
-            next({ name: 'login' });
-        } else {
-            next();
-        }
-    });
 });
 
 export default router;

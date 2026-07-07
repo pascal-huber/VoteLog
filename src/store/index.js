@@ -10,8 +10,9 @@ import mutations from './mutations.js';
 const store = createStore({
     state() {
         return {
-            connection: undefined,
             client: undefined,
+            webDav: undefined,
+            userName: undefined,
             error: undefined,
             fetchedData: false,
             userVotes: undefined,

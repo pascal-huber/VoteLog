@@ -1,0 +1,54 @@
+issuer: http://localhost:8080/dex
+
+storage:
+  type: sqlite3
+  config:
+    file: /var/dex/dex.db
+
+web:
+  http: 0.0.0.0:5556          # plain HTTP — used by the browser/SPA via Apache proxy
+  https: 0.0.0.0:5557         # HTTPS — INTERNAL ONLY, just for Apache's JWKS fetch
+  tlsCert: /etc/dex/certs/dex.crt
+  tlsKey: /etc/dex/certs/dex.key
+
+
+# Allow password grants against the built-in local user DB
+oauth2:
+  passwordConnector: local
+
+# Enable the local ("virtual") identity provider
+enablePasswordDB: true
+
+staticPasswords:
+# - email: "alice@example.com"
+#   # bcrypt hash of "password123" — see step 5 to generate your own
+#   hash: "$2a$10$L4nMuLuTIzHTQaVUnzNy7uY7C4rD26jXNQV9BF1cVn/dTFpk9UzS6"
+#   username: "alice"
+#   userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+
+  - email: dog@example.com
+    username: dog
+    userID: "b42f2334-79e4-11f1-8b8f-10ffe0360572"
+    hash: "$2y$10$Pg3c9XaIAHBFCsWRaQAiuuwQoVxwk1bbjGVFmND8lYhJFxCt/gUfa"
+
+  - email: cat@example.com
+    username: cat
+    userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+    # NOTE: generate hash:
+    # docker run --rm httpd:2.4 htpasswd -nbBC 10 "" "cat" | cut -d: -f2
+    hash: "$2y$10$jgn7adGyEWAlAYUcp0v1zOn.E6AXpxA7gHZtzpVqvf8gy2GaEnlv6"
+
+staticClients:
+  # - id: webdav-votelog
+  #   name: WebDAV VoteLog
+  #   public: true
+  #   redirectURIs:
+  #     - https://localhost:8001/callback
+  #     - https://localhost:8001/
+  - id: votelog-webapp
+    name: WebDAV VoteLog
+    # secret: dev-only-secret-change-me
+    # public: false
+    public: true
+    redirectURIs:
+    - "http://localhost:8001/callback"

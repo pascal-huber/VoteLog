@@ -91,7 +91,7 @@
                     class="btn btn-primary"
                     @click="changeVote"
                 >
-                    Fertig
+                    Speichern
                 </button>
             </div>
         </div>
