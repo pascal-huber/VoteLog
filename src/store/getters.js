@@ -2,17 +2,17 @@ const getters = {
     fetchedData: (state) => () => state.fetchedData,
     getClient: (state) => () => state.client,
     getSubjectByHash: (state) => (term_hash, subject_id) => {
-        let term = state.terms.find((term) => term.hash == term_hash);
-        return term?.subjects.find((subject) => subject.id == subject_id);
+        let term = state.terms.find((term) => term.hash == term_hash)
+        return term?.subjects.find((subject) => subject.id == subject_id)
     },
     getTerms: (state) => () => state.terms,
     getTerm: (state) => (term_hash) => {
-        let thash = term_hash;
+        let thash = term_hash
         if (!thash) {
             // FIXME: compute defaultTermHash
-            thash = '2019_23';
+            thash = '2019_23'
         }
-        return state.terms.find((term) => term.hash == thash);
+        return state.terms.find((term) => term.hash == thash)
     },
     // FIXME: check expired tokens
     // isTokenExpired(state) {
@@ -32,12 +32,11 @@ const getters = {
     getTermHash: (state) => () => state.votes[2].hash,
     getUserName: (state) => () => state.userName,
     getUserVotes: (state) => () => state.userVotes,
-    getUserVote: (state) => (subjectId) =>
-        state.userVotes?.find((vote) => vote.id == subjectId),
+    getUserVote: (state) => (subjectId) => state.userVotes?.find((vote) => vote.id == subjectId),
     getError: (state) => () => state.error,
     hasFetchedData: (state) => () => !!state.fetchedData,
     isLoggedIn: (state) => () => state.client != undefined,
     unsavedChanges: (state) => () => state.unsavedChanges,
-};
+}
 
-export default getters;
+export default getters

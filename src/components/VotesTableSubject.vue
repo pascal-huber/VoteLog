@@ -3,9 +3,7 @@
         <div class="col-12 col-lg-6">
             <div class="d-flex">
                 <div class="order-lg-2 me-auto p-0 px-lg-2">
-                    <span
-                        :class="{ 'text-secondary': userVote?.importance == 0 }"
-                    >
+                    <span :class="{ 'text-secondary': userVote?.importance == 0 }">
                         {{ subject.name }}
                     </span>
                 </div>
@@ -14,9 +12,7 @@
                 </div>
                 <div class="date-cell">
                     <small class="datetext"
-                        >&nbsp;{{
-                            ('0' + (subject.date.getMonth() + 1)).slice(-2)
-                        }}/{{
+                        >&nbsp;{{ ('0' + (subject.date.getMonth() + 1)).slice(-2) }}/{{
                             subject.date.getFullYear().toString().substring(2)
                         }}</small
                     >
@@ -27,21 +23,9 @@
             <div class="row g-0">
                 <!-- Switzerland -->
                 <div class="col svg-col" align="center" :class="classSwiss">
-                    <img
-                        v-if="subject.outcome == Answer.Yes"
-                        :src="Ja"
-                        class="svg-logo"
-                    />
-                    <img
-                        v-else-if="subject.outcome == Answer.No"
-                        :src="Nein"
-                        class="svg-logo"
-                    />
-                    <font-awesome-icon
-                        v-else
-                        class="neutral"
-                        :icon="['fas', 'question']"
-                    />
+                    <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
+                    <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
+                    <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
                 </div>
 
                 <!-- Me -->
@@ -51,26 +35,14 @@
                         class="neutral"
                         :icon="['fas', 'question']"
                     />
-                    <img
-                        v-else-if="userVote.answer == Answer.Yes"
-                        :src="Ja"
-                        class="svg-logo"
-                    />
-                    <img
-                        v-else-if="userVote.answer == Answer.No"
-                        :src="Nein"
-                        class="svg-logo"
-                    />
+                    <img v-else-if="userVote.answer == Answer.Yes" :src="Ja" class="svg-logo" />
+                    <img v-else-if="userVote.answer == Answer.No" :src="Nein" class="svg-logo" />
                     <img
                         v-else-if="userVote.answer == Answer.Abstention"
                         :src="Abstention"
                         class="svg-logo"
                     />
-                    <font-awesome-icon
-                        v-else
-                        class="neutral"
-                        :icon="['fas', 'question']"
-                    />
+                    <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
                 </div>
 
                 <!-- Parties -->
@@ -81,11 +53,7 @@
                     align="center"
                     :class="partyAnswers[i].answerClass"
                 >
-                    <img
-                        v-if="partyAnswers[i].answer == Answer.Yes"
-                        :src="Ja"
-                        class="svg-logo"
-                    />
+                    <img v-if="partyAnswers[i].answer == Answer.Yes" :src="Ja" class="svg-logo" />
                     <img
                         v-else-if="partyAnswers[i].answer == Answer.No"
                         :src="Nein"
@@ -109,17 +77,17 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { agreementValue, Answer } from '../Answer.js';
-import Novote from '@/assets/novote.svg';
-import Ja from '@/assets/ja.svg';
-import Abstention from '@/assets/abstention.svg';
-import ImportanceSymbol from '@/components/ImportanceSymbol.vue';
-import Nein from '@/assets/nein.svg';
-import T0x from '@/assets/0x.svg';
-import T1x from '@/assets/1x.svg';
-import T2x from '@/assets/2x.svg';
-import T4x from '@/assets/4x.svg';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { agreementValue, Answer } from '../Answer.js'
+import Novote from '@/assets/novote.svg'
+import Ja from '@/assets/ja.svg'
+import Abstention from '@/assets/abstention.svg'
+import ImportanceSymbol from '@/components/ImportanceSymbol.vue'
+import Nein from '@/assets/nein.svg'
+import T0x from '@/assets/0x.svg'
+import T1x from '@/assets/1x.svg'
+import T2x from '@/assets/2x.svg'
+import T4x from '@/assets/4x.svg'
 
 export default {
     name: 'VotesTableSubject',
@@ -139,25 +107,19 @@ export default {
             T1x,
             T2x,
             T4x,
-        };
+        }
     },
     computed: {
         classSwiss() {
-            return this.classAgreement(
-                this.userVote?.answer,
-                this.subject.outcome,
-            );
+            return this.classAgreement(this.userVote?.answer, this.subject.outcome)
         },
         partyAnswers() {
-            var answers = [];
+            var answers = []
             for (let vote of this.subject.parties) {
-                var voteClass = this.classAgreement(
-                    this.userVote?.answer,
-                    vote.answer,
-                );
-                answers.push({ answer: vote?.answer, answerClass: voteClass });
+                var voteClass = this.classAgreement(this.userVote?.answer, vote.answer)
+                answers.push({ answer: vote?.answer, answerClass: voteClass })
             }
-            return answers;
+            return answers
         },
     },
     methods: {
@@ -169,24 +131,24 @@ export default {
                         term_hash: this.term_hash,
                         subject_id: this.subject.id,
                     },
-                });
+                })
             }
         },
         classAgreement(userVote, otherVote) {
             if (otherVote == undefined || userVote == undefined) {
-                return 'neutral';
+                return 'neutral'
             }
-            let agreement = agreementValue(otherVote, userVote, 1);
+            let agreement = agreementValue(otherVote, userVote, 1)
             if (agreement >= 1.0) {
-                return 'agree';
+                return 'agree'
             } else if (agreement >= 0.5) {
-                return 'semiagree';
+                return 'semiagree'
             } else {
-                return 'disagree';
+                return 'disagree'
             }
         },
     },
-};
+}
 </script>
 
 <style lang="scss">

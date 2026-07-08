@@ -14,26 +14,14 @@
                     <div class="col-12 col-lg-6">
                         <div class="row g-0">
                             <div class="col svg-col">
-                                <PercentageValue
-                                    :percentage="agreement['swiss']"
-                                    :color="true"
-                                />
+                                <PercentageValue :percentage="agreement['swiss']" :color="true" />
                             </div>
                             <div class="col svg-col">
-                                <PercentageValue
-                                    :percentage="'-'"
-                                    :color="false"
-                                />
+                                <PercentageValue :percentage="'-'" :color="false" />
                             </div>
-                            <div
-                                v-for="party in parties"
-                                :key="party"
-                                class="col svg-col"
-                            >
+                            <div v-for="party in parties" :key="party" class="col svg-col">
                                 <PercentageValue
-                                    :percentage="
-                                        agreement['parties'][party.name]
-                                    "
+                                    :percentage="agreement['parties'][party.name]"
                                     :color="true"
                                 />
                             </div>
@@ -64,10 +52,10 @@
 
 <script>
 // import { agreementValue } from '@/Answer.js';
-import PercentageValue from '@/components/PercentageValue.vue';
-import VotesTableSubject from '@/components/VotesTableSubject.vue';
+import PercentageValue from '@/components/PercentageValue.vue'
+import VotesTableSubject from '@/components/VotesTableSubject.vue'
 
-const regex = /[^A-Za-z0-9]/g;
+const regex = /[^A-Za-z0-9]/g
 
 export default {
     name: 'VotesTableCategory',
@@ -78,44 +66,38 @@ export default {
     props: ['category', 'agreement', 'parties', 'term_hash', 'loggedIn'],
     computed: {
         htCategory() {
-            return '#' + this.category.replace(regex, '');
+            return '#' + this.category.replace(regex, '')
         },
         headerCategory() {
-            return 'heading' + this.category.replace(regex, '');
+            return 'heading' + this.category.replace(regex, '')
         },
         accordionId() {
-            return 'accordion' + this.category.replace(regex, '');
+            return 'accordion' + this.category.replace(regex, '')
         },
         htAccordionId() {
-            return '#accordion' + this.category.replace(regex, '');
+            return '#accordion' + this.category.replace(regex, '')
         },
         categoryId() {
-            return this.category.replace(regex, '');
+            return this.category.replace(regex, '')
         },
         classSwiss() {
-            return this.classAgreement(
-                this.userVote?.answer,
-                this.subject.outcome,
-            );
+            return this.classAgreement(this.userVote?.answer, this.subject.outcome)
         },
         partyAnswers() {
-            var answers = [];
+            var answers = []
             for (let vote of this.subject.parties) {
-                var voteClass = this.classAgreement(
-                    this.userVote?.answer,
-                    vote.answer,
-                );
-                answers.push({ answer: vote?.answer, answerClass: voteClass });
+                var voteClass = this.classAgreement(this.userVote?.answer, vote.answer)
+                answers.push({ answer: vote?.answer, answerClass: voteClass })
             }
-            return answers;
+            return answers
         },
     },
     methods: {
         userVote(subject_id) {
-            return this.$store.getters.getUserVote(subject_id);
+            return this.$store.getters.getUserVote(subject_id)
         },
     },
-};
+}
 </script>
 
 <style>

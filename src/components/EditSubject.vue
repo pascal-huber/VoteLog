@@ -82,32 +82,24 @@
             </div>
 
             <div class="col-12">
-                <button type="button" class="btn btn-primary" @click="goBack">
-                    Abbrechen
-                </button>
+                <button type="button" class="btn btn-primary" @click="goBack">Abbrechen</button>
                 &nbsp;
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click="changeVote"
-                >
-                    Speichern
-                </button>
+                <button type="button" class="btn btn-primary" @click="changeVote">Speichern</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { Answer } from '../Answer.js';
-import Novote from '@/assets/novote.svg';
-import Ja from '@/assets/ja.svg';
-import Abstention from '@/assets/abstention.svg';
-import Nein from '@/assets/nein.svg';
-import T0x from '@/assets/0x.svg';
-import T1x from '@/assets/1x.svg';
-import T2x from '@/assets/2x.svg';
-import T4x from '@/assets/4x.svg';
+import { Answer } from '../Answer.js'
+import Novote from '@/assets/novote.svg'
+import Ja from '@/assets/ja.svg'
+import Abstention from '@/assets/abstention.svg'
+import Nein from '@/assets/nein.svg'
+import T0x from '@/assets/0x.svg'
+import T1x from '@/assets/1x.svg'
+import T2x from '@/assets/2x.svg'
+import T4x from '@/assets/4x.svg'
 
 export default {
     name: 'EditSubject',
@@ -123,63 +115,58 @@ export default {
             T1x,
             T2x,
             T4x,
-        };
+        }
     },
     data: function () {
         return {
-            subject: this.$store.getters.getSubjectByHash(
-                this.term_hash,
-                this.subject_id,
-            ),
+            subject: this.$store.getters.getSubjectByHash(this.term_hash, this.subject_id),
             userVote: this.$store.getters.getUserVote(this.subject_id) || {},
-        };
+        }
     },
     computed: {
         importanceText() {
             switch (true) {
                 case this.userVote.importance == 0:
-                    return 'irrelevant (x0)';
+                    return 'irrelevant (x0)'
                 case this.userVote.importance == 1:
-                    return 'normal (x1)';
+                    return 'normal (x1)'
                 case this.userVote.importance == 2:
-                    return 'wichtig (x2)';
+                    return 'wichtig (x2)'
                 case this.userVote.importance == 3:
-                    return 'sehr wichtig (x4)';
+                    return 'sehr wichtig (x4)'
                 default:
-                    return 'fdsa';
+                    return 'fdsa'
             }
         },
     },
     methods: {
         goBack() {
-            this.$router.go(-1);
+            this.$router.go(-1)
         },
         setAnswer(answer) {
-            this.userVote.answer = answer;
+            this.userVote.answer = answer
         },
         setImportance(importance) {
-            this.userVote.importance = importance;
+            this.userVote.importance = importance
         },
         changeVote() {
             var vote = {
                 id: this.subject.id,
                 answer: this.userVote.answer,
-                reasoning: this.userVote.reasoning
-                    ? this.userVote.reasoning
-                    : undefined,
+                reasoning: this.userVote.reasoning ? this.userVote.reasoning : undefined,
                 importance: this.userVote.importance,
-            };
+            }
             if (
                 this.userVote.answer != undefined ||
                 this.userVote.reasoning ||
                 this.userVote.importance != undefined
             ) {
-                this.$store.dispatch('setVote', vote);
+                this.$store.dispatch('setVote', vote)
             }
-            this.$router.go(-1);
+            this.$router.go(-1)
         },
     },
-};
+}
 </script>
 
 <style lang="scss">

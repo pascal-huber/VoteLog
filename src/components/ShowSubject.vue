@@ -17,9 +17,7 @@
                 {{ subject.date.toLocaleDateString('de-CH') }}
             </div>
 
-            <div v-if="subject.categories?.length" class="col-2">
-                Kategorien:
-            </div>
+            <div v-if="subject.categories?.length" class="col-2">Kategorien:</div>
             <div v-if="subject.categories?.length" class="col-10">
                 <ul>
                     <li v-for="category in uniqueCategories" :key="category">
@@ -56,26 +54,14 @@
                     class="neutral"
                     :icon="['fas', 'question']"
                 />
-                <img
-                    v-else-if="userVote?.answer == Answer.Yes"
-                    :src="Ja"
-                    class="svg-logo"
-                />
-                <img
-                    v-else-if="userVote?.answer == Answer.No"
-                    :src="Nein"
-                    class="svg-logo"
-                />
+                <img v-else-if="userVote?.answer == Answer.Yes" :src="Ja" class="svg-logo" />
+                <img v-else-if="userVote?.answer == Answer.No" :src="Nein" class="svg-logo" />
                 <img
                     v-else-if="userVote?.answer == Answer.Abstention"
                     :src="Abstention"
                     class="svg-logo"
                 />
-                <font-awesome-icon
-                    v-else
-                    class="neutral"
-                    :icon="['fas', 'question']"
-                />
+                <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
             </div>
 
             <div class="col-3">Gewichtung:</div>
@@ -92,14 +78,10 @@
                 <h4>Weitere Resourcen</h4>
                 <ul>
                     <li>
-                        <a :href="swissvotesURL" target="_blank"
-                            >Vorlage auf swissvotes.ch</a
-                        >
+                        <a :href="swissvotesURL" target="_blank">Vorlage auf swissvotes.ch</a>
                     </li>
                     <li>
-                        <a :href="adminCantonResultsURL" target="_blank"
-                            >Resultate auf admin.ch</a
-                        >
+                        <a :href="adminCantonResultsURL" target="_blank">Resultate auf admin.ch</a>
                     </li>
                 </ul>
             </div>
@@ -108,12 +90,12 @@
 </template>
 
 <script>
-import { Answer } from '../Answer.js';
+import { Answer } from '../Answer.js'
 
-import Ja from '@/assets/ja.svg';
-import Nein from '@/assets/nein.svg';
-import Abstention from '@/assets/abstention.svg';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Ja from '@/assets/ja.svg'
+import Nein from '@/assets/nein.svg'
+import Abstention from '@/assets/abstention.svg'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
     name: 'ShowSubject',
@@ -127,27 +109,24 @@ export default {
             Answer,
             Ja,
             Nein,
-        };
+        }
     },
     data: function () {
         return {
-            subject: this.$store.getters.getSubjectByHash(
-                this.term_hash,
-                this.subject_id,
-            ),
+            subject: this.$store.getters.getSubjectByHash(this.term_hash, this.subject_id),
             userVote: this.$store.getters.getUserVote(this.subject_id),
-        };
+        }
     },
     computed: {
         uniqueCategories() {
-            let categories = new Set();
+            let categories = new Set()
             for (var i = 0; i < this.subject.categories.length; i++) {
-                categories.add(this.subject.categories[i][0]);
+                categories.add(this.subject.categories[i][0])
             }
-            return [...categories];
+            return [...categories]
         },
         swissvotesURL() {
-            return 'https://swissvotes.ch/vote/' + this.subject.id + '.00';
+            return 'https://swissvotes.ch/vote/' + this.subject.id + '.00'
         },
         adminCantonResultsURL() {
             return (
@@ -156,8 +135,8 @@ export default {
                 ('0' + (this.subject.date.getMonth() + 1)).slice(-2) +
                 ('0' + this.subject.date.getDate()).slice(-2) +
                 '/index.html'
-            );
+            )
         },
     },
-};
+}
 </script>

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue';
+import NavBar from '@/components/NavBar.vue'
 
 export default {
     name: 'App',
@@ -22,17 +22,17 @@ export default {
     data: function () {
         return {
             term: this.$store.getters.getTerm(this.term_hash),
-        };
+        }
     },
     computed: {
         loggedIn() {
-            return this.$store.getters.isLoggedIn();
+            return this.$store.getters.isLoggedIn()
         },
         unsavedChanges() {
-            return this.$store.getters.unsavedChanges();
+            return this.$store.getters.unsavedChanges()
         },
     },
-};
+}
 </script>
 
 <style>

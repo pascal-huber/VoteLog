@@ -1,4 +1,4 @@
-import { Answer } from './Answer.js';
+import { Answer } from './Answer.js'
 
 export const terms = [
     {
@@ -167,11 +167,7 @@ export const terms = [
                 hash: '2023-06_663',
                 outcome: Answer.Yes,
                 categories: [
-                    [
-                        'Umwelt und Lebensraum',
-                        'Umwelt',
-                        'Umweltpolitik Energie',
-                    ],
+                    ['Umwelt und Lebensraum', 'Umwelt', 'Umweltpolitik Energie'],
                     ['Wirtschaft', 'Wirtschaftspolitik', 'Strukturpolitik'],
                 ],
                 parties: [
@@ -220,11 +216,7 @@ export const terms = [
                     // "Steuerwesen",
                     // "Finanzwesen",
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern'],
-                    [
-                        'Wirtschaft',
-                        'Finanzwesen',
-                        'Banken, Börsen, Versicherungen',
-                    ],
+                    ['Wirtschaft', 'Finanzwesen', 'Banken, Börsen, Versicherungen'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -282,11 +274,7 @@ export const terms = [
                         'Sozialversicherungen',
                         'Alters- und Hinterbliebenenversicherung',
                     ],
-                    [
-                        'Öffentliche Finanzen',
-                        'Steuerwesen',
-                        'Indirekte Steuern',
-                    ],
+                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -440,16 +428,8 @@ export const terms = [
                 // Öffentliche Finanzen > Steuerwesen > Indirekte Steuern
                 // Wirtschaft > Finanzwesen > Banken, Börsen, Versicherungen
                 categories: [
-                    [
-                        'Öffentliche Finanzen',
-                        'Steuerwesen',
-                        'Indirekte Steuern',
-                    ],
-                    [
-                        'Wirtschaft',
-                        'Finanzwesen',
-                        'Banken, Börsen, Versicherungen',
-                    ],
+                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
+                    ['Wirtschaft', 'Finanzwesen', 'Banken, Börsen, Versicherungen'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -476,11 +456,7 @@ export const terms = [
                     // "Soziale Gruppen",
                     // "Wirtschaftspolitik"
                     ['Sozialpolitik', 'Gesundheit', 'Suchtmittel'],
-                    [
-                        'Sozialpolitik',
-                        'Soziale Gruppen',
-                        'Kinder und Jugendliche',
-                    ],
+                    ['Sozialpolitik', 'Soziale Gruppen', 'Kinder und Jugendliche'],
                     ['Wirtschaft', 'Wirtschaftspolitik', 'Wettbewerbspolitik'],
                 ],
                 parties: [
@@ -507,11 +483,7 @@ export const terms = [
                     // "Bildung und Forschung",  // top level
                     // "Gesundheit",
                     ['Bildung und Forschung', 'Forschung', 'Tierversuche'],
-                    [
-                        'Sozialpolitik',
-                        'Gesundheit',
-                        'Medizinforschung und -technik',
-                    ],
+                    ['Sozialpolitik', 'Gesundheit', 'Medizinforschung und -technik'],
                     ['Sozialpolitik', 'Gesundheit', 'Medikamente'],
                 ],
                 parties: [
@@ -591,16 +563,8 @@ export const terms = [
                     // "Sozialversicherungen",
                     // "Arbeit und Beschäftigung"
                     ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
-                    [
-                        'Sozialpolitik',
-                        'Sozialversicherungen',
-                        'Kranken- und Unfallversicherung',
-                    ],
-                    [
-                        'Wirtschaft',
-                        'Arbeit und Beschäftigung',
-                        'Arbeitsbedingungen',
-                    ],
+                    ['Sozialpolitik', 'Sozialversicherungen', 'Kranken- und Unfallversicherung'],
+                    ['Wirtschaft', 'Arbeit und Beschäftigung', 'Arbeitsbedingungen'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -642,11 +606,7 @@ export const terms = [
                 hash: '2021-09_646',
                 outcome: Answer.No,
                 categories: [
-                    [
-                        'Öffentliche Finanzen',
-                        'Steuerwesen',
-                        'Direkte Steuern Sozialpolitik',
-                    ],
+                    ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern Sozialpolitik'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -666,11 +626,7 @@ export const terms = [
                 hash: '2021-06_645',
                 outcome: Answer.Yes,
                 categories: [
-                    [
-                        'Sicherheitspolitik',
-                        'Öffentliche Sicherheit',
-                        'Staatsschutz',
-                    ],
+                    ['Sicherheitspolitik', 'Öffentliche Sicherheit', 'Staatsschutz'],
                     ['Staatsordnung', 'Rechtsordnung', 'Grundrechte'],
                     ['Sicherheitspolitik', 'Öffentliche Sicherheit', 'Polizei'],
                 ],
@@ -694,11 +650,7 @@ export const terms = [
                 categories: [
                     ['Umwelt und Lebensraum', 'Umwelt', 'Umweltpolitik'],
                     ['Energie', 'Erdöl – Gas'],
-                    [
-                        'Öffentliche Finanzen',
-                        'Steuerwesen',
-                        'Indirekte Steuern',
-                    ],
+                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -891,10 +843,7 @@ export const terms = [
                 name: 'Kampfjetbeschaffung',
                 hash: '2020-09_635',
                 outcome: Answer.Yes,
-                categories: [
-                    ['Sicherheitspolitik', 'Armee', 'Rüstung'],
-                    ['Öffentliche Finanzen'],
-                ],
+                categories: [['Sicherheitspolitik', 'Armee', 'Rüstung'], ['Öffentliche Finanzen']],
                 parties: [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },
@@ -1098,11 +1047,7 @@ export const terms = [
                 hash: '2024-06_667',
                 outcome: Answer.No,
                 categories: [
-                    [
-                        'Sozialpolitik',
-                        'Sozialversicherungen',
-                        'Kranken- und Unfallversicherung',
-                    ],
+                    ['Sozialpolitik', 'Sozialversicherungen', 'Kranken- und Unfallversicherung'],
                     ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
                 ],
                 parties: [
@@ -1124,11 +1069,7 @@ export const terms = [
                 hash: '2024-06_668',
                 outcome: Answer.No,
                 categories: [
-                    [
-                        'Sozialpolitik',
-                        'Sozialversicherungen',
-                        'Kranken- und Unfallversicherung',
-                    ],
+                    ['Sozialpolitik', 'Sozialversicherungen', 'Kranken- und Unfallversicherung'],
                     ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
                 ],
                 parties: [
@@ -1173,11 +1114,7 @@ export const terms = [
                 outcome: Answer.Yes,
                 categories: [
                     ['Energie', 'Alternativenergien'],
-                    [
-                        'Umwelt und Lebensraum',
-                        'Umwelt',
-                        'Natur- und Heimatschutz',
-                    ],
+                    ['Umwelt und Lebensraum', 'Umwelt', 'Natur- und Heimatschutz'],
                     ['Energie', 'Energiepolitik'],
                 ],
                 parties: [
@@ -1199,11 +1136,7 @@ export const terms = [
                 hash: '2024-09_671',
                 outcome: Answer.No,
                 categories: [
-                    [
-                        'Umwelt und Lebensraum',
-                        'Umwelt',
-                        'Natur- und Heimatschutz',
-                    ],
+                    ['Umwelt und Lebensraum', 'Umwelt', 'Natur- und Heimatschutz'],
                     ['Umwelt und Lebensraum', 'Boden', 'Raumplanung'],
                     ['Umwelt und Lebensraum', 'Umwelt', 'Umweltpolitik'],
                 ],
@@ -1225,13 +1158,7 @@ export const terms = [
                 name: 'Reform der beruflichen Vorsorge ',
                 hash: '2024-09_672',
                 outcome: Answer.No,
-                categories: [
-                    [
-                        'Sozialpolitik',
-                        'Sozialversicherungen',
-                        'Berufliche Vorsorge',
-                    ],
-                ],
+                categories: [['Sozialpolitik', 'Sozialversicherungen', 'Berufliche Vorsorge']],
                 parties: [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },
@@ -1251,11 +1178,7 @@ export const terms = [
                 hash: '2024-11_673',
                 outcome: Answer.No,
                 categories: [
-                    [
-                        'Verkehr und Infrastruktur',
-                        'Strassenverkehr',
-                        'Strassenbau',
-                    ],
+                    ['Verkehr und Infrastruktur', 'Strassenverkehr', 'Strassenbau'],
                     ['Umwelt und Lebensraum', 'Umwelt'],
                     ['Umwelt und Lebensraum', 'Boden'],
                 ],
@@ -1314,11 +1237,7 @@ export const terms = [
                 outcome: Answer.Yes,
                 categories: [
                     ['Sozialpolitik', 'Gesundheit', 'Gesundheitspolitik'],
-                    [
-                        'Sozialpolitik',
-                        'Sozialversicherungen',
-                        'Kranken- und Unfallversicherung',
-                    ],
+                    ['Sozialpolitik', 'Sozialversicherungen', 'Kranken- und Unfallversicherung'],
                     ['Öffentliche Finanzen', 'Öffentliche Ausgaben'],
                 ],
                 parties: [
@@ -1360,11 +1279,7 @@ export const terms = [
                 hash: '2025-09_678',
                 outcome: Answer.Yes,
                 categories: [
-                    [
-                        'Umwelt und Lebensraum',
-                        'Wohnen',
-                        'Wohnungsbau – Wohneigentum',
-                    ],
+                    ['Umwelt und Lebensraum', 'Wohnen', 'Wohnungsbau – Wohneigentum'],
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern'],
                 ],
                 parties: [
@@ -1514,11 +1429,7 @@ export const terms = [
                         'Medien und Kommunikation',
                         'Radio, Fernsehen, Elektronische Medien',
                     ],
-                    [
-                        'Öffentliche Finanzen',
-                        'Steuerwesen',
-                        'Indirekte Steuern',
-                    ],
+                    ['Öffentliche Finanzen', 'Steuerwesen', 'Indirekte Steuern'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -1562,11 +1473,7 @@ export const terms = [
                 categories: [
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Direkte Steuern'],
                     ['Öffentliche Finanzen', 'Steuerwesen', 'Steuersystem'],
-                    [
-                        'Sozial- und Gesellschaftspolitik',
-                        'Gesellschaftsfragen',
-                        'Familienpolitik',
-                    ],
+                    ['Sozial- und Gesellschaftspolitik', 'Gesellschaftsfragen', 'Familienpolitik'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.Yes },
@@ -1592,11 +1499,7 @@ export const terms = [
                         'Migrations- und Integrationspolitik',
                     ],
                     ['Aussenpolitik', 'Europapolitik', 'EU'],
-                    [
-                        'Sozial- und Gesellschaftspolitik',
-                        'Gesellschaftsfragen',
-                        'Asylpolitik',
-                    ],
+                    ['Sozial- und Gesellschaftspolitik', 'Gesellschaftsfragen', 'Asylpolitik'],
                 ],
                 parties: [
                     { id: 'SP', answer: Answer.No },
@@ -1615,13 +1518,7 @@ export const terms = [
                 name: 'Zivildienstgesetz',
                 hash: '2026-06_687',
                 outcome: Answer.Yes,
-                categories: [
-                    [
-                        'Sicherheitspolitik',
-                        'Armee',
-                        'Dienstverweigerung – Zivildienst',
-                    ],
-                ],
+                categories: [['Sicherheitspolitik', 'Armee', 'Dienstverweigerung – Zivildienst']],
                 parties: [
                     { id: 'SP', answer: Answer.No },
                     { id: 'GP', answer: Answer.No },
@@ -1635,4 +1532,4 @@ export const terms = [
             },
         ],
     },
-];
+]

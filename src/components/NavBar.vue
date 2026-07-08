@@ -40,9 +40,7 @@
             </ul>
             <div v-if="!loggedIn">
                 <div>
-                    <router-link type="button" class="btn" to="/login"
-                        >Anmelden</router-link
-                    >
+                    <router-link type="button" class="btn" to="/login">Anmelden</router-link>
                 </div>
             </div>
             <div v-if="loggedIn">
@@ -56,10 +54,7 @@
                         <font-awesome-icon class="fa" :icon="['fas', 'save']" />
                     </a>
                     <a type="buton" class="btn" @click="logout">
-                        <font-awesome-icon
-                            class="fa"
-                            :icon="['fas', 'power-off']"
-                        />
+                        <font-awesome-icon class="fa" :icon="['fas', 'power-off']" />
                     </a>
                 </div>
             </div>
@@ -68,8 +63,8 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import Switzerland from '@/assets/switzerland_coat-of-arms.svg';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
 
 export default {
     name: 'NavBar',
@@ -80,21 +75,21 @@ export default {
     setup() {
         return {
             Switzerland,
-        };
+        }
     },
     computed: {},
     methods: {
         termHash() {
-            return this.$store.getters.getTerm(this.term_hash)?.hash;
+            return this.$store.getters.getTerm(this.term_hash)?.hash
         },
         logout() {
-            this.$store.dispatch('logout');
+            this.$store.dispatch('logout')
         },
         saveChanges() {
-            this.$store.dispatch('sendData');
+            this.$store.dispatch('sendData')
         },
     },
-};
+}
 </script>
 
 <style>
