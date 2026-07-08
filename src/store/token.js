@@ -7,26 +7,26 @@
  * @returns {Promise<{id_token: string, access_token: string, expires_in: number}>}
  */
 export async function fetchToken(username, password) {
-    const response = await fetch(import.meta.env.VITE_OIDC_TOKEN_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            grant_type: 'password',
-            client_id: import.meta.env.VITE_OIDC_CLIENT_ID,
-            scope: 'openid profile email',
-            username,
-            password,
-        }),
-    })
+  const response = await fetch(import.meta.env.VITE_OIDC_TOKEN_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'password',
+      client_id: import.meta.env.VITE_OIDC_CLIENT_ID,
+      scope: 'openid profile email',
+      username,
+      password,
+    }),
+  })
 
-    if (!response.ok) {
-        const message = await response.text()
-        throw new Error(`Login failed: ${message}`)
-    }
+  if (!response.ok) {
+    const message = await response.text()
+    throw new Error(`Login failed: ${message}`)
+  }
 
-    return response.json()
+  return response.json()
 }
 
 /**
@@ -39,7 +39,7 @@ export async function fetchToken(username, password) {
  * @returns {number} epoch ms when the token expires
  */
 export function computeExpiresAt(expiresInSeconds) {
-    return Date.now() + expiresInSeconds * 1000
+  return Date.now() + expiresInSeconds * 1000
 }
 
 /**
@@ -47,8 +47,8 @@ export function computeExpiresAt(expiresInSeconds) {
  * Note: sessionStorage is cleared when the tab closes, unlike localStorage.
  */
 export function persistSession(userName, webDav, idToken, expiresAt) {
-    sessionStorage.setItem('userName', userName)
-    sessionStorage.setItem('idToken', idToken)
-    sessionStorage.setItem('webDav', webDav)
-    sessionStorage.setItem('tokenExpiresAt', String(expiresAt))
+  sessionStorage.setItem('userName', userName)
+  sessionStorage.setItem('idToken', idToken)
+  sessionStorage.setItem('webDav', webDav)
+  sessionStorage.setItem('tokenExpiresAt', String(expiresAt))
 }

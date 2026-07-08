@@ -8,21 +8,21 @@ import actions from './actions.js'
 import mutations from './mutations.js'
 
 const store = createStore({
-    state() {
-        return {
-            client: undefined,
-            webDav: undefined,
-            userName: undefined,
-            error: undefined,
-            fetchedData: false,
-            userVotes: undefined,
-            unsavedChanges: false,
-            terms: terms,
-        }
-    },
-    getters: getters,
-    actions: actions,
-    mutations: mutations,
+  state() {
+    return {
+      client: undefined,
+      webDav: undefined,
+      userName: undefined,
+      error: undefined,
+      fetchedData: false,
+      userVotes: undefined,
+      unsavedChanges: false,
+      terms: terms,
+    }
+  },
+  getters: getters,
+  actions: actions,
+  mutations: mutations,
 })
 
 export default store
