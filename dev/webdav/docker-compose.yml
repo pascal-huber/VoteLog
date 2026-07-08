@@ -1,7 +1,24 @@
-version: '3'
 services:
-  webdav:
-    image: webdav-dev
-    restart: always
+  dex:
+    image: dexidp/dex:v2.39.1
+    command: ["dex", "serve", "/etc/dex/config.yaml"]
+    volumes:
+      - ./dex/config.yaml:/etc/dex/config.yaml:ro
+      - ./dex/certs:/etc/dex/certs:ro
+    networks: [devnet]
+
+  apache-dav:
+    build: ./apache
     ports:
-      - '8080:80'
+      - "8080:80"
+    volumes:
+      - dav-data:/var/www/dav
+    depends_on: [dex]
+    networks: [devnet]
+
+networks:
+  devnet: {}
+
+volumes:
+  dex-data: {}
+  dav-data: {}
