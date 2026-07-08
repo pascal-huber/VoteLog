@@ -6,6 +6,25 @@ parties agree with me.
 ![VoteLog Screenshot](screenshot.png)
 (those are not my votes, at least not all of them...)
 
+## Features
+
+- Show and compare results of Swiss referendums and initiatives
+- Provide reasoning for decision
+- Vote Category Overview
+
+## Technical
+
+- Built with Vue.js, Vuex, Vue Router
+- There is no (real) backend. Data is stored in WebDAV in
+  *bring-your-own-WebDAV* manner. Note that if WebDAV and VoteLog are running on
+  different (sub)domains, CORS must be configured accordingly. Otherwise the
+  browser will block the connections. This disqualifies many managed solutions.
+  All the data is stored in a file called `votelog_<user-email>.json` (multiple
+  users can share a WebDAV server).
+- OpenID Connect is used for authentication. VoteLog stores the Token in
+  SessionStorage (which survives a refresh but is removed when the browser tab
+  is closed).
+
 ## Known Issues
 
 Functional:
@@ -14,25 +33,6 @@ Functional:
 Technical:
 - Error handling for the WebDAV connection (fetching and storing data) could be
   better.
-
-## Features
-
-Functional:
-- Show and compare results of Swiss referendums and initiatives
-- Provide reasoning for decision
-- Vote Category Overview
-
-Technical:
-- Built with Vue.js, Vuex, Vue Router
-- There is no (real) backend. Data is stored in WebDAV in
-  "bring-your-own-WebDAV manner. Note that if WebDAV and VoteLog are running on
-  different (sub)domains, CORS must be configured accordingly. Otherwise the
-  browser will block the connections. This disqualifies many managed solutions.
-  All the data is stored in a file called `votelog_<user-email>.json` (multiple
-  users can share a WebDAV server).
-- OpenID Connect is used for authentication. VoteLog stores the Token in
-  SessionStorage (which survives a refresh but is removed when the browser tab
-  is closed).
 
 ## Setup
 
