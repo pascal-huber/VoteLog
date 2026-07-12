@@ -5,15 +5,7 @@ const getters = {
     let term = state.terms.find((term) => term.hash == term_hash)
     return term?.subjects.find((subject) => subject.id == subject_id)
   },
-  getTerms: (state) => () => state.terms,
-  getTerm: (state) => (term_hash) => {
-    let thash = term_hash
-    if (!thash) {
-      // FIXME: compute defaultTermHash
-      thash = '2019_23'
-    }
-    return state.terms.find((term) => term.hash == thash)
-  },
+  getTerm: (state) => (term_hash) => state.terms.find((term) => term.hash == term_hash),
   // FIXME: check expired tokens
   // isTokenExpired(state) {
   //     if (!state.tokenExpiresAt) return true;
@@ -25,8 +17,8 @@ const getters = {
   //         if (!state.tokenExpiresAt) return true;
   //         return Date.now() >= state.tokenExpiresAt - marginMs;
   //     },
-  getNextTermHash: (state) => (term_id) => state.terms.find((term) => term.id == term_id + 1)?.hash,
-  getPrevTermHash: (state) => (term_id) => state.terms.find((term) => term.id == term_id - 1)?.hash,
+  getNextTermHash: (state) => (term_hash) => state.terms.find((term) => term.hash == term_hash)?.nextHash,
+  getPrevTermHash: (state) => (term_hash) => state.terms.find((term) => term.hash == term_hash)?.prevHash,
   getTermHash: (state) => () => state.votes[2].hash,
   getUserName: (state) => () => state.userName,
   getUserVotes: (state) => () => state.userVotes,

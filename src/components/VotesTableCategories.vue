@@ -124,10 +124,10 @@ export default {
       return this.$store.state.votesChanged
     },
     nextTermHash() {
-      return this.$store.getters.getNextTermHash(this.term?.id)
+      return this.$store.getters.getNextTermHash(this.term?.hash)
     },
     prevTermHash() {
-      return this.$store.getters.getPrevTermHash(this.term?.id)
+      return this.$store.getters.getPrevTermHash(this.term?.hash)
     },
   },
   methods: {

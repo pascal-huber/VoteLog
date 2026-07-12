@@ -15,6 +15,14 @@ const mutations = {
   SET_CLIENT(state, client) {
     state.client = client
   },
+  SET_TERM(state, term) {
+    const index = state.terms.findIndex((t) => t.hash == term.hash)
+    if (index === -1) {
+      state.terms.push(term)
+    } else {
+      state.terms.splice(index, 1, term)
+    }
+  },
   SET_UNSAVEDCHANGES(state) {
     state.unsavedChanges = true
   },

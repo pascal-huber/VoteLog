@@ -2,8 +2,34 @@ import { createClient, AuthType } from 'webdav'
 import { Answer } from '@/Answer.js'
 import router from '@/router.js'
 import { fetchToken, computeExpiresAt, persistSession } from './token.js'
+import { fetchCurrentLegislatur, fetchLegislatur } from '@/api.js'
 
 const actions = {
+  async ensureCurrentTerm(context) {
+    let term
+    try {
+      term = await fetchCurrentLegislatur()
+    } catch (error) {
+      console.log('Failed to fetch current legislatur from swissvotes-api.')
+      console.log(error)
+      return undefined
+    }
+    if (term) context.commit('SET_TERM', term)
+    return term?.hash
+  },
+  async ensureTerm(context, term_hash) {
+    if (context.getters.getTerm(term_hash)) return term_hash
+    let term
+    try {
+      term = await fetchLegislatur(term_hash)
+    } catch (error) {
+      console.log(`Failed to fetch legislatur ${term_hash} from swissvotes-api.`)
+      console.log(error)
+      return undefined
+    }
+    if (term) context.commit('SET_TERM', term)
+    return term?.hash
+  },
   restoreSession(context) {
     const userName = sessionStorage.getItem('userName')
     const webDav = sessionStorage.getItem('webDav')

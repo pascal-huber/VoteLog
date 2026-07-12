@@ -64,24 +64,22 @@ const router = new createRouter({
   routes,
 })
 
-let defaultTerm = () => {
-  const now = new Date()
-  let terms = store.getters.getTerms()
-  terms.sort((a, b) => a.start_date > b.start_date)
-  let i = 0
-  let currentTerm = terms[i]
-  while (i + 1 < terms.length && currentTerm.end_date < now) currentTerm = terms[++i]
-  return currentTerm?.hash
-}
-
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
     next({ name: 'login' })
-  } else if (to.path == '/') {
-    next('/' + defaultTerm())
-  } else {
-    next()
+    return
   }
+  if (to.path == '/') {
+    // no route actually matches bare '/': if the fetch fails and hash is
+    // undefined, next() falls through to the catch-all NotFound route.
+    const hash = await store.dispatch('ensureCurrentTerm')
+    next(hash ? '/' + hash : undefined)
+    return
+  }
+  if (to.params.term_hash) {
+    await store.dispatch('ensureTerm', to.params.term_hash)
+  }
+  next()
 })
 
 export default router

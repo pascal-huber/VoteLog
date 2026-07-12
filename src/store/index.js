@@ -1,5 +1,4 @@
 import { createStore } from 'vuex'
-import { terms } from '@/data.js'
 // TODO: Check out "mapGetters" for vuex.
 // import {mapGetters} from 'vuex';
 
@@ -17,7 +16,7 @@ const store = createStore({
       fetchedData: false,
       userVotes: undefined,
       unsavedChanges: false,
-      terms: terms,
+      terms: [], // lazily filled cache of fetched legislaturen, see ensureTerm/ensureCurrentTerm
     }
   },
   getters: getters,
