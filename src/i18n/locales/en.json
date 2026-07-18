@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "categories": "Categories",
+    "login": "Log in"
+  },
+  "notFound": {
+    "title": "Not found"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "message": "The data could not be loaded. Please try again later.",
+    "retry": "Retry",
+    "home": "Back to home"
+  },
+  "votesTable": {
+    "termNotFound": "Legislative period not found",
+    "title": "Votes",
+    "filterAll": "All"
+  },
+  "votesTableCategories": {
+    "termNotFound": "Legislative period not found",
+    "title": "Categories"
+  },
+  "statsRow": {
+    "agreement": "Agreement"
+  },
+  "showSubject": {
+    "notFound": "Subject not found",
+    "id": "ID:",
+    "date": "Date:",
+    "shortTitle": "Short title:",
+    "officialTitle": "Official title:",
+    "categories": "Categories:",
+    "yourVote": "Your vote",
+    "edit": "Edit",
+    "vote": "Vote:",
+    "weight": "Weight:",
+    "reasoning": "Reasoning:",
+    "cantons": "Cantons",
+    "yesPercent": "% Yes",
+    "allParties": "All parties",
+    "moreResources": "More resources",
+    "linkSwissvotes": "Subject on swissvotes.ch",
+    "linkAdminResults": "Results on admin.ch",
+    "linkAnneePolitique": "Année Politique Suisse",
+    "linkChronologie": "Chronology (admin.ch)",
+    "linkCuriaVista": "Curia Vista (Parliament)",
+    "linkInfoBr": "Information from the Federal Council",
+    "linkInfoAmt": "Information from the responsible office",
+    "linkErklaervideo": "Explanatory video",
+    "linkArgumentsPro": "Arguments in favor {n}",
+    "linkArgumentsContra": "Arguments against {n}",
+    "rawData": "Raw data"
+  },
+  "editSubject": {
+    "notFound": "Subject not found",
+    "vote": "Vote:",
+    "reasoning": "Reasoning:",
+    "weight": "Weight:",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "login": {
+    "title": "Log in",
+    "failed": "Login failed",
+    "server": "server: {server}",
+    "useDifferentServer": "use different server",
+    "useDefaultServer": "use default server",
+    "webDavPlaceholder": "https://your.dav.server.xyz",
+    "usernamePlaceholder": "Username",
+    "passwordPlaceholder": "Password",
+    "submit": "Log in"
+  },
+  "footer": {
+    "by": "by Pascal Huber"
+  }
+}

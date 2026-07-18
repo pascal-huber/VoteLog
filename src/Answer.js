@@ -59,11 +59,10 @@ export function categoryAgreement(userVotes, subjects) {
           : 0
     }
     agreement[category]['swiss'] ??= 0
-    agreement[category]['swiss'] += agreementValue(
-      subjects[i].outcome,
-      userVote?.answer,
-      importance,
-    )
+    agreement[category]['swiss'] +=
+      userVote && userVote.answer != Answer.Novote
+        ? agreementValue(subjects[i].outcome, userVote?.answer, importance)
+        : 0
   }
 }
 

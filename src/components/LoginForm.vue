@@ -4,7 +4,7 @@
       <div class="col-12">
         <h2>{{ $t('login.title') }}</h2>
         <div v-if="loginFailed" class="alert alert-danger">{{ $t('login.failed') }}</div>
-        <form>
+        <form @submit.prevent="login">
           <div v-if="!customWebDav">
             <span>{{ $t('login.server', { server: defaultWebDav }) }}&nbsp;</span><br />
             <small>
@@ -42,7 +42,7 @@
             />
           </div>
           <div class="form-group">
-            <button type="button" class="btn btn-primary" @click="login">
+            <button type="submit" class="btn btn-primary">
               {{ $t('login.submit') }}
             </button>
           </div>
