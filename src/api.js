@@ -11,7 +11,7 @@ const API_BASE = import.meta.env.VITE_SWISSVOTES_API_URI
 // 1 Ja, 2 Nein, 3/5/66 Stimmfreigabe, 4 leer einlegen, 8/9 Gegenentwurf/
 // Initiative bevorzugt (Stichfragen). Everything else (missing, ".",
 // "9999" = party didn't exist yet) means no recommendation was made.
-function paroleAnswer(code) {
+export function paroleAnswer(code) {
   if (code === '1') return Answer.Yes
   if (code === '2') return Answer.No
   if (code === '3' || code === '4' || code === '5' || code === '66' || code === '8' || code === '9') {
@@ -19,6 +19,44 @@ function paroleAnswer(code) {
   }
   return Answer.Novote
 }
+
+// A code counts as "an actual recommendation was given" if it's neither
+// unset (".", missing) nor "the organisation didn't exist yet" (9999).
+export function hasParoleValue(code) {
+  return !!code && code !== '.' && code !== '9999'
+}
+
+// The 26 cantons, in the order they appear as top-level fields on a vote
+// (e.g. v.zh.annahme, v.zh.japroz). Field "fr" is Fribourg here (distinct
+// from the unrelated "fr" referendum-duration fields on the same doc).
+export const CANTONS = [
+  { code: 'zh', name: 'Zürich' },
+  { code: 'be', name: 'Bern' },
+  { code: 'lu', name: 'Luzern' },
+  { code: 'ur', name: 'Uri' },
+  { code: 'sz', name: 'Schwyz' },
+  { code: 'ow', name: 'Obwalden' },
+  { code: 'nw', name: 'Nidwalden' },
+  { code: 'gl', name: 'Glarus' },
+  { code: 'zg', name: 'Zug' },
+  { code: 'fr', name: 'Freiburg' },
+  { code: 'so', name: 'Solothurn' },
+  { code: 'bs', name: 'Basel-Stadt' },
+  { code: 'bl', name: 'Basel-Landschaft' },
+  { code: 'sh', name: 'Schaffhausen' },
+  { code: 'ar', name: 'Appenzell Ausserrhoden' },
+  { code: 'ai', name: 'Appenzell Innerrhoden' },
+  { code: 'sg', name: 'St. Gallen' },
+  { code: 'gr', name: 'Graubünden' },
+  { code: 'ag', name: 'Aargau' },
+  { code: 'tg', name: 'Thurgau' },
+  { code: 'ti', name: 'Tessin' },
+  { code: 'vd', name: 'Waadt' },
+  { code: 'vs', name: 'Wallis' },
+  { code: 'ne', name: 'Neuenburg' },
+  { code: 'ge', name: 'Genf' },
+  { code: 'ju', name: 'Jura' },
+]
 
 // The 6 parties tracked in the UI. Kept as id/name 'CVP' (not 'Mitte') to
 // match HeaderRow.vue, which already renders the "Die Mitte" logo for
@@ -54,6 +92,10 @@ function mapVote(v) {
     outcome: v.annahme === '1' ? Answer.Yes : v.annahme === '0' ? Answer.No : undefined,
     categories: voteCategories(v),
     parties: PARTY_FIELDS.map(({ id, code }) => ({ id, answer: paroleAnswer(code(v.p)) })),
+    // Full original API document, for detail-page extras (titles, cantonal
+    // results, minor-party recommendations, resource links) and the
+    // "Rohdaten" raw-JSON dump — see ShowSubject.vue.
+    raw: v,
   }
 }
 

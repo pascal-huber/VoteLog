@@ -91,7 +91,7 @@ export default {
     FontAwesomeIcon,
     ImportanceSymbol,
   },
-  props: ['subject', 'userVote', 'term_hash', 'loggedIn'],
+  props: ['subject', 'userVote', 'term_hash'],
   setup() {
     return {
       Answer,
@@ -120,15 +120,13 @@ export default {
   },
   methods: {
     showDetails() {
-      if (this.loggedIn) {
-        this.$router.push({
-          name: 'showSubject',
-          params: {
-            term_hash: this.term_hash,
-            subject_id: this.subject.id,
-          },
-        })
-      }
+      this.$router.push({
+        name: 'showSubject',
+        params: {
+          term_hash: this.term_hash,
+          subject_id: this.subject.id,
+        },
+      })
     },
     classAgreement(userVote, otherVote) {
       if (otherVote == undefined || userVote == undefined) {

@@ -37,7 +37,6 @@
         <div v-for="subject in agreement['subjects']" :key="subject.id">
           <VotesTableSubject
             :term_hash="term_hash"
-            :logged-in="loggedIn"
             :user-vote="userVote(subject.id)"
             :subject="subject"
           />
@@ -60,7 +59,7 @@ export default {
     PercentageValue,
     VotesTableSubject,
   },
-  props: ['category', 'agreement', 'parties', 'term_hash', 'loggedIn'],
+  props: ['category', 'agreement', 'parties', 'term_hash'],
   computed: {
     htCategory() {
       return '#' + this.category.replace(regex, '')

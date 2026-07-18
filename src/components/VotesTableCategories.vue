@@ -39,7 +39,6 @@
             :agreement="agreement"
             :parties="term.parties"
             :term_hash="term.hash"
-            :logged-in="loggedIn"
           />
         </div>
       </div>
@@ -108,9 +107,6 @@ export default {
         }
         return false
       })
-    },
-    loggedIn() {
-      return this.$store.getters.isLoggedIn()
     },
     orderedSubjects() {
       return [...this.subjects].sort((a, b) => {

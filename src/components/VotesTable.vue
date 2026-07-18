@@ -48,7 +48,6 @@
         <div v-for="subject in filteredSubjects" :key="subject.id">
           <VotesTableSubject
             :term_hash="term.hash"
-            :logged-in="loggedIn"
             :user-vote="userVote(subject.id)"
             :subject="subject"
           />
@@ -109,9 +108,6 @@ export default {
         }
         return false
       })
-    },
-    loggedIn() {
-      return this.$store.getters.isLoggedIn()
     },
     orderedSubjects() {
       return [...this.subjects].sort((a, b) => {

@@ -33,9 +33,6 @@ const routes = [
         name: 'showSubject',
         props: true,
         component: ShowSubject,
-        meta: {
-          requiresAuth: true,
-        },
       },
       {
         path: ':subject_id/edit',
