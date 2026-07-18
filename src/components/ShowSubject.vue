@@ -84,60 +84,69 @@
       </template>
 
       <!-- Results -->
-      <hr class="my-4" />
-      <h3>{{ $t('showSubject.results') }}</h3>
-      <div>
-        <div class="canton-row">
-          <span class="canton-name">{{ $t('showSubject.overallResult') }}</span>
-          <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
-          <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
-          <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
-          <small v-if="nationalPercent" class="text-muted ms-2"
-            >{{ nationalPercent }}{{ $t('showSubject.yesPercent') }}</small
-          >
-        </div>
-
-        <div
-          class="accordion-toggle"
-          data-bs-toggle="collapse"
-          data-bs-target="#cantons-collapse"
-          aria-expanded="false"
-          aria-controls="cantons-collapse"
-        >
-          {{ $t('showSubject.cantons') }}
-          <font-awesome-icon :icon="['fas', 'angle-down']" class="chevron" />
-        </div>
-        <div id="cantons-collapse" class="collapse">
-          <div v-for="canton in cantonResults" :key="canton.code" class="canton-row">
-            <span class="canton-name">{{ canton.name }}</span>
-            <img v-if="canton.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-            <img v-else-if="canton.answer == Answer.No" :src="Nein" class="svg-logo" />
-            <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
-            <small v-if="canton.percent" class="text-muted ms-2"
-              >{{ canton.percent }}{{ $t('showSubject.yesPercent') }}</small
+      <template v-if="hasResult || partyResults.length">
+        <hr class="my-4" />
+        <h3>{{ $t('showSubject.results') }}</h3>
+        <div>
+          <div v-if="hasResult" class="canton-row">
+            <span class="canton-name">{{ $t('showSubject.overallResult') }}</span>
+            <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
+            <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
+            <small v-if="nationalPercent" class="text-muted ms-2"
+              >{{ nationalPercent }}{{ $t('showSubject.yesPercent') }}</small
             >
           </div>
-        </div>
 
-        <div
-          class="accordion-toggle"
-          data-bs-toggle="collapse"
-          data-bs-target="#parties-collapse"
-          aria-expanded="false"
-          aria-controls="parties-collapse"
-        >
-          {{ $t('showSubject.allParties') }}
-          <font-awesome-icon :icon="['fas', 'angle-down']" class="chevron" />
+          <template v-if="hasResult">
+            <div
+              class="accordion-toggle"
+              data-bs-toggle="collapse"
+              data-bs-target="#cantons-collapse"
+              aria-expanded="false"
+              aria-controls="cantons-collapse"
+            >
+              {{ $t('showSubject.cantons') }}
+              <font-awesome-icon :icon="['fas', 'angle-down']" class="chevron" />
+            </div>
+            <div id="cantons-collapse" class="collapse">
+              <div v-for="canton in cantonResults" :key="canton.code" class="canton-row">
+                <span class="canton-name">{{ canton.name }}</span>
+                <img v-if="canton.answer == Answer.Yes" :src="Ja" class="svg-logo" />
+                <img v-else-if="canton.answer == Answer.No" :src="Nein" class="svg-logo" />
+                <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+                <small v-if="canton.percent" class="text-muted ms-2"
+                  >{{ canton.percent }}{{ $t('showSubject.yesPercent') }}</small
+                >
+              </div>
+            </div>
+          </template>
+
+          <template v-if="partyResults.length">
+            <div
+              class="accordion-toggle"
+              data-bs-toggle="collapse"
+              data-bs-target="#parties-collapse"
+              aria-expanded="false"
+              aria-controls="parties-collapse"
+            >
+              {{ $t('showSubject.allParties') }}
+              <font-awesome-icon :icon="['fas', 'angle-down']" class="chevron" />
+            </div>
+            <div id="parties-collapse" class="collapse">
+              <div v-for="party in partyResults" :key="party.key" class="canton-row">
+                <span class="canton-name">{{ party.label }}</span>
+                <img v-if="party.answer == Answer.Yes" :src="Ja" class="svg-logo" />
+                <img v-else-if="party.answer == Answer.No" :src="Nein" class="svg-logo" />
+                <img
+                  v-else-if="party.answer == Answer.Abstention"
+                  :src="Abstention"
+                  class="svg-logo"
+                />
+              </div>
+            </div>
+          </template>
         </div>
-        <div id="parties-collapse" class="collapse">
-          <div v-for="party in partyResults" :key="party.key" class="canton-row">
-            <span class="canton-name">{{ party.label }}</span>
-            <img v-if="party.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-            <img v-else-if="party.answer == Answer.No" :src="Nein" class="svg-logo" />
-            <img v-else-if="party.answer == Answer.Abstention" :src="Abstention" class="svg-logo" />
-          </div>
-        </div>
-      </div>
+      </template>
 
       <!-- Resources -->
       <hr class="my-4" />
@@ -146,7 +155,7 @@
         <li>
           <a :href="swissvotesURL" target="_blank">{{ $t('showSubject.linkSwissvotes') }}</a>
         </li>
-        <li>
+        <li v-if="hasResult">
           <a :href="adminCantonResultsURL" target="_blank">{{
             $t('showSubject.linkAdminResults')
           }}</a>
@@ -262,6 +271,11 @@ export default {
     nationalPercent() {
       const proz = this.subject?.raw?.volkja?.proz
       return proz && proz !== '.' ? proz : undefined
+    },
+    // No official outcome yet -- either the vote hasn't taken place, or the
+    // data just isn't complete. Either way, there's nothing to show.
+    hasResult() {
+      return this.subject?.outcome != undefined
     },
     swissvotesURL() {
       return (

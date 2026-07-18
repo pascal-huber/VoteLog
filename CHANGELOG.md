@@ -40,7 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (`0x`/`1x`/`2x`/`4x` svg) used when editing a vote, instead of plain text
 - The Results section on the vote detail page now shows the overall
   national result (outcome + Ja-Anteil) above the cantons/parties
-  breakdown
+  breakdown, and hides the overall result, cantons and admin.ch results
+  link entirely for votes with no official outcome yet (in particular,
+  votes that haven't taken place)
 
 ### Removed
 
