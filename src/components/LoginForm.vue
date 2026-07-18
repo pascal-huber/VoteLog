@@ -2,18 +2,18 @@
   <div class="d-flex align-items-center m-auto">
     <div class="row">
       <div class="col-12">
-        <h2>Anmelden</h2>
-        <div v-if="loginFailed" class="alert alert-danger">Anmeldung fehlgeschlagen</div>
+        <h2>{{ $t('login.title') }}</h2>
+        <div v-if="loginFailed" class="alert alert-danger">{{ $t('login.failed') }}</div>
         <form>
           <div v-if="!customWebDav">
-            <span>server: {{ defaultWebDav }}&nbsp;</span><br />
+            <span>{{ $t('login.server', { server: defaultWebDav }) }}&nbsp;</span><br />
             <small>
-              <a class="link-primary" @click="toggleWebDav">use different server</a>
+              <a class="link-primary" @click="toggleWebDav">{{ $t('login.useDifferentServer') }}</a>
             </small>
           </div>
           <div v-else>
             <small>
-              <a class="link-primary" @click="toggleWebDav">use default server</a>
+              <a class="link-primary" @click="toggleWebDav">{{ $t('login.useDefaultServer') }}</a>
             </small>
           </div>
           <div v-if="customWebDav" class="form-group">
@@ -21,7 +21,7 @@
               id="webDav"
               v-model="webDav"
               class="form-control"
-              placeholder="https://your.dav.server.xyz"
+              :placeholder="$t('login.webDavPlaceholder')"
             />
           </div>
           <div class="form-group">
@@ -29,7 +29,7 @@
               id="userName"
               v-model="userName"
               class="form-control"
-              placeholder="Benutzername"
+              :placeholder="$t('login.usernamePlaceholder')"
             />
           </div>
           <div class="form-group">
@@ -37,12 +37,14 @@
               id="password"
               v-model="password"
               class="form-control"
-              placeholder="Passwort"
+              :placeholder="$t('login.passwordPlaceholder')"
               type="password"
             />
           </div>
           <div class="form-group">
-            <button type="button" class="btn btn-primary" @click="login">Anmelden</button>
+            <button type="button" class="btn btn-primary" @click="login">
+              {{ $t('login.submit') }}
+            </button>
           </div>
         </form>
       </div>
@@ -77,7 +79,7 @@ export default {
       try {
         await this.$store.dispatch('login', payload)
         await this.$store.dispatch('getData')
-        this.$router.push({ path: '/' })
+        this.$router.push({ name: 'localeHome', params: { locale: this.$route.params.locale } })
       } catch (error) {
         console.error(error)
         this.loginFailed = true

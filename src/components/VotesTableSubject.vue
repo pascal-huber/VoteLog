@@ -123,6 +123,7 @@ export default {
       this.$router.push({
         name: 'showSubject',
         params: {
+          locale: this.$route.params.locale,
           term_hash: this.term_hash,
           subject_id: this.subject.id,
         },

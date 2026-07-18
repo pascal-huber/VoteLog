@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "categories": "Kategorien",
+    "login": "Anmelden"
+  },
+  "notFound": {
+    "title": "Nicht gefunden"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "message": "Die Daten konnten nicht geladen werden. Bitte versuche es später erneut.",
+    "retry": "Erneut versuchen",
+    "home": "Zur Startseite"
+  },
+  "votesTable": {
+    "termNotFound": "Legislaturperiode nicht gefunden",
+    "title": "Abstimmungen",
+    "filterAll": "Alle"
+  },
+  "votesTableCategories": {
+    "termNotFound": "Legislaturperiode nicht gefunden",
+    "title": "Kategorien"
+  },
+  "statsRow": {
+    "agreement": "Übereinstimmung"
+  },
+  "showSubject": {
+    "notFound": "Vorlage nicht gefunden",
+    "id": "ID:",
+    "date": "Datum:",
+    "shortTitle": "Kurztitel:",
+    "officialTitle": "Offizieller Titel:",
+    "categories": "Kategorien:",
+    "yourVote": "Deine Stimme",
+    "edit": "Bearbeiten",
+    "vote": "Stimme:",
+    "weight": "Gewichtung:",
+    "reasoning": "Begründung:",
+    "cantons": "Kantone",
+    "yesPercent": "% Ja",
+    "allParties": "Alle Parteien",
+    "moreResources": "Weitere Resourcen",
+    "linkSwissvotes": "Vorlage auf swissvotes.ch",
+    "linkAdminResults": "Resultate auf admin.ch",
+    "linkAnneePolitique": "Année Politique Suisse",
+    "linkChronologie": "Chronologie (admin.ch)",
+    "linkCuriaVista": "Curia Vista (Parlament)",
+    "linkInfoBr": "Information des Bundesrats",
+    "linkInfoAmt": "Information des zuständigen Amts",
+    "linkErklaervideo": "Erklärvideo",
+    "linkArgumentsPro": "Pro-Argumente {n}",
+    "linkArgumentsContra": "Kontra-Argumente {n}",
+    "rawData": "Rohdaten"
+  },
+  "editSubject": {
+    "notFound": "Vorlage nicht gefunden",
+    "vote": "Stimme:",
+    "reasoning": "Begründung:",
+    "weight": "Gewichtung:",
+    "cancel": "Abbrechen",
+    "save": "Speichern"
+  },
+  "login": {
+    "title": "Anmelden",
+    "failed": "Anmeldung fehlgeschlagen",
+    "server": "server: {server}",
+    "useDifferentServer": "use different server",
+    "useDefaultServer": "use default server",
+    "webDavPlaceholder": "https://your.dav.server.xyz",
+    "usernamePlaceholder": "Benutzername",
+    "passwordPlaceholder": "Passwort",
+    "submit": "Anmelden"
+  },
+  "footer": {
+    "by": "by Pascal Huber"
+  }
+}

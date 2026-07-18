@@ -15,6 +15,12 @@ const mutations = {
   SET_CLIENT(state, client) {
     state.client = client
   },
+  SET_ERROR(state, error) {
+    state.error = error
+  },
+  CLEAR_ERROR(state) {
+    state.error = undefined
+  },
   SET_TERM(state, term) {
     const index = state.terms.findIndex((t) => t.hash == term.hash)
     if (index === -1) {

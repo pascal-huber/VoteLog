@@ -12,8 +12,10 @@ const actions = {
     } catch (error) {
       console.log('Failed to fetch current legislatur from swissvotes-api.')
       console.log(error)
+      context.commit('SET_ERROR', error)
       return undefined
     }
+    context.commit('CLEAR_ERROR')
     if (term) context.commit('SET_TERM', term)
     return term?.hash
   },
@@ -25,8 +27,10 @@ const actions = {
     } catch (error) {
       console.log(`Failed to fetch legislatur ${term_hash} from swissvotes-api.`)
       console.log(error)
+      context.commit('SET_ERROR', error)
       return undefined
     }
+    context.commit('CLEAR_ERROR')
     if (term) context.commit('SET_TERM', term)
     return term?.hash
   },
@@ -94,9 +98,7 @@ const actions = {
         } else {
           console.log('Failed to fetch data.')
           console.log(error)
-          throw new Error('Failed to fetch your data, sorry:', {
-            cause: error,
-          })
+          context.commit('SET_ERROR', error)
         }
       }
     }
@@ -133,7 +135,8 @@ const actions = {
   logout(context) {
     sessionStorage.clear()
     context.commit('LOGOUT')
-    router.push({ path: '/' })
+    const locale = router.currentRoute.value.params.locale
+    router.push({ name: 'localeHome', params: { locale } })
   },
 }
 

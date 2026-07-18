@@ -5,7 +5,7 @@
     <router-view :key="$route.fullPath"></router-view>
     <footer id="footer" class="pb-2 pt-4 mt-auto text-center">
       <a href="https://github.com/pascal-huber/VoteLog" target="_blank">VoteLog</a>
-      by Pascal Huber
+      {{ $t('footer.by') }}
     </footer>
   </div>
 </template>

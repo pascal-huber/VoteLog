@@ -2,32 +2,34 @@
   <div class="container">
     <div class="row gy-2">
       <div class="col-sm-12 col-md-10">
-        <h2 v-if="!subject">Vorlage nicht gefunden</h2>
+        <h2 v-if="!subject">{{ $t('showSubject.notFound') }}</h2>
         <h2 v-else>{{ subject.name }}</h2>
       </div>
       <div class="col-sm-12 col-md-2 md-text-end"></div>
 
-      <div class="col-2">ID:</div>
+      <div class="col-2">{{ $t('showSubject.id') }}</div>
       <div class="col-10">
         {{ subject.id }}
       </div>
 
-      <div class="col-2">Datum:</div>
+      <div class="col-2">{{ $t('showSubject.date') }}</div>
       <div class="col-10">
         {{ subject.date.toLocaleDateString('de-CH') }}
       </div>
 
-      <div v-if="subject?.raw?.titel?.kurz?.d" class="col-2">Kurztitel:</div>
+      <div v-if="subject?.raw?.titel?.kurz?.d" class="col-2">{{ $t('showSubject.shortTitle') }}</div>
       <div v-if="subject?.raw?.titel?.kurz?.d" class="col-10">
         {{ subject.raw.titel.kurz.d }}
       </div>
 
-      <div v-if="subject?.raw?.titel?.off?.d" class="col-2">Offizieller Titel:</div>
+      <div v-if="subject?.raw?.titel?.off?.d" class="col-2">
+        {{ $t('showSubject.officialTitle') }}
+      </div>
       <div v-if="subject?.raw?.titel?.off?.d" class="col-10">
         {{ subject.raw.titel.off.d }}
       </div>
 
-      <div v-if="subject.categories?.length" class="col-2">Kategorien:</div>
+      <div v-if="subject.categories?.length" class="col-2">{{ $t('showSubject.categories') }}</div>
       <div v-if="subject.categories?.length" class="col-10">
         <ul>
           <li v-for="category in uniqueCategories" :key="category">
@@ -40,13 +42,14 @@
 
       <template v-if="loggedIn">
         <div class="col-12 col-md-6 mt-4">
-          <h4>Deine Stimme</h4>
+          <h4>{{ $t('showSubject.yourVote') }}</h4>
         </div>
         <div class="col-12 col-md-6 mt-4">
           <router-link
             :to="{
               name: 'editSubject',
               params: {
+                locale: $route.params.locale,
                 term_hash: term_hash,
                 subject_id: subject_id,
               },
@@ -54,11 +57,11 @@
             type="button"
             class="btn btn-primary"
           >
-            Bearbeiten
+            {{ $t('showSubject.edit') }}
           </router-link>
         </div>
 
-        <div class="col-3">Stimme:</div>
+        <div class="col-3">{{ $t('showSubject.vote') }}</div>
         <div class="col-9">
           <font-awesome-icon
             v-if="userVote == undefined"
@@ -75,11 +78,11 @@
           <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
         </div>
 
-        <div class="col-3">Gewichtung:</div>
+        <div class="col-3">{{ $t('showSubject.weight') }}</div>
         <div v-if="userVote?.importance == 0" class="col-9">0</div>
         <div v-else class="col-9">{{ userVote?.importance || 1 }}x</div>
 
-        <div class="col-3">Begründung:</div>
+        <div class="col-3">{{ $t('showSubject.reasoning') }}</div>
         <div class="col-9">
           <span class="text-wrap" style="white-space: pre">
             {{ userVote?.reasoning }}
@@ -89,14 +92,16 @@
 
       <div class="col-12 mt-4">
         <details>
-          <summary>Kantone</summary>
+          <summary>{{ $t('showSubject.cantons') }}</summary>
           <ul class="list-unstyled mt-2">
             <li v-for="canton in cantonResults" :key="canton.code" class="canton-row">
               <span class="canton-name">{{ canton.name }}</span>
               <img v-if="canton.answer == Answer.Yes" :src="Ja" class="svg-logo" />
               <img v-else-if="canton.answer == Answer.No" :src="Nein" class="svg-logo" />
               <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
-              <small v-if="canton.percent" class="text-muted ms-2">{{ canton.percent }}% Ja</small>
+              <small v-if="canton.percent" class="text-muted ms-2"
+                >{{ canton.percent }}{{ $t('showSubject.yesPercent') }}</small
+              >
             </li>
           </ul>
         </details>
@@ -104,7 +109,7 @@
 
       <div class="col-12 mt-2">
         <details>
-          <summary>Alle Parteien</summary>
+          <summary>{{ $t('showSubject.allParties') }}</summary>
           <ul class="list-unstyled mt-2">
             <li v-for="party in partyResults" :key="party.key" class="canton-row">
               <span class="canton-name">{{ party.label }}</span>
@@ -117,31 +122,43 @@
       </div>
 
       <div class="col-12 mt-4">
-        <h4>Weitere Resourcen</h4>
+        <h4>{{ $t('showSubject.moreResources') }}</h4>
         <ul>
           <li>
-            <a :href="swissvotesURL" target="_blank">Vorlage auf swissvotes.ch</a>
+            <a :href="swissvotesURL" target="_blank">{{ $t('showSubject.linkSwissvotes') }}</a>
           </li>
           <li>
-            <a :href="adminCantonResultsURL" target="_blank">Resultate auf admin.ch</a>
+            <a :href="adminCantonResultsURL" target="_blank">{{
+              $t('showSubject.linkAdminResults')
+            }}</a>
           </li>
           <li v-if="subject?.raw?.anneepolitique">
-            <a :href="subject.raw.anneepolitique" target="_blank">Année Politique Suisse</a>
+            <a :href="subject.raw.anneepolitique" target="_blank">{{
+              $t('showSubject.linkAnneePolitique')
+            }}</a>
           </li>
           <li v-if="subject?.raw?.bkchrono?.de">
-            <a :href="subject.raw.bkchrono.de" target="_blank">Chronologie (admin.ch)</a>
+            <a :href="subject.raw.bkchrono.de" target="_blank">{{
+              $t('showSubject.linkChronologie')
+            }}</a>
           </li>
           <li v-if="subject?.raw?.curiavista?.de">
-            <a :href="subject.raw.curiavista.de" target="_blank">Curia Vista (Parlament)</a>
+            <a :href="subject.raw.curiavista.de" target="_blank">{{
+              $t('showSubject.linkCuriaVista')
+            }}</a>
           </li>
           <li v-if="subject?.raw?.info?.br?.de">
-            <a :href="subject.raw.info.br.de" target="_blank">Information des Bundesrats</a>
+            <a :href="subject.raw.info.br.de" target="_blank">{{ $t('showSubject.linkInfoBr') }}</a>
           </li>
           <li v-if="subject?.raw?.info?.amt?.de">
-            <a :href="subject.raw.info.amt.de" target="_blank">Information des zuständigen Amts</a>
+            <a :href="subject.raw.info.amt.de" target="_blank">{{
+              $t('showSubject.linkInfoAmt')
+            }}</a>
           </li>
           <li v-if="subject?.raw?.easyvideo?.de">
-            <a :href="subject.raw.easyvideo.de" target="_blank">Erklärvideo</a>
+            <a :href="subject.raw.easyvideo.de" target="_blank">{{
+              $t('showSubject.linkErklaervideo')
+            }}</a>
           </li>
           <li v-for="link in webArgumentLinks" :key="link.label">
             <a :href="link.url" target="_blank">{{ link.label }}</a>
@@ -151,7 +168,7 @@
 
       <div class="col-12 mt-2 mb-4">
         <details>
-          <summary>Rohdaten</summary>
+          <summary>{{ $t('showSubject.rawData') }}</summary>
           <pre class="rohdaten mt-2">{{ JSON.stringify(subject?.raw, null, 2) }}</pre>
         </details>
       </div>
@@ -245,7 +262,9 @@ export default {
         for (const n of [1, 2, 3]) {
           const url = web[side]?.[n]?.de
           if (url) {
-            links.push({ label: `${side === 'yes' ? 'Pro' : 'Kontra'}-Argumente ${n}`, url })
+            const key =
+              side === 'yes' ? 'showSubject.linkArgumentsPro' : 'showSubject.linkArgumentsContra'
+            links.push({ label: this.$t(key, { n }), url })
           }
         }
       }

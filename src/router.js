@@ -5,13 +5,22 @@ import VotesTable from '@/components/VotesTable.vue'
 import VotesTableCategories from '@/components/VotesTableCategories.vue'
 import Login from '@/components/LoginForm.vue'
 import NotFound from '@/components/NotFound.vue'
+import ErrorPage from '@/components/ErrorPage.vue'
 import ShowSubject from '@/components/ShowSubject.vue'
 import EditSubject from '@/components/EditSubject.vue'
 import store from '@/store/'
+import i18n, { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '@/i18n/'
 
 const routes = [
   {
-    path: '/:term_hash',
+    // No term_hash yet: resolved to the current legislatur (or the error
+    // page) by the guard below, see the 'localeHome' branch.
+    path: '/:locale',
+    name: 'localeHome',
+    component: NotFound,
+  },
+  {
+    path: '/:locale/:term_hash',
     name: 'home',
     props: true,
     component: App,
@@ -46,9 +55,16 @@ const routes = [
     ],
   },
   {
-    path: '/login',
+    path: '/:locale/login',
     name: 'login',
+    props: true,
     component: Login,
+  },
+  {
+    path: '/:locale/error',
+    name: 'error',
+    props: true,
+    component: ErrorPage,
   },
   {
     path: '/:pathMatch(.*)*',
@@ -61,22 +77,34 @@ const router = new createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
-    next({ name: 'login' })
-    return
+router.beforeEach(async (to) => {
+  const locale = to.params.locale
+  if (!locale || !SUPPORTED_LOCALES.includes(locale)) {
+    // Also catches pre-i18n bookmarks (e.g. "/52"), which lack a locale
+    // segment entirely: re-resolving "/<default-locale><old-path>" lines
+    // the remaining segments back up with the routes below.
+    const suffix = to.fullPath === '/' ? '' : to.fullPath
+    return '/' + DEFAULT_LOCALE + suffix
   }
-  if (to.path == '/') {
-    // no route actually matches bare '/': if the fetch fails and hash is
-    // undefined, next() falls through to the catch-all NotFound route.
+  i18n.global.locale.value = locale
+
+  if (to.matched.some((record) => record.meta.requiresAuth) && !store.getters.isLoggedIn()) {
+    return { name: 'login', params: { locale } }
+  }
+  if (to.name === 'localeHome') {
     const hash = await store.dispatch('ensureCurrentTerm')
-    next(hash ? '/' + hash : undefined)
-    return
+    if (store.getters.getError()) {
+      return { name: 'error', params: { locale } }
+    }
+    return hash ? { name: 'votesTable', params: { locale, term_hash: hash } } : true
   }
   if (to.params.term_hash) {
     await store.dispatch('ensureTerm', to.params.term_hash)
+    if (store.getters.getError()) {
+      return { name: 'error', params: { locale } }
+    }
   }
-  next()
+  return true
 })
 
 export default router

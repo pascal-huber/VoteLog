@@ -114,6 +114,16 @@ function mapLegislatur(entry) {
   }
 }
 
+// Human-readable label for a legislatur, e.g. "2019 - 2023". Falls back to
+// the raw hash/id if the term has no start/end year (shouldn't normally
+// happen, but the API document is not guaranteed to have them).
+export function legislaturLabel(term) {
+  const start = term?.start_date?.getFullYear()
+  const end = term?.end_date?.getFullYear()
+  if (start && end) return `${start} - ${end}`
+  return term?.hash
+}
+
 async function apiGet(path) {
   const response = await fetch(`${API_BASE}${path}`)
   if (response.status === 404) return undefined

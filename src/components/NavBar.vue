@@ -9,7 +9,7 @@
           <router-link
             :to="{
               name: 'votesTable',
-              params: { term_hash: termHash() },
+              params: { locale: $route.params.locale, term_hash: termHash() },
             }"
             type="a"
             :class="{
@@ -25,7 +25,7 @@
           <router-link
             :to="{
               name: 'votesTableCategory',
-              params: { term_hash: termHash() },
+              params: { locale: $route.params.locale, term_hash: termHash() },
             }"
             type="a"
             :class="{
@@ -34,13 +34,18 @@
             }"
             href=""
           >
-            Kategorien
+            {{ $t('nav.categories') }}
           </router-link>
         </li>
       </ul>
       <div v-if="!loggedIn">
         <div>
-          <router-link type="button" class="btn" to="/login">Anmelden</router-link>
+          <router-link
+            type="button"
+            class="btn"
+            :to="{ name: 'login', params: { locale: $route.params.locale } }"
+            >{{ $t('nav.login') }}</router-link
+          >
         </div>
       </div>
       <div v-if="loggedIn">

@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row gy-2">
       <div class="col-sm-12 col-md-10">
-        <h3 v-if="!subject">Vorlage nicht gefunden</h3>
+        <h3 v-if="!subject">{{ $t('editSubject.notFound') }}</h3>
         <h3 v-else>{{ subject.name }}</h3>
       </div>
 
       <div class="col-12">
         <div class="form-group">
-          <label>Stimme:</label><br />
+          <label>{{ $t('editSubject.vote') }}</label><br />
           <img
             :src="Novote"
             class="svg-logo-huge"
@@ -40,7 +40,7 @@
 
       <div class="col-12">
         <div class="form-group">
-          <label>Begründung:</label><br />
+          <label>{{ $t('editSubject.reasoning') }}</label><br />
           <textarea
             id="reasoning"
             v-model="userVote.reasoning"
@@ -52,7 +52,7 @@
 
       <!-- TODO: add importance to userVote and scale agreements -->
       <div class="col-12">
-        <label>Gewichtung:</label><br />
+        <label>{{ $t('editSubject.weight') }}</label><br />
         <img
           :src="T0x"
           class="svg-logo-huge"
@@ -82,9 +82,13 @@
       </div>
 
       <div class="col-12">
-        <button type="button" class="btn btn-primary" @click="goBack">Abbrechen</button>
+        <button type="button" class="btn btn-primary" @click="goBack">
+          {{ $t('editSubject.cancel') }}
+        </button>
         &nbsp;
-        <button type="button" class="btn btn-primary" @click="changeVote">Speichern</button>
+        <button type="button" class="btn btn-primary" @click="changeVote">
+          {{ $t('editSubject.save') }}
+        </button>
       </div>
     </div>
   </div>

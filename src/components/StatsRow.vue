@@ -1,6 +1,6 @@
 <template>
   <div class="row g-0">
-    <div class="col-12 col-lg-6">Übereinstimmung</div>
+    <div class="col-12 col-lg-6">{{ $t('statsRow.agreement') }}</div>
     <div class="col-12 col-lg-6">
       <div class="row g-0">
         <div class="col svg-col">

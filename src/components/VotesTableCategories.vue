@@ -2,12 +2,12 @@
   <div class="container">
     <div v-if="!term" class="row">
       <div class="col">
-        <h2>Legislaturperiode nicht gefunden</h2>
+        <h2>{{ $t('votesTableCategories.termNotFound') }}</h2>
       </div>
     </div>
     <div v-else class="row">
       <div class="col col-6 col-md-6">
-        <h2>Kategorien</h2>
+        <h2>{{ $t('votesTableCategories.title') }}</h2>
       </div>
       <div class="col col-6 d-flex justify-content-end">
         <div class="align-self-center p-2">
@@ -19,7 +19,7 @@
           <font-awesome-icon v-else class="fa-2x" :icon="['fas', 'angle-left']" />
         </div>
         <div class="align-self-center p-2">
-          <span class="term_name">{{ term.hash }}</span>
+          <span class="term_name">{{ legislaturLabel(term) }}</span>
         </div>
         <div class="align-self-center p-2">
           <span v-if="nextTermHash">
@@ -51,6 +51,7 @@ import { categoryAgreement } from '@/Answer.js'
 import VotesTableCategory from '@/components/VotesTableCategory.vue'
 import HeaderRow from '@/components/HeaderRow.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { legislaturLabel } from '@/api.js'
 
 export default {
   name: 'VotesTable',
@@ -60,6 +61,9 @@ export default {
     FontAwesomeIcon,
   },
   props: ['term'],
+  setup() {
+    return { legislaturLabel }
+  },
   data: function () {
     return {
       editSubject: undefined,
