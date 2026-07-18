@@ -36,6 +36,8 @@
     "vote": "Vote:",
     "weight": "Weight:",
     "reasoning": "Reasoning:",
+    "results": "Results",
+    "overallResult": "Overall result",
     "cantons": "Cantons",
     "yesPercent": "% Yes",
     "allParties": "All parties",

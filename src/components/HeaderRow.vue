@@ -26,7 +26,7 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
+import Switzerland from '@/assets/switzerland_flag.svg'
 import DieMitte from '@/assets/diemitte.svg'
 import SVP from '@/assets/party_svp.svg'
 import FDP from '@/assets/party_fdp.svg'

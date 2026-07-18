@@ -64,7 +64,7 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Switzerland from '@/assets/switzerland_coat-of-arms.svg'
+import Switzerland from '@/assets/switzerland_flag.svg'
 
 export default {
   name: 'NavBar',

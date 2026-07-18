@@ -36,6 +36,8 @@
     "vote": "Stimme:",
     "weight": "Gewichtung:",
     "reasoning": "Begründung:",
+    "results": "Resultate",
+    "overallResult": "Gesamtresultat",
     "cantons": "Kantone",
     "yesPercent": "% Ja",
     "allParties": "Alle Parteien",

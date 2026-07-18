@@ -30,6 +30,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Category names on votes (e.g. "Aussenpolitik") are now read directly
   from swissvotes-api's `categories` field instead of being derived from
   the raw `d1e1`.."d3e3" codes client-side
+- Restructured the vote detail page into clearly labelled sections (Vote
+  title, My Vote, Results, Resources, Raw data), using real `h2`/`h3`
+  headings throughout instead of a mix of oversized/bold text, thin
+  divider lines instead of boxes, and the same plain accordion pattern
+  already used on the Kategorien page instead of native `<details>`
+  triangles
+- "Gewichtung" on the vote detail page now shows the same weight icon
+  (`0x`/`1x`/`2x`/`4x` svg) used when editing a vote, instead of plain text
+- The Results section on the vote detail page now shows the overall
+  national result (outcome + Ja-Anteil) above the cantons/parties
+  breakdown
 
 ### Removed
 
