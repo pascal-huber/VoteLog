@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - i18n infrastructure for German and English, with the locale
   as the first URL segment
 - "Something went wrong" error page for failed data fetches
+- Interactive, zoomable canton map on the vote detail page, replacing the
+  canton list, with a tooltip showing each canton's result
 
 ### Fixed
 

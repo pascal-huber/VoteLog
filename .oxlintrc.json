@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": ["src/assets/cantonGeo.js"],
   "plugins": ["eslint", "unicorn", "oxc", "vue"],
   "env": {
     "browser": true

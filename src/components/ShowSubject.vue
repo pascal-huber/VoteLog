@@ -12,7 +12,8 @@
         <dl class="row mb-0 mt-3">
           <dt class="col-sm-3 fw-normal">{{ $t('showSubject.id') }}</dt>
           <dd class="col-sm-9">
-            {{ subject.id }} (<a :href="apiURL" target="_blank">{{ $t('showSubject.linkApi') }}</a>)
+            {{ subject.id }} (<a :href="apiURL" target="_blank">{{ $t('showSubject.linkApi') }}</a
+            >)
           </dd>
 
           <dt class="col-sm-3 fw-normal">{{ $t('showSubject.date') }}</dt>
@@ -89,7 +90,7 @@
         <h4 class="mt-4">{{ $t('showSubject.results') }}</h4>
         <div>
           <div v-if="hasResult" class="canton-row">
-            <span class="canton-name">{{ $t('showSubject.overallResult') }}</span>
+            <span class="canton-name">{{ $t('showSubject.switzerland') }}</span>
             <span :class="classAgreement(subject.outcome)">
               <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
               <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
@@ -100,29 +101,16 @@
           </div>
 
           <template v-if="hasResult">
-            <div
-              class="accordion-toggle"
-              data-bs-toggle="collapse"
-              data-bs-target="#cantons-collapse"
-              aria-expanded="false"
-              aria-controls="cantons-collapse"
-            >
-              {{ $t('showSubject.cantons') }}
-              <font-awesome-icon :icon="['fas', 'angle-down']" class="chevron" />
+            <div class="mt-2 mb-1">
+              {{ $t('showSubject.cantons') }} —
+              {{
+                $t('showSubject.cantonsYesCount', {
+                  count: cantonsYesCount,
+                  total: cantonResults.length,
+                })
+              }}
             </div>
-            <div id="cantons-collapse" class="collapse">
-              <div v-for="canton in cantonResults" :key="canton.code" class="canton-row">
-                <span class="canton-name">{{ canton.name }}</span>
-                <span :class="classAgreement(canton.answer)">
-                  <img v-if="canton.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-                  <img v-else-if="canton.answer == Answer.No" :src="Nein" class="svg-logo" />
-                  <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
-                </span>
-                <small v-if="canton.percent" class="text-muted ms-2"
-                  >{{ canton.percent }}{{ $t('showSubject.yesPercent') }}</small
-                >
-              </div>
-            </div>
+            <SwissCantonMap :canton-results="cantonResults" />
           </template>
 
           <template v-if="partyResults.length">
@@ -184,9 +172,7 @@
           <a :href="subject.raw.info.br.de" target="_blank">{{ $t('showSubject.linkInfoBr') }}</a>
         </li>
         <li v-if="subject?.raw?.info?.amt?.de">
-          <a :href="subject.raw.info.amt.de" target="_blank">{{
-            $t('showSubject.linkInfoAmt')
-          }}</a>
+          <a :href="subject.raw.info.amt.de" target="_blank">{{ $t('showSubject.linkInfoAmt') }}</a>
         </li>
         <li v-if="subject?.raw?.easyvideo?.de">
           <a :href="subject.raw.easyvideo.de" target="_blank">{{
@@ -213,11 +199,13 @@ import T1x from '@/assets/1x.svg'
 import T2x from '@/assets/2x.svg'
 import T4x from '@/assets/4x.svg'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import SwissCantonMap from '@/components/SwissCantonMap.vue'
 
 export default {
   name: 'ShowSubject',
   components: {
     FontAwesomeIcon,
+    SwissCantonMap,
   },
   props: ['term_hash', 'subject_id'],
   setup() {
@@ -295,6 +283,9 @@ export default {
           percent,
         }
       })
+    },
+    cantonsYesCount() {
+      return this.cantonResults.filter((canton) => canton.answer == Answer.Yes).length
     },
     // Every "p.*" entry with an actual recommendation (excludes "9999" =
     // organisation didn't exist yet, "." = unset, and "others", which is a
