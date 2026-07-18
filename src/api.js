@@ -5,7 +5,7 @@
  */
 import { Answer } from '@/Answer.js'
 
-const API_BASE = import.meta.env.VITE_SWISSVOTES_API_URI
+export const API_BASE = import.meta.env.VITE_SWISSVOTES_API_URI
 
 // Party-recommendation ("Parole") codes, per the Swissvotes codebook:
 // 1 Ja, 2 Nein, 3/5/66 Stimmfreigabe, 4 leer einlegen, 8/9 Gegenentwurf/

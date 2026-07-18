@@ -1,3 +1,5 @@
+import chroma from 'chroma-js'
+
 export const Answer = Object.freeze({
   No: 0,
   Yes: 1,
@@ -9,6 +11,19 @@ export function agreementValue(otherAnswer, userAnswer, factor) {
   if (userAnswer == otherAnswer || userAnswer == Answer.Abstention) return factor
   if (otherAnswer == Answer.Abstention) return 0.5 * factor
   return 0.0
+}
+
+// TODO: if possible, use base colors from colors.scss
+const AGREEMENT_RED = chroma.lab(67, 38, 26)
+const AGREEMENT_YELLOW = chroma.lab(95, 12, 40)
+const AGREEMENT_BLUE = chroma.lab(79, -6, -16)
+const agreementScale = chroma
+  .scale([AGREEMENT_RED, AGREEMENT_YELLOW, AGREEMENT_BLUE])
+  .mode('lab')
+
+// percentage: 0 (full disagreement) .. 100 (full agreement)
+export function agreementColor(percentage) {
+  return agreementScale(percentage / 100).hex()
 }
 
 export function categoryAgreement(userVotes, subjects) {

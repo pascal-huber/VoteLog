@@ -2,16 +2,18 @@
   <div class="container">
     <div v-if="!subject" class="row">
       <div class="col">
-        <h2>{{ $t('showSubject.notFound') }}</h2>
+        <h4>{{ $t('showSubject.notFound') }}</h4>
       </div>
     </div>
     <div v-else>
       <!-- Vote title -->
       <div>
-        <h2>{{ subject.name }}</h2>
+        <h4>{{ subject.name }}</h4>
         <dl class="row mb-0 mt-3">
           <dt class="col-sm-3 fw-normal">{{ $t('showSubject.id') }}</dt>
-          <dd class="col-sm-9">{{ subject.id }}</dd>
+          <dd class="col-sm-9">
+            {{ subject.id }} (<a :href="apiURL" target="_blank">{{ $t('showSubject.linkApi') }}</a>)
+          </dd>
 
           <dt class="col-sm-3 fw-normal">{{ $t('showSubject.date') }}</dt>
           <dd class="col-sm-9">{{ subject.date.toLocaleDateString('de-CH') }}</dd>
@@ -35,9 +37,8 @@
 
       <!-- My vote -->
       <template v-if="loggedIn">
-        <hr class="my-4" />
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="mb-0">{{ $t('showSubject.yourVote') }}</h3>
+        <div class="d-flex justify-content-between align-items-center mt-4">
+          <h4 class="mb-0">{{ $t('showSubject.yourVote') }}</h4>
           <router-link
             :to="{
               name: 'editSubject',
@@ -85,13 +86,14 @@
 
       <!-- Results -->
       <template v-if="hasResult || partyResults.length">
-        <hr class="my-4" />
-        <h3>{{ $t('showSubject.results') }}</h3>
+        <h4 class="mt-4">{{ $t('showSubject.results') }}</h4>
         <div>
           <div v-if="hasResult" class="canton-row">
             <span class="canton-name">{{ $t('showSubject.overallResult') }}</span>
-            <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
-            <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
+            <span :class="classAgreement(subject.outcome)">
+              <img v-if="subject.outcome == Answer.Yes" :src="Ja" class="svg-logo" />
+              <img v-else-if="subject.outcome == Answer.No" :src="Nein" class="svg-logo" />
+            </span>
             <small v-if="nationalPercent" class="text-muted ms-2"
               >{{ nationalPercent }}{{ $t('showSubject.yesPercent') }}</small
             >
@@ -111,9 +113,11 @@
             <div id="cantons-collapse" class="collapse">
               <div v-for="canton in cantonResults" :key="canton.code" class="canton-row">
                 <span class="canton-name">{{ canton.name }}</span>
-                <img v-if="canton.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-                <img v-else-if="canton.answer == Answer.No" :src="Nein" class="svg-logo" />
-                <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+                <span :class="classAgreement(canton.answer)">
+                  <img v-if="canton.answer == Answer.Yes" :src="Ja" class="svg-logo" />
+                  <img v-else-if="canton.answer == Answer.No" :src="Nein" class="svg-logo" />
+                  <font-awesome-icon v-else class="neutral" :icon="['fas', 'question']" />
+                </span>
                 <small v-if="canton.percent" class="text-muted ms-2"
                   >{{ canton.percent }}{{ $t('showSubject.yesPercent') }}</small
                 >
@@ -135,13 +139,15 @@
             <div id="parties-collapse" class="collapse">
               <div v-for="party in partyResults" :key="party.key" class="canton-row">
                 <span class="canton-name">{{ party.label }}</span>
-                <img v-if="party.answer == Answer.Yes" :src="Ja" class="svg-logo" />
-                <img v-else-if="party.answer == Answer.No" :src="Nein" class="svg-logo" />
-                <img
-                  v-else-if="party.answer == Answer.Abstention"
-                  :src="Abstention"
-                  class="svg-logo"
-                />
+                <span :class="classAgreement(party.answer)">
+                  <img v-if="party.answer == Answer.Yes" :src="Ja" class="svg-logo" />
+                  <img v-else-if="party.answer == Answer.No" :src="Nein" class="svg-logo" />
+                  <img
+                    v-else-if="party.answer == Answer.Abstention"
+                    :src="Abstention"
+                    class="svg-logo"
+                  />
+                </span>
               </div>
             </div>
           </template>
@@ -149,9 +155,8 @@
       </template>
 
       <!-- Resources -->
-      <hr class="my-4" />
-      <h3>{{ $t('showSubject.moreResources') }}</h3>
-      <ul class="list-unstyled mb-0">
+      <h4 class="mt-4">{{ $t('showSubject.moreResources') }}</h4>
+      <ul class="list-unstyled mb-4">
         <li>
           <a :href="swissvotesURL" target="_blank">{{ $t('showSubject.linkSwissvotes') }}</a>
         </li>
@@ -192,29 +197,13 @@
           <a :href="link.url" target="_blank">{{ link.label }}</a>
         </li>
       </ul>
-
-      <!-- Raw data -->
-      <hr class="my-4" />
-      <h3
-        class="accordion-toggle"
-        data-bs-toggle="collapse"
-        data-bs-target="#rawdata-collapse"
-        aria-expanded="false"
-        aria-controls="rawdata-collapse"
-      >
-        {{ $t('showSubject.rawData') }}
-        <font-awesome-icon :icon="['fas', 'angle-down']" class="chevron" />
-      </h3>
-      <div id="rawdata-collapse" class="collapse">
-        <pre class="rohdaten mb-4">{{ JSON.stringify(subject?.raw, null, 2) }}</pre>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Answer } from '../Answer.js'
-import { CANTONS, paroleAnswer, hasParoleValue } from '@/api.js'
+import { Answer, agreementValue } from '../Answer.js'
+import { API_BASE, CANTONS, paroleAnswer, hasParoleValue } from '@/api.js'
 
 import Ja from '@/assets/ja.svg'
 import Nein from '@/assets/nein.svg'
@@ -282,6 +271,9 @@ export default {
         this.subject?.raw?.swissvoteslink || 'https://swissvotes.ch/vote/' + this.subject.id + '.00'
       )
     },
+    apiURL() {
+      return `${API_BASE}/votes/${this.subject.id}`
+    },
     adminCantonResultsURL() {
       return (
         'https://www.bk.admin.ch/ch/d/pore/va/' +
@@ -332,6 +324,20 @@ export default {
       return links
     },
   },
+  methods: {
+    // Only meaningful once the user has actually voted on this subject --
+    // otherwise there's nothing to compare against.
+    classAgreement(otherAnswer) {
+      const userAnswer = this.userVote?.answer
+      if (otherAnswer == undefined || userAnswer == undefined) {
+        return ''
+      }
+      const agreement = agreementValue(otherAnswer, userAnswer, 1)
+      if (agreement >= 1.0) return 'agree'
+      if (agreement >= 0.5) return 'semiagree'
+      return 'disagree'
+    },
+  },
 }
 </script>
 
@@ -362,15 +368,5 @@ export default {
 
 [aria-expanded='true'] .chevron {
   transform: rotate(180deg);
-}
-
-.rohdaten {
-  max-height: 30rem;
-  overflow: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-  background: #f6f6f6;
-  padding: 0.75rem;
-  font-size: 0.8rem;
 }
 </style>

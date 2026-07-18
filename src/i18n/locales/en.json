@@ -52,7 +52,7 @@
     "linkErklaervideo": "Explanatory video",
     "linkArgumentsPro": "Arguments in favor {n}",
     "linkArgumentsContra": "Arguments against {n}",
-    "rawData": "Raw data"
+    "linkApi": "Raw data"
   },
   "editSubject": {
     "notFound": "Subject not found",
