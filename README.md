@@ -24,6 +24,11 @@ parties agree with me.
 - OpenID Connect is used for authentication. VoteLog stores the Token in
   SessionStorage (which survives a refresh but is removed when the browser tab
   is closed).
+- Vote/legislatur data comes from
+  [swissvotes-api](https://github.com/pascal-huber/swissvotes-api) (the
+  `VITE_SWISSVOTES_API_URI` env var). Requires **swissvotes-api ≥ 0.1.0**,
+  since VoteLog reads the `categories` field on votes, which older
+  versions don't return.
 
 ## Known Issues
 

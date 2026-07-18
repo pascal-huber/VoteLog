@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Legislatur selector now shows the start/end year (e.g. "2019 - 2023")
   instead of the raw legislatur id
+- Category names on votes (e.g. "Aussenpolitik") are now read directly
+  from swissvotes-api's `categories` field instead of being derived from
+  the raw `d1e1`.."d3e3" codes client-side
 
 ### Removed
 

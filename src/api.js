@@ -76,21 +76,16 @@ function parseDatum(datum) {
   return new Date(year, month - 1, day)
 }
 
-// Department codes are flat top-level fields named "d1e1".."d3e3" (not
-// nested), each level being more specific than the last. "." means unset.
-function voteCategories(v) {
-  return [1, 2, 3]
-    .map((n) => [v[`d${n}e1`], v[`d${n}e2`], v[`d${n}e3`]].filter((c) => c && c !== '.'))
-    .filter((cat) => cat.length > 0)
-}
-
 function mapVote(v) {
   return {
     id: v.anr,
     date: parseDatum(v.datum),
     name: v.titel?.kurz?.d || v.titel?.off?.d || v.kurzbetitel || `Vorlage ${v.anr}`,
     outcome: v.annahme === '1' ? Answer.Yes : v.annahme === '0' ? Answer.No : undefined,
-    categories: voteCategories(v),
+    // Up to three [level1, level2?, level3?] arrays (one per policy area
+    // the vote is tagged with), most-general-first -- see swissvotes-api's
+    // categories.py.
+    categories: v.categories || [],
     parties: PARTY_FIELDS.map(({ id, code }) => ({ id, answer: paroleAnswer(code(v.p)) })),
     // Full original API document, for detail-page extras (titles, cantonal
     // results, minor-party recommendations, resource links) and the
